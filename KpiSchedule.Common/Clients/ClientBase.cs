@@ -12,8 +12,12 @@ namespace KpiSchedule.Common.Clients
         /// <summary>
         /// Logging interface.
         /// </summary>
-        private readonly ILogger logger;
+        protected readonly ILogger logger;
 
+        /// <summary>
+        /// Initialize a new instance of the <see cref="ClientBase"/> class.
+        /// </summary>
+        /// <param name="logger">Logging interface.</param>
         protected ClientBase(ILogger logger)
         {
             this.logger = logger;

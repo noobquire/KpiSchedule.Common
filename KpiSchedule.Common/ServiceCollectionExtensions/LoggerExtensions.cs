@@ -3,9 +3,17 @@ using Serilog;
 
 namespace KpiSchedule.Common.ServiceCollectionExtensions
 {
+    /// <summary>
+    /// IServiceCollection extensions for logging.
+    /// </summary>
     public static class LoggerExtensions
     {
-        public static IServiceCollection AddSerilogLogger(this IServiceCollection services)
+        /// <summary>
+        /// Add Serilog logger with console sink.
+        /// </summary>
+        /// <param name="services">Service collection.</param>
+        /// <returns>Service collection.</returns>
+        public static IServiceCollection AddSerilogConsoleLogger(this IServiceCollection services)
         {
             services.AddLogging(builder =>
             {
