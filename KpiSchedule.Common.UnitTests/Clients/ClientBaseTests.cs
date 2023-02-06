@@ -1,8 +1,10 @@
 ﻿using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.Exceptions;
 using Moq;
+using System.Text.Json;
 using Serilog;
 using System.Net;
+using KpiSchedule.Common.Models;
 
 namespace KpiSchedule.Common.UnitTests.Clients
 {
@@ -58,6 +60,16 @@ namespace KpiSchedule.Common.UnitTests.Clients
             response.Content = new StringContent(responseBody);
 
             Assert.ThrowsAsync<KpiScheduleClientException>(() => client.CheckIfResponseBodyIsNullOrEmpty(response, "/Test"));
+        }
+
+        [Test]
+        public void HandleNonSerializableResponse_ThrowsClientException()
+        {
+            var jsonException = new JsonException();
+            var client = new TestClient();
+            var response = "testResponse";
+
+            Assert.Throws<KpiScheduleClientException>(() => client.HandleNonSerializableResponse<BaseKpiApiResponse>(response, jsonException));
         }
     }
 }

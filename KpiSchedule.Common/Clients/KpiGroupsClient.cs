@@ -1,6 +1,8 @@
 ﻿using KpiSchedule.Common.Models;
 using Serilog;
 using System.Text.Json;
+using KpiSchedule.Common.Exceptions;
+using Microsoft.Extensions.Options;
 
 namespace KpiSchedule.Common.Clients
 {
@@ -16,16 +18,17 @@ namespace KpiSchedule.Common.Clients
         /// </summary>
         /// <param name="client">HTTP client.</param>
         /// <param name="logger">Logging interface.</param>
-        public KpiGroupsClient(HttpClient client, ILogger logger) : base(logger)
+        public KpiGroupsClient(IHttpClientFactory clientFactory, ILogger logger) : base(logger)
         {
-            this.client = client;
+            this.client = clientFactory.CreateClient(nameof(KpiGroupsClient));
         }
-        
+
         /// <summary>
         /// Get list of group names starting with specified prefix.
         /// </summary>
         /// <param name="groupPrefix">Group prefix.</param>
-        /// <returns></returns>
+        /// <returns>List of groups with specified prefix.</returns>
+        /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
         public async Task<KpiApiGroupsList> GetGroups(string groupPrefix)
         {
             string requestApi = "/GetGroups";
@@ -39,9 +42,19 @@ namespace KpiSchedule.Common.Clients
             await CheckIfResponseBodyIsNullOrEmpty(response, requestApi);
 
             var responseJson = await response.Content.ReadAsStringAsync();
-            var groups = JsonSerializer.Deserialize<KpiApiGroupsList>(responseJson);
 
-            return groups!;
+            var groups = new KpiApiGroupsList();
+            try
+            {
+                groups = JsonSerializer.Deserialize<KpiApiGroupsList>(responseJson);
+            }
+            catch (JsonException ex)
+            {
+                HandleNonSerializableResponse<KpiApiGroupsList>(responseJson, ex);
+            }
+
+            groups!.GroupPrefix = groupPrefix;
+            return groups;
         }
     }
 }

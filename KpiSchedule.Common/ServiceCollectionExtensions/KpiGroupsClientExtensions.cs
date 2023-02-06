@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using KpiSchedule.Common.Clients;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KpiSchedule.Common.ServiceCollectionExtensions
@@ -17,15 +18,13 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
         public static IServiceCollection AddKpiGroupsClient(this IServiceCollection services, IConfiguration config)
         {
             var baseUrl = config.GetSection("KpiGroupsClient").GetSection("Url").Value;
-            if (string.IsNullOrEmpty(baseUrl))
-            {
-                throw new ArgumentNullException(nameof(baseUrl), "Base KpiGroupsClient URL is null or empty.");
-            }
 
-            services.AddHttpClient("KpiGroupsHttpClient", c =>
+            services.AddHttpClient(nameof(KpiGroupsClient), c =>
             {
                 c.BaseAddress = new Uri(baseUrl);
             });
+
+            services.AddScoped<KpiGroupsClient>();
 
             return services;
         }

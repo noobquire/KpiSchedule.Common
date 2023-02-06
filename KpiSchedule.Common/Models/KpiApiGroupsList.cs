@@ -10,10 +10,10 @@ namespace KpiSchedule.Common.Models
         /// <summary>
         /// Prefix of groups in the list.
         /// </summary>
-        public string? GroupPrefix { get; set; }
+        public string GroupPrefix { get; set; }
 
         /// <inheritdoc/>
-        public IEnumerator<string> GetEnumerator() => Data?.GetEnumerator();
+        public IEnumerator<string> GetEnumerator() => Data.GetEnumerator();
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

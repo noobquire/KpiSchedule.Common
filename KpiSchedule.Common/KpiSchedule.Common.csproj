@@ -3,12 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Clients\Interfaces\" />
     <Folder Include="Logging\" />
-    <Folder Include="Configuration\" />
   </ItemGroup>
 
   <ItemGroup>
