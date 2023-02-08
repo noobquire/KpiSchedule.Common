@@ -1,6 +1,11 @@
 ﻿using KpiSchedule.Common.Exceptions;
+using KpiSchedule.Common.Models.ScheduleKpiApi;
 using Serilog;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.Unicode;
 
 namespace KpiSchedule.Common.Clients
 {
@@ -49,7 +54,7 @@ namespace KpiSchedule.Common.Clients
         /// <exception cref="KpiScheduleClientException">Response body is null or empty.</exception>
         protected internal async Task CheckIfResponseBodyIsNullOrEmpty(HttpResponseMessage response, string requestApiName)
         {
-            if (response.Content is null || string.IsNullOrWhiteSpace(await response.Content.ReadAsStringAsync()))
+            if (response.Content is null || string.IsNullOrWhiteSpace(await ReadResponseBodyAsUtf8String(response)))
             {
                 logger.Error("Response body from calling API {requestApi} is null or empty.", requestApiName);
                 throw new KpiScheduleClientException($"Response body is null or empty.");
@@ -67,7 +72,46 @@ namespace KpiSchedule.Common.Clients
         protected internal void HandleNonSerializableResponse<T>(string response, JsonException exception)
         {
             logger.Error("Unable to deserialize response body {responseBody} as {typeName}: {exceptionMessage}", response, nameof(T), exception.Message);
-            throw new KpiScheduleClientException($"Could not deserialize response from KPI API.");
+            throw new KpiScheduleClientException($"Could not deserialize response from KPI API.", exception);
+        }
+
+        /// <summary>
+        /// Checks if <see cref="HttpResponseMessage"/> indicates success and its body is not null or empty.
+        /// Parses and returns body as <typeparam name="TResponse"/>.
+        /// </summary>
+        /// <typeparam name="TResponse">Response body type.</typeparam>
+        /// <param name="response">HTTP response message.</param>
+        /// <returns>Parsed response body.</returns>
+        /// <exception cref="KpiScheduleClientException"/>
+        protected internal async Task<TResponse> VerifyAndParseResponseBody<TResponse>(HttpResponseMessage response, string requestApi) where TResponse : new()
+        {
+            await CheckIfSuccessfulResponse(response, requestApi);
+            await CheckIfResponseBodyIsNullOrEmpty(response, requestApi);
+
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var responseModel = new TResponse();
+            var deserializationOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic)
+            };
+            try
+            {
+                responseModel = JsonSerializer.Deserialize<TResponse>(responseJson, deserializationOptions);
+            }
+            catch (JsonException ex)
+            {
+                HandleNonSerializableResponse<ScheduleKpiApiGroup>(responseJson, ex);
+            }
+
+            return responseModel;
+        }
+
+        private async Task<string> ReadResponseBodyAsUtf8String(HttpResponseMessage response)
+        {
+            byte[] buf = await response.Content.ReadAsByteArrayAsync();
+            string content = Encoding.UTF8.GetString(buf);
+            return content;
         }
     }
 }

@@ -1,17 +1,13 @@
-﻿using KpiSchedule.Common.Clients;
+﻿using KpiSchedule.Common.Clients.RozKpiApi;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KpiSchedule.Common.IntegrationTests
 {
     [TestFixture]
-    internal class RozKpiGroupsClientsTests
+    [Ignore("roz.kpi.ua API is not responding")]
+    internal class RozKpiGroupsClientTests
     {
         private IServiceProvider serviceProvider;
         private RozKpiGroupsClient client => serviceProvider.GetRequiredService<RozKpiGroupsClient>();

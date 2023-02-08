@@ -4,7 +4,7 @@ using Moq;
 using System.Text.Json;
 using Serilog;
 using System.Net;
-using KpiSchedule.Common.Models;
+using KpiSchedule.Common.Models.RozKpiApi;
 
 namespace KpiSchedule.Common.UnitTests.Clients
 {

@@ -2,8 +2,9 @@
 using Serilog;
 using System.Text.Json;
 using KpiSchedule.Common.Exceptions;
+using KpiSchedule.Common.Models.RozKpiApi;
 
-namespace KpiSchedule.Common.Clients
+namespace KpiSchedule.Common.Clients.RozKpiApi
 {
     /// <summary>
     /// Client used to get academic groups from roz.kpi.ua API.
@@ -19,7 +20,7 @@ namespace KpiSchedule.Common.Clients
         /// <param name="logger">Logging interface.</param>
         public RozKpiGroupsClient(IHttpClientFactory clientFactory, ILogger logger) : base(logger)
         {
-            this.client = clientFactory.CreateClient(nameof(RozKpiGroupsClient));
+            client = clientFactory.CreateClient(nameof(RozKpiGroupsClient));
         }
 
         /// <summary>
@@ -37,22 +38,9 @@ namespace KpiSchedule.Common.Clients
 
             var response = await client.PostAsync(requestApi, requestContent);
 
-            await CheckIfSuccessfulResponse(response, requestApi);
-            await CheckIfResponseBodyIsNullOrEmpty(response, requestApi);
+            var groups = await VerifyAndParseResponseBody<RozKpiApiGroupsList>(response, requestApi);
 
-            var responseJson = await response.Content.ReadAsStringAsync();
-
-            var groups = new RozKpiApiGroupsList();
-            try
-            {
-                groups = JsonSerializer.Deserialize<RozKpiApiGroupsList>(responseJson);
-            }
-            catch (JsonException ex)
-            {
-                HandleNonSerializableResponse<RozKpiApiGroupsList>(responseJson, ex);
-            }
-
-            groups!.GroupPrefix = groupPrefix;
+            groups.GroupPrefix = groupPrefix;
             return groups;
         }
     }

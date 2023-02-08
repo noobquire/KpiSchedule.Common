@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace KpiSchedule.Common.Models
+namespace KpiSchedule.Common.Models.RozKpiApi
 {
     /// <summary>
     /// List of group names from roz.kpi.ua API
@@ -16,6 +16,6 @@ namespace KpiSchedule.Common.Models
         public IEnumerator<string> GetEnumerator() => Data.GetEnumerator();
 
         /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

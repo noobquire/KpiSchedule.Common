@@ -1,4 +1,4 @@
-﻿using KpiSchedule.Common.Clients;
+﻿using KpiSchedule.Common.Clients.RozKpiApi;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +17,7 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
         /// <returns></returns>
         public static IServiceCollection AddRozKpiTeachersClient(this IServiceCollection services, IConfiguration config)
         {
-            var baseUrl = config.GetSection("KpiTeachersClient").GetSection("Url").Value;
+            var baseUrl = config.GetSection("RozKpiTeachersClient").GetSection("Url").Value;
 
             services.AddHttpClient(nameof(RozKpiTeachersClient), c =>
             {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace KpiSchedule.Common.Models
+namespace KpiSchedule.Common.Models.RozKpiApi
 {
     /// <summary>
     /// Base class for responses from roz.kpi.ua API
