@@ -40,7 +40,7 @@ namespace KpiSchedule.Common.Clients
             if (!response.IsSuccessStatusCode)
             {
                 var responseBody = await response.Content?.ReadAsStringAsync() ?? string.Empty;
-                logger.Error("Response {responseCode} from request {requestApi} API does not indicate success: {responseMessage}", response.StatusCode, requestApiName, responseBody);
+                logger.Error("Response {responseCode} from {requestApi} does not indicate success: {responseMessage}", response.StatusCode, requestApiName, responseBody);
                 throw new KpiScheduleClientException($"Response status code {response.StatusCode} does not indicate success.");
             }
         }
@@ -56,7 +56,7 @@ namespace KpiSchedule.Common.Clients
         {
             if (response.Content is null || string.IsNullOrWhiteSpace(await ReadResponseBodyAsUtf8String(response)))
             {
-                logger.Error("Response body from calling API {requestApi} is null or empty.", requestApiName);
+                logger.Error("Response body from calling {requestApi} is null or empty.", requestApiName);
                 throw new KpiScheduleClientException($"Response body is null or empty.");
             }
         }
@@ -83,10 +83,11 @@ namespace KpiSchedule.Common.Clients
         /// <param name="response">HTTP response message.</param>
         /// <returns>Parsed response body.</returns>
         /// <exception cref="KpiScheduleClientException"/>
-        protected internal async Task<TResponse> VerifyAndParseResponseBody<TResponse>(HttpResponseMessage response, string requestApi) where TResponse : new()
+        protected internal async Task<TResponse> VerifyAndParseResponseBody<TResponse>(HttpResponseMessage response) where TResponse : new()
         {
-            await CheckIfSuccessfulResponse(response, requestApi);
-            await CheckIfResponseBodyIsNullOrEmpty(response, requestApi);
+            var requestUrl = response.RequestMessage.RequestUri.ToString();
+            await CheckIfSuccessfulResponse(response, requestUrl);
+            await CheckIfResponseBodyIsNullOrEmpty(response, requestUrl);
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var responseModel = new TResponse();

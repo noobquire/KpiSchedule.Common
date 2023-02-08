@@ -1,4 +1,4 @@
-﻿using KpiSchedule.Common.Models.NewFolder;
+﻿using KpiSchedule.Common.Models.ScheduleKpiApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;

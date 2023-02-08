@@ -1,12 +1,10 @@
 ﻿using FluentAssertions;
 using KpiSchedule.Common.Clients.RozKpiApi;
-using KpiSchedule.Common.Models.NewFolder;
 using KpiSchedule.Common.Models.ScheduleKpiApi;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace KpiSchedule.Common.IntegrationTests
 {

@@ -1,4 +1,4 @@
-﻿namespace KpiSchedule.Common.Models.NewFolder
+﻿namespace KpiSchedule.Common.Models.ScheduleKpiApi
 {
     /// <summary>
     /// Paging information in responses from schedule.kpi.ua API.

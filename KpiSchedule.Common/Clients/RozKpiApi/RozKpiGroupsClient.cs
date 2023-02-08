@@ -1,8 +1,10 @@
-﻿using KpiSchedule.Common.Models;
-using Serilog;
+﻿using Serilog;
 using System.Text.Json;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.RozKpiApi;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Text;
 
 namespace KpiSchedule.Common.Clients.RozKpiApi
 {
@@ -31,14 +33,15 @@ namespace KpiSchedule.Common.Clients.RozKpiApi
         /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
         public async Task<RozKpiApiGroupsList> GetGroups(string groupPrefix)
         {
-            string requestApi = "/GetGroups";
+            string requestApi = "GetGroups";
             var request = new BaseRozKpiApiRequest(groupPrefix);
             var requestJson = JsonSerializer.Serialize(request);
-            var requestContent = new StringContent(requestJson);
+            var requestContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
+            client.DefaultRequestHeaders.Host = client.BaseAddress.Host;
 
             var response = await client.PostAsync(requestApi, requestContent);
 
-            var groups = await VerifyAndParseResponseBody<RozKpiApiGroupsList>(response, requestApi);
+            var groups = await VerifyAndParseResponseBody<RozKpiApiGroupsList>(response);
 
             groups.GroupPrefix = groupPrefix;
             return groups;

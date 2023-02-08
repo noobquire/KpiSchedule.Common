@@ -2,11 +2,12 @@
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace KpiSchedule.Common.IntegrationTests
 {
     [TestFixture]
-    [Ignore("roz.kpi.ua API is not responding")]
+    //[Ignore("roz.kpi.ua API is not responding")]
     internal class RozKpiGroupsClientTests
     {
         private IServiceProvider serviceProvider;
@@ -31,8 +32,8 @@ namespace KpiSchedule.Common.IntegrationTests
 
             var groups = await client.GetGroups(groupPrefix);
 
-            Assert.IsNotEmpty(groups);
-            Assert.That(groups, Is.All.StartsWith(groupPrefix));
+            Assert.IsNotEmpty(groups.Data);
+            Assert.True(groups.Data.All(g => g.StartsWith(groupPrefix)));
         }
     }
 }

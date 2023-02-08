@@ -1,5 +1,4 @@
-﻿using KpiSchedule.Common.Models;
-using Serilog;
+﻿using Serilog;
 using System.Text.Json;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.RozKpiApi;
@@ -31,14 +30,14 @@ namespace KpiSchedule.Common.Clients.RozKpiApi
         /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
         public async Task<RozKpiApiTeachersList> GetTeacher(string teacherNamePrefix)
         {
-            string requestApi = "/GetLecturers";
+            string requestApi = "GetLecturers";
             var request = new BaseRozKpiApiRequest(teacherNamePrefix);
             var requestJson = JsonSerializer.Serialize(request);
             var requestContent = new StringContent(requestJson);
 
             var response = await client.PostAsync(requestApi, requestContent);
 
-            var teachers = await VerifyAndParseResponseBody<RozKpiApiTeachersList>(response, requestApi);
+            var teachers = await VerifyAndParseResponseBody<RozKpiApiTeachersList>(response);
 
             teachers.TeacherNamePrefix = teacherNamePrefix;
             return teachers;

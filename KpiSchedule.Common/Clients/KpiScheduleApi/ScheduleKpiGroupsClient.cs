@@ -31,7 +31,7 @@ namespace KpiSchedule.Common.Clients.RozKpiApi
             string requestApi = "groups";
 
             var response = await client.GetAsync(requestApi);
-            var groups = await VerifyAndParseResponseBody<ScheduleKpiApiGroupsResponse>(response, requestApi);            
+            var groups = await VerifyAndParseResponseBody<ScheduleKpiApiGroupsResponse>(response);
 
             return groups;
         }
