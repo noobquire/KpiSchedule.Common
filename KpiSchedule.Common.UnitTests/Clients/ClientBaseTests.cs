@@ -69,7 +69,7 @@ namespace KpiSchedule.Common.UnitTests.Clients
             var client = new TestClient();
             var response = "testResponse";
 
-            Assert.Throws<KpiScheduleClientException>(() => client.HandleNonSerializableResponse<BaseKpiApiResponse>(response, jsonException));
+            Assert.Throws<KpiScheduleClientException>(() => client.HandleNonSerializableResponse<BaseRozKpiApiResponse>(response, jsonException));
         }
     }
 }

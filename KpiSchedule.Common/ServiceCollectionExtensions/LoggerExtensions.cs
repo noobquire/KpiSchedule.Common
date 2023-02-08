@@ -15,13 +15,11 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
         /// <returns>Service collection.</returns>
         public static IServiceCollection AddSerilogConsoleLogger(this IServiceCollection services)
         {
-            services.AddLogging(builder =>
-            {
-                var logger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .CreateLogger();
-                builder.AddSerilog(logger);
-            });
+            services.AddScoped<ILogger>(c => 
+                new LoggerConfiguration()
+                    .WriteTo.Console()
+                    .CreateLogger()
+            );
 
             return services;
         }
