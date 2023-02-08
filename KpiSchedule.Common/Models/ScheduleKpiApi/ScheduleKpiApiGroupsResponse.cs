@@ -1,11 +1,4 @@
-﻿using KpiSchedule.Common.Models.ScheduleKpiApi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KpiSchedule.Common.Models.ScheduleKpiApi
+﻿namespace KpiSchedule.Common.Models.ScheduleKpiApi
 {
     /// <summary>
     /// Response from schedule.kpi.api Get Groups API.
