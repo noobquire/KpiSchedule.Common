@@ -5,6 +5,10 @@ using System.Text.Json;
 using Serilog;
 using System.Net;
 using KpiSchedule.Common.Models.RozKpiApi;
+using KpiSchedule.Common.Models.ScheduleKpiApi;
+using FluentAssertions;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace KpiSchedule.Common.UnitTests.Clients
 {
@@ -70,6 +74,84 @@ namespace KpiSchedule.Common.UnitTests.Clients
             var response = "testResponse";
 
             Assert.Throws<KpiScheduleClientException>(() => client.HandleNonSerializableResponse<BaseRozKpiApiResponse>(response, jsonException));
+        }
+
+        [Test]
+        public async Task VerifyAndParseResponseBody_ValidResponse_ShouldReturnParsedModel()
+        {
+            var testResponse = new ScheduleKpiApiGroup()
+            {
+                Id = Guid.NewGuid(),
+                GroupName = "ІІ-11",
+                Faculty = "Test"
+            };
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic)
+            };
+            var responseJson = JsonSerializer.Serialize(testResponse, options);
+            var client = new TestClient();
+            var response = new HttpResponseMessage()
+            {
+                RequestMessage = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri("http://test")
+                },
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(responseJson)
+            };
+
+            var result = await client.VerifyAndParseResponseBody<ScheduleKpiApiGroup>(response);
+
+            result.Should().NotBeNull()
+                .And.BeEquivalentTo(testResponse);
+        }
+
+        [Test]
+        public void VerifyAndParseResponseBody_EmptyResponse_ShouldThrowClientException()
+        {
+            var client = new TestClient();
+            var response = new HttpResponseMessage()
+            {
+                RequestMessage = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri("http://test")
+                },
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(string.Empty)
+            };
+
+            Assert.ThrowsAsync<KpiScheduleClientException>(() => client.VerifyAndParseResponseBody<ScheduleKpiApiGroup>(response));
+        }
+
+        [Test]
+        public void VerifyAndParseResponseBody_UnsuccessfulResponse_ShouldThrowClientException()
+        {
+            var testResponse = new ScheduleKpiApiGroup()
+            {
+                Id = Guid.NewGuid(),
+                GroupName = "ІІ-11",
+                Faculty = "Test"
+            };
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic)
+            };
+            var responseJson = JsonSerializer.Serialize(testResponse, options);
+            var client = new TestClient();
+            var response = new HttpResponseMessage()
+            {
+                RequestMessage = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri("http://test")
+                },
+                StatusCode = HttpStatusCode.InternalServerError,
+                Content = new StringContent(responseJson)
+            };
+
+            Assert.ThrowsAsync<KpiScheduleClientException>(() => client.VerifyAndParseResponseBody<ScheduleKpiApiGroup>(response));
         }
     }
 }

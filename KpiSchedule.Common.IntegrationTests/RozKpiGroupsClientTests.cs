@@ -2,12 +2,11 @@
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 
 namespace KpiSchedule.Common.IntegrationTests
 {
     [TestFixture]
-    //[Ignore("roz.kpi.ua API is not responding")]
+    [Ignore("roz.kpi.ua API is not responding")]
     internal class RozKpiGroupsClientTests
     {
         private IServiceProvider serviceProvider;
@@ -21,7 +20,7 @@ namespace KpiSchedule.Common.IntegrationTests
                 .Build();
             this.serviceProvider = new ServiceCollection()
                 .AddSerilogConsoleLogger()
-                .AddRozKpiGroupsClient(config)
+                .AddKpiClient<RozKpiGroupsClient>(config)
                 .BuildServiceProvider();
         }
 
