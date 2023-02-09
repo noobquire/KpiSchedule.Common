@@ -1,4 +1,4 @@
-﻿namespace KpiSchedule.Common.Models.ScheduleKpiApi
+﻿namespace KpiSchedule.Common.Models.ScheduleKpiApi.Responses
 {
     /// <summary>
     /// Paging information in responses from schedule.kpi.ua API.

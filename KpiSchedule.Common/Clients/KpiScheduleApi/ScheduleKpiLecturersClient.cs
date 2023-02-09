@@ -1,6 +1,6 @@
 ﻿using Serilog;
 using KpiSchedule.Common.Exceptions;
-using KpiSchedule.Common.Models.ScheduleKpiApi;
+using KpiSchedule.Common.Models.ScheduleKpiApi.Responses;
 
 namespace KpiSchedule.Common.Clients.RozKpiApi
 {

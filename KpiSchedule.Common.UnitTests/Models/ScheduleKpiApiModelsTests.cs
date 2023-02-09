@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using KpiSchedule.Common.Models.ScheduleKpiApi;
+using KpiSchedule.Common.Models.ScheduleKpiApi.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
