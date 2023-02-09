@@ -81,7 +81,7 @@ namespace KpiSchedule.Common.UnitTests.Clients
         {
             var testResponse = new ScheduleKpiApiGroup()
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 GroupName = "ІІ-11",
                 Faculty = "Test"
             };
@@ -130,7 +130,7 @@ namespace KpiSchedule.Common.UnitTests.Clients
         {
             var testResponse = new ScheduleKpiApiGroup()
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 GroupName = "ІІ-11",
                 Faculty = "Test"
             };

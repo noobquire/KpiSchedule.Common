@@ -13,7 +13,7 @@
         /// <summary>
         /// Unique identifier of the lecturer.
         /// </summary>
-        public Guid LecturerId { get; set; }
+        public string LecturerId { get; set; }
 
         /// <summary>
         /// Pair type description: lecture/lab/prac + on-line?

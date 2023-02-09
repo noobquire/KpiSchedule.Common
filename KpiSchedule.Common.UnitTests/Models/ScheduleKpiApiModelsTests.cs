@@ -68,13 +68,13 @@ namespace KpiSchedule.Common.UnitTests.Models
             {
                 new ScheduleKpiApiGroup()
                 {
-                    Id = new Guid("f4382a6b-269e-4cb7-86dd-8120a731b9df"),
+                    Id = "f4382a6b-269e-4cb7-86dd-8120a731b9df",
                     GroupName = "МВ-01",
                     Faculty = "ММІ"
                 },
                 new ScheduleKpiApiGroup()
                 {
-                    Id = new Guid("39ce3b8d-ae35-4b36-90a2-2bead39b1ecc"),
+                    Id = "39ce3b8d-ae35-4b36-90a2-2bead39b1ecc",
                     GroupName = "МВ-01",
                     Faculty = "ВПІ"
                 },
@@ -92,5 +92,16 @@ namespace KpiSchedule.Common.UnitTests.Models
             result.Should().BeEquivalentTo(response);
         }
 
+        [Test]
+        public void DeserializeLecturersResponse_Success()
+        {
+            var json = "{\"paging\":{\"pageCount\":1,\"totalItemCount\":2454,\"pageNumber\":1,\"pageSize\":2454,\"hasPreviousPage\":false,\"hasNextPage\":false,\"isFirstPage\":true,\"isLastPage\":true,\"firstItemOnPage\":1,\"lastItemOnPage\":2454},\"data\":[{\"id\":\"2d84f91e-b6d2-427d-8d81-84a2d64c998c\",\"name\":\"Лещенко Борис Юхимович\"}]}";
+
+            var deserializationOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
+            var result = JsonSerializer.Deserialize<ScheduleKpiApiLecturersResponse>(json, deserializationOptions);
+        }
     }
 }

@@ -1,9 +1,7 @@
-﻿using FluentAssertions;
-using KpiSchedule.Common.Clients;
+﻿using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json;
 
 namespace KpiSchedule.Common.IntegrationTests
 {
@@ -31,6 +29,22 @@ namespace KpiSchedule.Common.IntegrationTests
             var groups = await client.GetAllGroups();
 
             Assert.IsNotEmpty(groups.Data);
+        }
+
+        [Test]
+        public async Task GetAllLecturers_ShouldReturnLecturersList()
+        {
+            var lecturers = await client.GetAllLecturers();
+
+            Assert.IsNotEmpty(lecturers.Data);
+        }
+
+        [Test]
+        public async Task GetGroupSchedule_ShouldReturnGroupsList()
+        {
+            var schedule = await client.GetGroupSchedule("f4382a6b-269e-4cb7-86dd-8120a731b9df");
+
+            Assert.IsNotNull(schedule.Data);
         }
     }
 }

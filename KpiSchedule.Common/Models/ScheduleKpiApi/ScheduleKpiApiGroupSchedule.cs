@@ -11,7 +11,7 @@ namespace KpiSchedule.Common.Models.ScheduleKpiApi
         /// Unique group identifier.
         /// </summary>
         [JsonPropertyName("groupCode")]
-        public Guid GroupId { get; set; }
+        public string GroupId { get; set; }
 
         /// <summary>
         /// First week of the schedule.

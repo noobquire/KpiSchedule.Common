@@ -14,6 +14,6 @@ namespace KpiSchedule.Common.Models.ScheduleKpiApi
         /// <summary>
         /// Unique resource identifier.
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
     }
 }

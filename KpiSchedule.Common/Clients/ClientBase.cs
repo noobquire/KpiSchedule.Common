@@ -102,7 +102,7 @@ namespace KpiSchedule.Common.Clients
             }
             catch (JsonException ex)
             {
-                HandleNonSerializableResponse<ScheduleKpiApiGroup>(responseJson, ex);
+                HandleNonSerializableResponse<TResponse>(responseJson, ex);
             }
 
             return responseModel;
