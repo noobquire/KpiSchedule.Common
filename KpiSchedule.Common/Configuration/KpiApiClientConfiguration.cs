@@ -3,7 +3,7 @@
     /// <summary>
     /// Configuration model for KPI API clients.
     /// </summary>
-    public class KpiClientConfiguration
+    public class KpiApiClientConfiguration
     {
         /// <summary>
         /// Base address URL.

@@ -8,11 +8,11 @@
         /// <summary>
         /// Paging information.
         /// </summary>
-        public ScheduleKpiApiPaging Paging { get; set; }
+        public virtual ScheduleKpiApiPaging Paging { get; set; }
 
         /// <summary>
         /// Response data collection.
         /// </summary>
-        public IList<TResponseModel> Data { get; set; }
+        public virtual IList<TResponseModel> Data { get; set; }
     }
 }

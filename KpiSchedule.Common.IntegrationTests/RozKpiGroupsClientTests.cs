@@ -1,4 +1,4 @@
-﻿using KpiSchedule.Common.Clients.RozKpiApi;
+﻿using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +10,7 @@ namespace KpiSchedule.Common.IntegrationTests
     internal class RozKpiGroupsClientTests
     {
         private IServiceProvider serviceProvider;
-        private RozKpiGroupsClient client => serviceProvider.GetRequiredService<RozKpiGroupsClient>();
+        private RozKpiApiClient client => serviceProvider.GetRequiredService<RozKpiApiClient>();
 
         [SetUp]
         public void Setup()
@@ -20,7 +20,7 @@ namespace KpiSchedule.Common.IntegrationTests
                 .Build();
             this.serviceProvider = new ServiceCollection()
                 .AddSerilogConsoleLogger()
-                .AddKpiClient<RozKpiGroupsClient>(config)
+                .AddKpiClient<RozKpiApiClient>(config)
                 .BuildServiceProvider();
         }
 

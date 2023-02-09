@@ -5,7 +5,7 @@ namespace KpiSchedule.Common.Models.ScheduleKpiApi
     /// <summary>
     /// Model for group schedule from schedule.kpi.ua API
     /// </summary>
-    public class ScheduleKpiApiGroupSchedule : BaseScheduleKpiApiModel
+    public class ScheduleKpiApiGroupSchedule
     {
         /// <summary>
         /// Unique group identifier.

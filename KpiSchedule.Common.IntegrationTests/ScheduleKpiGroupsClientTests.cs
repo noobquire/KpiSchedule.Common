@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
-using KpiSchedule.Common.Clients.RozKpiApi;
-using KpiSchedule.Common.Models.ScheduleKpiApi;
+using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +11,7 @@ namespace KpiSchedule.Common.IntegrationTests
     internal class ScheduleKpiGroupsClientTests
     {
         private IServiceProvider serviceProvider;
-        private ScheduleKpiGroupsClient client => serviceProvider.GetRequiredService<ScheduleKpiGroupsClient>();
+        private ScheduleKpiApiClient client => serviceProvider.GetRequiredService<ScheduleKpiApiClient>();
 
         [SetUp]
         public void Setup()
@@ -22,7 +21,7 @@ namespace KpiSchedule.Common.IntegrationTests
                 .Build();
             this.serviceProvider = new ServiceCollection()
                 .AddSerilogConsoleLogger()
-                .AddKpiClient<ScheduleKpiGroupsClient>(config)
+                .AddKpiClient<ScheduleKpiApiClient>(config)
                 .BuildServiceProvider();
         }
 
