@@ -46,5 +46,13 @@ namespace KpiSchedule.Common.IntegrationTests
 
             Assert.IsNotNull(schedule.Data);
         }
+
+        [Test]
+        public async Task GetTimeInfo_ShouldReturnTimeInfo()
+        {
+            var timeInfo = await client.GetTimeInfo();
+
+            Assert.IsNotNull(timeInfo.Data);
+        }
     }
 }

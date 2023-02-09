@@ -2,6 +2,9 @@
 
 namespace KpiSchedule.Common.Models.ScheduleKpiApi
 {
+    /// <summary>
+    /// Model for schedule day from schedule.kpi.ua API.
+    /// </summary>
     public class ScheduleKpiApiDay
     {
         /// <summary>

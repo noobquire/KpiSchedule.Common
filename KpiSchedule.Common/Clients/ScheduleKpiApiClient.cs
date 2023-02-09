@@ -65,5 +65,19 @@ namespace KpiSchedule.Common.Clients
 
             return schedule;
         }
+
+        /// <summary>
+        /// Get schedule current time info.
+        /// </summary>
+        /// <returns>Time info.</returns>
+        public async Task<ScheduleKpiApiTimeResponse> GetTimeInfo()
+        {
+            string requestApi = "time/current";
+
+            var response = await client.GetAsync(requestApi);
+            var timeInfo = await VerifyAndParseResponseBody<ScheduleKpiApiTimeResponse>(response);
+
+            return timeInfo;
+        }
     }
 }
