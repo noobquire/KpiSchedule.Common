@@ -1,9 +1,9 @@
 ﻿namespace KpiSchedule.Common.Models.ScheduleKpiApi
 {
     /// <summary>
-    /// Model for lecturers/teachers from schedule.kpi.ua API.
+    /// Model for teachers from schedule.kpi.ua API.
     /// </summary>
-    public class ScheduleKpiApiLecturer : BaseScheduleKpiApiModel
+    public class ScheduleKpiApiTeacher : BaseScheduleKpiApiModel
     {
         /// <summary>
         /// Lecturer name.

@@ -16,6 +16,6 @@ namespace KpiSchedule.Common.Models.ScheduleKpiApi
         /// <summary>
         /// Pairs this day.
         /// </summary>
-        public IList<ScheduleKpiApiPair> Pairs { get; set; }
+        public IList<ScheduleKpiApiGroupPair> Pairs { get; set; }
     }
 }

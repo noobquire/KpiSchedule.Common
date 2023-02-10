@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.ScheduleKpiApi.Responses;
+using System.Text.RegularExpressions;
 
 namespace KpiSchedule.Common.Clients
 {
@@ -37,18 +38,18 @@ namespace KpiSchedule.Common.Clients
         }
 
         /// <summary>
-        /// Get list of all lecturers.
+        /// Get list of all teachers.
         /// </summary>
         /// <returns>List of all groups.</returns>
         /// <exception cref="KpiApiClientException">Unable to deserialize response.</exception>
-        public async Task<ScheduleKpiApiLecturersResponse> GetAllLecturers()
+        public async Task<ScheduleKpiApiTeachersResponse> GetAllTeachers()
         {
             string requestApi = "schedule/lecturer/list";
 
             var response = await client.GetAsync(requestApi);
-            var lecturers = await VerifyAndParseResponseBody<ScheduleKpiApiLecturersResponse>(response);
+            var teachers = await VerifyAndParseResponseBody<ScheduleKpiApiTeachersResponse>(response);
 
-            return lecturers;
+            return teachers;
         }
 
         /// <summary>
@@ -79,5 +80,23 @@ namespace KpiSchedule.Common.Clients
 
             return timeInfo;
         }
+
+        /// <summary>
+        /// Get teacher schedule for specific teacher.
+        /// </summary>
+        /// <param name="teacherId">Unique teacher identifier.</param>
+        /// <returns>Teacher schedule.</returns>
+        public async Task<ScheduleKpiApiTeacherScheduleResponse> GetTeacherSchedule(string teacherId)
+        {
+            string requestApi = $"schedule/lecturer?lecturerId={teacherId}";
+
+            var response = await client.GetAsync(requestApi);
+            var schedule = await VerifyAndParseResponseBody<ScheduleKpiApiTeacherScheduleResponse>(response);
+
+            return schedule;
+        }
+
+        // TODO: Get exam schedule /exams/group?groupId=id (no way to get now, reverse engineer frontend app)
+        // https://github.com/kpi-ua/schedule.kpi.ua/blob/master/src/components/examComponent/exam.jsx#L9
     }
 }

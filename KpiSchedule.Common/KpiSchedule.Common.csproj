@@ -8,6 +8,7 @@
   <ItemGroup>
     <Folder Include="Clients\Interfaces\" />
     <Folder Include="Logging\" />
+    <Folder Include="Scrapers\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace KpiSchedule.Common.IntegrationTests
 {
     [TestFixture]
-    internal class ScheduleKpiGroupsClientTests
+    internal class ScheduleKpiClientTests
     {
         private IServiceProvider serviceProvider;
         private ScheduleKpiApiClient client => serviceProvider.GetRequiredService<ScheduleKpiApiClient>();
@@ -34,13 +34,13 @@ namespace KpiSchedule.Common.IntegrationTests
         [Test]
         public async Task GetAllLecturers_ShouldReturnLecturersList()
         {
-            var lecturers = await client.GetAllLecturers();
+            var teachers = await client.GetAllTeachers();
 
-            Assert.IsNotEmpty(lecturers.Data);
+            Assert.IsNotEmpty(teachers.Data);
         }
 
         [Test]
-        public async Task GetGroupSchedule_ShouldReturnGroupsList()
+        public async Task GetGroupSchedule_ShouldReturnGroupSchedule()
         {
             var schedule = await client.GetGroupSchedule("f4382a6b-269e-4cb7-86dd-8120a731b9df");
 
@@ -53,6 +53,14 @@ namespace KpiSchedule.Common.IntegrationTests
             var timeInfo = await client.GetTimeInfo();
 
             Assert.IsNotNull(timeInfo.Data);
+        }
+
+        [Test]
+        public async Task GetTeacherSchedule_GetTeacherSchedule()
+        {
+            var schedule = await client.GetTeacherSchedule("18bed22e-f86e-411c-b23d-ec246181569e");
+
+            Assert.IsNotNull(schedule.Data);
         }
     }
 }

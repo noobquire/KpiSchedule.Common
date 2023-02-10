@@ -101,7 +101,7 @@ namespace KpiSchedule.Common.UnitTests.Models
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
-            var result = JsonSerializer.Deserialize<ScheduleKpiApiLecturersResponse>(json, deserializationOptions);
+            var result = JsonSerializer.Deserialize<ScheduleKpiApiTeachersResponse>(json, deserializationOptions);
         }
     }
 }
