@@ -63,7 +63,7 @@ namespace KpiSchedule.Common.IntegrationTests
                 .Respond("text/html", teacherSelectionResponse);
 
             // Get teacher schedule
-            var teacherScheduleResponse = File.ReadAllText("RozKpiApiResponses/teacher-schedule-page.html");
+            var teacherScheduleResponse = File.ReadAllText("RozKpiApiResponses/lecturer-schedule-page.html");
             mockHandler
                 .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/LecturerSelection.aspx")
                 .Respond("text/html", teacherScheduleResponse);
