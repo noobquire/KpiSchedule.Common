@@ -42,7 +42,7 @@ namespace KpiSchedule.Common.IntegrationTests
         [Test]
         public async Task GetGroupSchedule_ShouldReturnGroupSchedule()
         {
-            var schedule = await client.GetGroupSchedule("f4382a6b-269e-4cb7-86dd-8120a731b9df");
+            var schedule = await client.GetGroupSchedule("c0196aea-0326-422f-a1b4-2280b6ab0833");
 
             Assert.IsNotNull(schedule.Data);
         }

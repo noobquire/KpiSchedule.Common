@@ -24,5 +24,10 @@
         /// Schedule group selection page form show schedule button value.
         /// </summary>
         public const string FORM_SHOW_SCHEDULE_VALUE = "Розклад занять";
+
+        /// <summary>
+        /// Schedule group selection page form event target key.
+        /// </summary>
+        public const string FORM_EVENT_TARGET_KEY = "__EVENTTARGET";
     }
 }

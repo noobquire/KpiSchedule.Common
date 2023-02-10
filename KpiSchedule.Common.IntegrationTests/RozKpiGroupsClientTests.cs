@@ -21,7 +21,8 @@ namespace KpiSchedule.Common.IntegrationTests
                 .Build();
             this.serviceProvider = new ServiceCollection()
                 .AddSerilogConsoleLogger()
-                .AddMockRozKpiApiClient(config)
+                //.AddMockRozKpiApiClient(config)
+                .AddKpiClient<RozKpiApiClient>(config)
                 .BuildServiceProvider();
         }
 

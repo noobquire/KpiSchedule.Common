@@ -6,6 +6,7 @@ using System.Text;
 using HtmlAgilityPack;
 using static KpiSchedule.Common.Clients.RozKpiApiClientConstants;
 using KpiSchedule.Common.Scrapers;
+using KpiSchedule.Common.Scrapers.ScheduleGroupSelection;
 
 namespace KpiSchedule.Common.Clients
 {
@@ -97,7 +98,7 @@ namespace KpiSchedule.Common.Clients
         {
             var groupSelectionPage = await GetGroupSelectionPage();
 
-            var scraper = new ScheduleGroupSelectionFormValidationScraper(groupSelectionPage);
+            var scraper = new FormValidationScraper(groupSelectionPage);
 
             return scraper.Parse();
         } 
@@ -110,7 +111,8 @@ namespace KpiSchedule.Common.Clients
             {
                 [FORM_EVENT_VALIDATION_KEY] = formValidationKeyValue,
                 [FORM_SHOW_SCHEDULE_KEY] = FORM_SHOW_SCHEDULE_VALUE,
-                [FORM_GROUP_NAME_KEY] = groupName
+                [FORM_GROUP_NAME_KEY] = groupName,
+                [FORM_EVENT_TARGET_KEY] = string.Empty
             };
 
             var request = new FormUrlEncodedContent(requestDictionary);

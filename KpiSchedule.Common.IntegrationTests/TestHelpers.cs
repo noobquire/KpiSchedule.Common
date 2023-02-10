@@ -51,10 +51,22 @@ namespace KpiSchedule.Common.IntegrationTests
                 .Respond("application/json", teachersResponse);
 
             // Get group selection page
-            var scheduleGroupSelectionResponse = File.ReadAllText("RozKpiApiResponses/schedule-group-selection-page.html");
+            var groupSelectionResponse = File.ReadAllText("RozKpiApiResponses/group-selection-page.html");
             mockHandler
                 .When(HttpMethod.Get, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx")
-                .Respond("text/html", scheduleGroupSelectionResponse);
+                .Respond("text/html", groupSelectionResponse);
+
+            // Get teacher selection page
+            var teacherSelectionResponse = File.ReadAllText("RozKpiApiResponses/lecturer-selection-page.html");
+            mockHandler
+                .When(HttpMethod.Get, "http://epi.kpi.ua/Schedules/LecturerSelection.aspx")
+                .Respond("text/html", teacherSelectionResponse);
+
+            // Get teacher schedule
+            var teacherScheduleResponse = File.ReadAllText("RozKpiApiResponses/teacher-schedule-page.html");
+            mockHandler
+                .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/LecturerSelection.aspx")
+                .Respond("text/html", teacherScheduleResponse);
 
             return mockHandler;
         }
