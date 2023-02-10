@@ -1,21 +1,13 @@
-﻿using System.Collections;
-
-namespace KpiSchedule.Common.Models.RozKpiApi
+﻿namespace KpiSchedule.Common.Models.RozKpiApi
 {
     /// <summary>
     /// List of teacher names from roz.kpi.ua API
     /// </summary>
-    public class RozKpiApiTeachersList : BaseRozKpiApiResponse, IEnumerable<string>
+    public class RozKpiApiTeachersList : BaseRozKpiApiResponse
     {
         /// <summary>
         /// Prefix of teacher names in the list.
         /// </summary>
         public string TeacherNamePrefix { get; set; }
-
-        /// <inheritdoc/>
-        public IEnumerator<string> GetEnumerator() => Data.GetEnumerator();
-
-        /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

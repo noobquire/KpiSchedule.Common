@@ -3,6 +3,9 @@ using System.Text.Json;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.RozKpiApi;
 using System.Text;
+using HtmlAgilityPack;
+using static KpiSchedule.Common.Clients.RozKpiApiClientConstants;
+using KpiSchedule.Common.Scrapers;
 
 namespace KpiSchedule.Common.Clients
 {
@@ -12,6 +15,7 @@ namespace KpiSchedule.Common.Clients
     public class RozKpiApiClient : ClientBase
     {
         private readonly HttpClient client;
+        private readonly string formValidationKeyValue;
 
         /// <summary>
         /// Initialize a new instance of the <see cref="RozKpiApiClient"/> class.
@@ -21,6 +25,9 @@ namespace KpiSchedule.Common.Clients
         public RozKpiApiClient(IHttpClientFactory clientFactory, ILogger logger) : base(logger)
         {
             client = clientFactory.CreateClient(nameof(RozKpiApiClient));
+            client.DefaultRequestHeaders.Host = client.BaseAddress.Host;
+
+            formValidationKeyValue = GetFormEventValidation().Result;
         }
 
         /// <summary>
@@ -35,7 +42,6 @@ namespace KpiSchedule.Common.Clients
             var request = new BaseRozKpiApiRequest(groupPrefix);
             var requestJson = JsonSerializer.Serialize(request);
             var requestContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Host = client.BaseAddress.Host;
 
             var response = await client.PostAsync(requestApi, requestContent);
 
@@ -56,7 +62,7 @@ namespace KpiSchedule.Common.Clients
             string requestApi = "LecturerSelection.aspx/GetLecturers";
             var request = new BaseRozKpiApiRequest(teacherNamePrefix);
             var requestJson = JsonSerializer.Serialize(request);
-            var requestContent = new StringContent(requestJson);
+            var requestContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync(requestApi, requestContent);
 
@@ -64,6 +70,62 @@ namespace KpiSchedule.Common.Clients
 
             teachers.TeacherNamePrefix = teacherNamePrefix;
             return teachers;
+        }
+
+        /// <summary>
+        /// Get schedule group selection HTML page.
+        /// </summary>
+        /// <returns>Schedule group selection HTML page.</returns>
+        public async Task<HtmlDocument> GetGroupSelectionPage()
+        {
+            string requestApi = "ScheduleGroupSelection.aspx";
+
+            var response = await client.GetAsync(requestApi);
+
+            var requestUrl = response.RequestMessage.RequestUri.ToString();
+            await CheckIfSuccessfulResponse(response, requestUrl);
+            await CheckIfResponseBodyIsNullOrEmpty(response, requestUrl);
+
+            var responseHtml = await response.Content.ReadAsStringAsync();
+            var document = new HtmlDocument();
+            document.LoadHtml(responseHtml);
+
+            return document;
+        }
+
+        private async Task<string> GetFormEventValidation()
+        {
+            var groupSelectionPage = await GetGroupSelectionPage();
+
+            var scraper = new ScheduleGroupSelectionFormValidationScraper(groupSelectionPage);
+
+            return scraper.Parse();
+        } 
+
+        public async Task<HtmlDocument> GetGroupSchedulePage(string groupName)
+        {
+            string requestApi = "ScheduleGroupSelection.aspx";
+
+            var requestDictionary = new Dictionary<string, string>()
+            {
+                [FORM_EVENT_VALIDATION_KEY] = formValidationKeyValue,
+                [FORM_SHOW_SCHEDULE_KEY] = FORM_SHOW_SCHEDULE_VALUE,
+                [FORM_GROUP_NAME_KEY] = groupName
+            };
+
+            var request = new FormUrlEncodedContent(requestDictionary);
+
+            var response = await client.PostAsync(requestApi, request);
+
+            var requestUrl = response.RequestMessage.RequestUri.ToString();
+            await CheckIfSuccessfulResponse(response, requestUrl);
+            await CheckIfResponseBodyIsNullOrEmpty(response, requestUrl);
+
+            var responseHtml = await response.Content.ReadAsStringAsync();
+            var document = new HtmlDocument();
+            document.LoadHtml(responseHtml);
+
+            return document;
         }
     }
 }

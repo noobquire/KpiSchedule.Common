@@ -1,12 +1,11 @@
 ﻿using Serilog;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.ScheduleKpiApi.Responses;
-using System.Text.RegularExpressions;
 
 namespace KpiSchedule.Common.Clients
 {
     /// <summary>
-    /// Client used to get academic groups from schedule.kpi.ua API.
+    /// Client used to call schedule.kpi.ua API.
     /// </summary>
     public class ScheduleKpiApiClient : ClientBase
     {
@@ -96,7 +95,7 @@ namespace KpiSchedule.Common.Clients
             return schedule;
         }
 
-        // TODO: Get exam schedule /exams/group?groupId=id (no way to get now, reverse engineer frontend app)
+        // TODO: Get exam schedule /exams/group?groupId=id (no way to get actual response now, reverse engineer frontend app)
         // https://github.com/kpi-ua/schedule.kpi.ua/blob/master/src/components/examComponent/exam.jsx#L9
     }
 }

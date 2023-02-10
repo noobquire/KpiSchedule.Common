@@ -1,4 +1,5 @@
-﻿using KpiSchedule.Common.Clients;
+﻿using FluentAssertions;
+using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace KpiSchedule.Common.IntegrationTests
 {
     [TestFixture]
-    [Ignore("roz.kpi.ua API is not responding")]
+    //[Ignore("roz.kpi.ua API is not responding")]
     internal class RozKpiGroupsClientTests
     {
         private IServiceProvider serviceProvider;
@@ -20,7 +21,7 @@ namespace KpiSchedule.Common.IntegrationTests
                 .Build();
             this.serviceProvider = new ServiceCollection()
                 .AddSerilogConsoleLogger()
-                .AddKpiClient<RozKpiApiClient>(config)
+                .AddMockRozKpiApiClient(config)
                 .BuildServiceProvider();
         }
 
@@ -33,6 +34,34 @@ namespace KpiSchedule.Common.IntegrationTests
 
             Assert.IsNotEmpty(groups.Data);
             Assert.True(groups.Data.All(g => g.StartsWith(groupPrefix)));
+        }
+
+        [Test]
+        public async Task GetTeachers_WithValidGroupRequest_ShouldReturnTeachersList()
+        {
+            var teacherNamePrefix = "А";
+
+            var teachers = await client.GetTeachers(teacherNamePrefix);
+
+            Assert.IsNotEmpty(teachers.Data);
+            Assert.True(teachers.Data.All(g => g.StartsWith(teacherNamePrefix)));
+        }
+
+        [Test]
+        public async Task GetGroupSelectionPage_ShouldReturnGroupSelectionPage()
+        {
+            var page = await client.GetGroupSelectionPage();
+
+            page.DocumentNode.OuterHtml.Should().Contain("Розклад занять");
+        }
+
+        [Test]
+        public async Task GetGroupSchedulePage_ShouldReturnGroupSchedulePage()
+        {
+            var groupName = "ІТ-04";
+            var page = await client.GetGroupSchedulePage(groupName);
+
+            page.DocumentNode.OuterHtml.Should().Contain("Розклад занять для " + groupName);
         }
     }
 }
