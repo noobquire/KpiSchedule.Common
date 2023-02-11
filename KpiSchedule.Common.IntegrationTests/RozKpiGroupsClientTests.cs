@@ -19,11 +19,20 @@ namespace KpiSchedule.Common.IntegrationTests
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            this.serviceProvider = new ServiceCollection()
-                .AddSerilogConsoleLogger()
-                .AddMockRozKpiApiClient(config)
-                //.AddKpiClient<RozKpiApiClient>(config)
-                .BuildServiceProvider();
+            bool mockRozKpiApiResponses = config.GetSection("MockRozKpiApiResponses").Get<bool>();
+            var services = new ServiceCollection()
+                .AddSerilogConsoleLogger();
+
+            if (mockRozKpiApiResponses)
+            {
+                services.AddMockRozKpiApiClient(config);
+            }
+            else
+            {
+                services.AddKpiClient<RozKpiApiClient>(config);
+            }
+
+            serviceProvider = services.BuildServiceProvider();
         }
 
         [Test]
