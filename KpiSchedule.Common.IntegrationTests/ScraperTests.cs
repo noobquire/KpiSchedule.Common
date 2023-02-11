@@ -1,5 +1,5 @@
 ﻿using HtmlAgilityPack;
-using KpiSchedule.Common.Scrapers.GroupSchedulePage;
+using KpiSchedule.Common.Parsers.GroupSchedulePage;
 
 namespace KpiSchedule.Common.IntegrationTests
 {
@@ -19,9 +19,9 @@ namespace KpiSchedule.Common.IntegrationTests
         [Test]
         public void GroupScheduleScraper_ParsesGroupSchedule()
         {
-            var scraper = new GroupSchedulePageScraper(groupScheduleDocument);
+            var parser = new GroupSchedulePageParser(groupScheduleDocument);
 
-            var schedule = scraper.Parse();
+            var schedule = parser.Parse();
 
             Assert.IsNotNull(schedule);
         }

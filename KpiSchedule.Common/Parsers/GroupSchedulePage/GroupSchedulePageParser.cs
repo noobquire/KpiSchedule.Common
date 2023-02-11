@@ -1,11 +1,11 @@
 ﻿using HtmlAgilityPack;
 using KpiSchedule.Common.Models.RozKpiApi;
 
-namespace KpiSchedule.Common.Scrapers.GroupSchedulePage
+namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 {
-    public class GroupSchedulePageScraper : BaseScraper<RozKpiApiGroupSchedule>
+    public class GroupSchedulePageParser : BaseParser<RozKpiApiGroupSchedule>
     {
-        public GroupSchedulePageScraper(HtmlDocument document) : base(document)
+        public GroupSchedulePageParser(HtmlDocument document) : base(document)
         {
         }
 
@@ -16,12 +16,12 @@ namespace KpiSchedule.Common.Scrapers.GroupSchedulePage
             var groupName = labelHeaderNode.InnerText.Substring(19);
 
             var firstWeekTableNode = document.GetElementbyId("ctl00_MainContent_FirstScheduleTable");
-            var firstWeekTableScraper = new GroupScheduleWeekTableScraper(firstWeekTableNode);
-            var firstWeek = firstWeekTableScraper.Parse();
+            var firstWeekTableParser = new GroupScheduleWeekTableParser(firstWeekTableNode);
+            var firstWeek = firstWeekTableParser.Parse();
 
             var secondWeekTableNode = document.GetElementbyId("ctl00_MainContent_SecondScheduleTable");
-            var secondWeekTableScraper = new GroupScheduleWeekTableScraper(secondWeekTableNode);
-            var secondWeek = secondWeekTableScraper.Parse();
+            var secondWeekTableParser = new GroupScheduleWeekTableParser(secondWeekTableNode);
+            var secondWeek = secondWeekTableParser.Parse();
 
             var schedule = new RozKpiApiGroupSchedule()
             {

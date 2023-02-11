@@ -2,11 +2,11 @@
 using KpiSchedule.Common.Models.RozKpiApi;
 using System.Diagnostics;
 
-namespace KpiSchedule.Common.Scrapers.GroupSchedulePage
+namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 {
-    internal class GroupScheduleWeekTableScraper : BaseScraper<IList<RozKpiApiGroupScheduleDay>>
+    internal class GroupScheduleWeekTableParser : BaseParser<IList<RozKpiApiGroupScheduleDay>>
     {
-        public GroupScheduleWeekTableScraper(HtmlNode node) : base(node)
+        public GroupScheduleWeekTableParser(HtmlNode node) : base(node)
         {
         }
 
@@ -27,7 +27,7 @@ namespace KpiSchedule.Common.Scrapers.GroupSchedulePage
                 foreach (HtmlNode cellNode in rowNode.SelectNodes("th|td"))
                 {
                     Debug.WriteLine("cell: " + cellNode.InnerText);
-                    var scheduleCellScraper = new GroupScheduleCellScraper(cellNode);
+                    var scheduleCellScraper = new GroupScheduleCellParser(cellNode);
                     var pairsInCell = scheduleCellScraper.Parse();
                     //scheduleDays.AddRange(pairsInCell);
                     day++;

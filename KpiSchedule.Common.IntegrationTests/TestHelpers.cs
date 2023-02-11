@@ -9,7 +9,8 @@ namespace KpiSchedule.Common.IntegrationTests
     public static class TestHelpers
     {
         /// <summary>
-        /// Because roz.kpi.ua API is often unresponsive, this service collection extension adds a mock http client which returns saved responses from files.
+        /// Because roz.kpi.ua API is often unresponsive, this service collection extension adds 
+        /// a mock http client which returns saved responses from files.
         /// </summary>
         public static IServiceCollection AddMockRozKpiApiClient(this IServiceCollection services, IConfiguration config)
         {

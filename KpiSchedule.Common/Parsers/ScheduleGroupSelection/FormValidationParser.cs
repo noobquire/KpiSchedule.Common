@@ -1,13 +1,13 @@
 ﻿using HtmlAgilityPack;
 
-namespace KpiSchedule.Common.Scrapers.ScheduleGroupSelection
+namespace KpiSchedule.Common.Parsers.ScheduleGroupSelection
 {
     /// <summary>
-    /// Scrapes event validation field value for group selection form.
+    /// Parses event validation field value for group selection form.
     /// </summary>
-    public class FormValidationScraper : BaseScraper<string>
+    public class FormValidationParser : BaseParser<string>
     {
-        public FormValidationScraper(HtmlDocument document) : base(document)
+        public FormValidationParser(HtmlDocument document) : base(document)
         {
         }
 

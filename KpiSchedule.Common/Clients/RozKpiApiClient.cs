@@ -5,8 +5,8 @@ using KpiSchedule.Common.Models.RozKpiApi;
 using System.Text;
 using HtmlAgilityPack;
 using static KpiSchedule.Common.Clients.RozKpiApiClientConstants;
-using KpiSchedule.Common.Scrapers;
-using KpiSchedule.Common.Scrapers.ScheduleGroupSelection;
+using KpiSchedule.Common.Parsers;
+using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
 
 namespace KpiSchedule.Common.Clients
 {
@@ -98,9 +98,9 @@ namespace KpiSchedule.Common.Clients
         {
             var groupSelectionPage = await GetGroupSelectionPage();
 
-            var scraper = new FormValidationScraper(groupSelectionPage);
+            var parser = new FormValidationParser(groupSelectionPage);
 
-            return scraper.Parse();
+            return parser.Parse();
         } 
 
         public async Task<HtmlDocument> GetGroupSchedulePage(string groupName)
