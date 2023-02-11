@@ -69,6 +69,12 @@ namespace KpiSchedule.Common.IntegrationTests
                 .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/LecturerSelection.aspx")
                 .Respond("text/html", teacherScheduleResponse);
 
+            var groupNameConflictResponse = File.ReadAllText("RozKpiApiResponses/group-selection-name-conflict-page.html");
+            mockHandler
+                .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/LecturerSelection.aspx")
+                .WithHeaders(RozKpiApiClientConstants.FORM_GROUP_NAME_KEY, "БМ-01")
+                .Respond("text/html", groupNameConflictResponse);
+
             return mockHandler;
         }
     }
