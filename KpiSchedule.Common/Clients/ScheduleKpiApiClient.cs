@@ -25,7 +25,7 @@ namespace KpiSchedule.Common.Clients
         /// Get list of all groups.
         /// </summary>
         /// <returns>List of all groups.</returns>
-        /// <exception cref="KpiApiClientException">Unable to deserialize response.</exception>
+        /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
         public async Task<ScheduleKpiApiGroupsResponse> GetAllGroups()
         {
             string requestApi = "schedule/groups";
@@ -40,7 +40,7 @@ namespace KpiSchedule.Common.Clients
         /// Get list of all teachers.
         /// </summary>
         /// <returns>List of all groups.</returns>
-        /// <exception cref="KpiApiClientException">Unable to deserialize response.</exception>
+        /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
         public async Task<ScheduleKpiApiTeachersResponse> GetAllTeachers()
         {
             string requestApi = "schedule/lecturer/list";

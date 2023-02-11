@@ -75,6 +75,12 @@ namespace KpiSchedule.Common.IntegrationTests
                 .WithHeaders(RozKpiApiClientConstants.FORM_GROUP_NAME_KEY, "БМ-01")
                 .Respond("text/html", groupNameConflictResponse);
 
+            var extramuralGroupScheduleResponse = File.ReadAllText("RozKpiApiResponses/extramural-group-schedule-page.html");
+            mockHandler
+                .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx")
+                .WithHeaders(RozKpiApiClientConstants.FORM_GROUP_NAME_KEY, "ІП-з21")
+                .Respond("text/html", extramuralGroupScheduleResponse);
+
             return mockHandler;
         }
     }

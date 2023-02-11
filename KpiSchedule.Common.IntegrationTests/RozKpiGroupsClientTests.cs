@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 namespace KpiSchedule.Common.IntegrationTests
 {
     [TestFixture]
-    //[Ignore("roz.kpi.ua API is not responding")]
     internal class RozKpiGroupsClientTests
     {
         private IServiceProvider serviceProvider;

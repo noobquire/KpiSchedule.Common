@@ -41,7 +41,7 @@ namespace KpiSchedule.Common.UnitTests.Clients
             var response = new HttpResponseMessage();
             response.StatusCode = statusCode;
 
-            Assert.ThrowsAsync<KpiApiClientException>(() => client.CheckIfSuccessfulResponse(response, "/Test"));
+            Assert.ThrowsAsync<KpiScheduleClientException>(() => client.CheckIfSuccessfulResponse(response, "/Test"));
         }
 
         [TestCase("test")]
@@ -63,7 +63,7 @@ namespace KpiSchedule.Common.UnitTests.Clients
             var response = new HttpResponseMessage();
             response.Content = new StringContent(responseBody);
 
-            Assert.ThrowsAsync<KpiApiClientException>(() => client.CheckIfResponseBodyIsNullOrEmpty(response, "/Test"));
+            Assert.ThrowsAsync<KpiScheduleClientException>(() => client.CheckIfResponseBodyIsNullOrEmpty(response, "/Test"));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace KpiSchedule.Common.UnitTests.Clients
             var client = new TestClient();
             var response = "testResponse";
 
-            Assert.Throws<KpiApiClientException>(() => client.HandleNonSerializableResponse<BaseRozKpiApiResponse>(response, jsonException));
+            Assert.Throws<KpiScheduleClientException>(() => client.HandleNonSerializableResponse<BaseRozKpiApiResponse>(response, jsonException));
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace KpiSchedule.Common.UnitTests.Clients
                 Content = new StringContent(string.Empty)
             };
 
-            Assert.ThrowsAsync<KpiApiClientException>(() => client.VerifyAndParseResponseBody<ScheduleKpiApiGroup>(response));
+            Assert.ThrowsAsync<KpiScheduleClientException>(() => client.VerifyAndParseResponseBody<ScheduleKpiApiGroup>(response));
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace KpiSchedule.Common.UnitTests.Clients
                 Content = new StringContent(responseJson)
             };
 
-            Assert.ThrowsAsync<KpiApiClientException>(() => client.VerifyAndParseResponseBody<ScheduleKpiApiGroup>(response));
+            Assert.ThrowsAsync<KpiScheduleClientException>(() => client.VerifyAndParseResponseBody<ScheduleKpiApiGroup>(response));
         }
     }
 }

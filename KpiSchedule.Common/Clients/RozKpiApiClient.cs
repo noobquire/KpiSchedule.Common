@@ -36,7 +36,7 @@ namespace KpiSchedule.Common.Clients
         /// </summary>
         /// <param name="groupPrefix">Group prefix.</param>
         /// <returns>List of groups with specified prefix.</returns>
-        /// <exception cref="KpiApiClientException">Unable to deserialize response.</exception>
+        /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
         public async Task<RozKpiApiGroupsList> GetGroups(string groupPrefix)
         {
             string requestApi = "ScheduleGroupSelection.aspx/GetGroups";
@@ -57,7 +57,7 @@ namespace KpiSchedule.Common.Clients
         /// </summary>
         /// <param name="teacherNamePrefix">Teacher name prefix.</param>
         /// <returns>List of teachers with specified name prefix.</returns>
-        /// <exception cref="KpiApiClientException">Unable to deserialize response.</exception>
+        /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
         public async Task<RozKpiApiTeachersList> GetTeachers(string teacherNamePrefix)
         {
             string requestApi = "LecturerSelection.aspx/GetLecturers";

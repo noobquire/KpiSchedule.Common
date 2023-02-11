@@ -28,6 +28,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="RozKpiApiResponses\extramural-group-schedule-page.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="RozKpiApiResponses\group-selection-name-conflict-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
