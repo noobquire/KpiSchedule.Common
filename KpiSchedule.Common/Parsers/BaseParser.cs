@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Serilog;
 
 namespace KpiSchedule.Common.Parsers
 {
@@ -10,20 +11,12 @@ namespace KpiSchedule.Common.Parsers
     /// <typeparam name="TResult">Scraper output result type.</typeparam>
     public abstract class BaseParser<TResult> : IParser<TResult>
     {
-        protected readonly HtmlNode node;
-        protected readonly HtmlDocument document;
-        protected BaseParser(HtmlDocument document)
+        protected readonly ILogger logger;
+        protected BaseParser(ILogger logger)
         {
-            this.document = document;
-            this.node = document.DocumentNode;
+            this.logger = logger;
         }
 
-        protected BaseParser(HtmlNode node)
-        {
-            this.node = node;
-            this.document = node.OwnerDocument;
-        }
-
-        public abstract TResult Parse();
+        public abstract TResult Parse(HtmlNode node);
     }
 }

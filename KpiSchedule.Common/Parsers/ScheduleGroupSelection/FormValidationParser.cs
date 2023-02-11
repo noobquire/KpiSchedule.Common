@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Serilog;
 
 namespace KpiSchedule.Common.Parsers.ScheduleGroupSelection
 {
@@ -7,12 +8,13 @@ namespace KpiSchedule.Common.Parsers.ScheduleGroupSelection
     /// </summary>
     public class FormValidationParser : BaseParser<string>
     {
-        public FormValidationParser(HtmlDocument document) : base(document)
+        public FormValidationParser(ILogger logger) : base(logger)
         {
         }
 
-        public override string Parse()
+        public override string Parse(HtmlNode documentNode)
         {
+            var document = documentNode.OwnerDocument;
             var eventValidationElement = document.GetElementbyId("__EVENTVALIDATION");
 
             return eventValidationElement.Attributes["value"].Value;

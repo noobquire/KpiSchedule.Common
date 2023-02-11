@@ -5,7 +5,6 @@ using KpiSchedule.Common.Models.RozKpiApi;
 using System.Text;
 using HtmlAgilityPack;
 using static KpiSchedule.Common.Clients.RozKpiApiClientConstants;
-using KpiSchedule.Common.Parsers;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
 
 namespace KpiSchedule.Common.Clients
@@ -17,17 +16,18 @@ namespace KpiSchedule.Common.Clients
     {
         private readonly HttpClient client;
         private readonly string formValidationKeyValue;
+        private readonly FormValidationParser formValidationParser;
 
         /// <summary>
         /// Initialize a new instance of the <see cref="RozKpiApiClient"/> class.
         /// </summary>
         /// <param name="clientFactory">HTTP client factory.</param>
         /// <param name="logger">Logging interface.</param>
-        public RozKpiApiClient(IHttpClientFactory clientFactory, ILogger logger) : base(logger)
+        public RozKpiApiClient(IHttpClientFactory clientFactory, ILogger logger, FormValidationParser formValidationParser) : base(logger)
         {
             client = clientFactory.CreateClient(nameof(RozKpiApiClient));
             client.DefaultRequestHeaders.Host = client.BaseAddress.Host;
-
+            this.formValidationParser = formValidationParser;
             formValidationKeyValue = GetFormEventValidation().Result;
         }
 
@@ -98,9 +98,7 @@ namespace KpiSchedule.Common.Clients
         {
             var groupSelectionPage = await GetGroupSelectionPage();
 
-            var parser = new FormValidationParser(groupSelectionPage);
-
-            return parser.Parse();
+            return formValidationParser.Parse(groupSelectionPage.DocumentNode);
         } 
 
         public async Task<HtmlDocument> GetGroupSchedulePage(string groupName)

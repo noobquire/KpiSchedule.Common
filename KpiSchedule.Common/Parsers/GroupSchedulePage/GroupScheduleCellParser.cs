@@ -1,17 +1,24 @@
 ﻿using HtmlAgilityPack;
 using KpiSchedule.Common.Models.RozKpiApi;
+using Serilog;
 
 namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 {
-    internal class GroupScheduleCellParser : BaseParser<IEnumerable<RozKpiApiGroupPair>>
+    public class GroupScheduleCellParser : BaseParser<IEnumerable<RozKpiApiGroupPair>>
     {
-        public GroupScheduleCellParser(HtmlNode node) : base(node)
+
+        public GroupScheduleCellParser(ILogger logger) : base(logger)
         {
         }
 
-        public override IEnumerable<RozKpiApiGroupPair> Parse()
+        public override IEnumerable<RozKpiApiGroupPair> Parse(HtmlNode cellNode)
         {
-            return null;
+            return Parse(cellNode, 1);
+        }
+
+        public IEnumerable<RozKpiApiGroupPair> Parse(HtmlNode cellNode, int pairNumber)
+        {
+            return new List<RozKpiApiGroupPair>() { new RozKpiApiGroupPair() };
         }
     }
 }

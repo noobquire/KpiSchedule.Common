@@ -20,7 +20,8 @@ namespace KpiSchedule.Common.IntegrationTests
                 .Build();
             bool mockRozKpiApiResponses = config.GetSection("MockRozKpiApiResponses").Get<bool>();
             var services = new ServiceCollection()
-                .AddSerilogConsoleLogger();
+                .AddSerilogConsoleLogger()
+                .AddRozKpiParsers();
 
             if (mockRozKpiApiResponses)
             {
