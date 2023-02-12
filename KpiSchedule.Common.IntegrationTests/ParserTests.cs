@@ -1,8 +1,14 @@
-﻿using HtmlAgilityPack;
+﻿using FluentAssertions;
+using HtmlAgilityPack;
 using KpiSchedule.Common.Parsers.GroupSchedulePage;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Serilog.Events;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 
 namespace KpiSchedule.Common.IntegrationTests
 {
@@ -29,7 +35,7 @@ namespace KpiSchedule.Common.IntegrationTests
         public void Setup()
         {
             serviceProvider = new ServiceCollection()
-                .AddSerilogConsoleLogger()
+                .AddSerilogConsoleLogger(LogEventLevel.Verbose)
                 .AddRozKpiParsers()
                 .BuildServiceProvider();
         }
@@ -40,8 +46,16 @@ namespace KpiSchedule.Common.IntegrationTests
             var parser = serviceProvider.GetService<GroupSchedulePageParser>();
 
             var schedule = parser.Parse(groupScheduleDocument.DocumentNode);
+            var options = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(
+                    UnicodeRanges.All),
+                WriteIndented = true
+            };
+            var scheduleJson = JsonSerializer.Serialize(schedule, options);
 
-            Assert.IsNotNull(schedule);
+            schedule.Should().NotBeNull();
+            File.WriteAllText("schedule.json", scheduleJson);
         }
 
         [Test]
@@ -51,7 +65,7 @@ namespace KpiSchedule.Common.IntegrationTests
 
             var groups = parser.Parse(conflictingGroupsListDocument.DocumentNode);
 
-            Assert.AreEqual(2, groups.Count());
+            groups.Count().Should().Be(2);
         }
     }
 }

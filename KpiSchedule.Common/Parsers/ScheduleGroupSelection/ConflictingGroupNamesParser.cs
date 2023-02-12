@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.RozKpiApi;
 using Serilog;
 
@@ -10,18 +11,19 @@ namespace KpiSchedule.Common.Parsers.ScheduleGroupSelection
         {
         }
 
-        public override IEnumerable<RozKpiApiGroup> Parse(HtmlNode node)
+        public override IEnumerable<RozKpiApiGroup> Parse(HtmlNode documentNode)
         {
             var groups = new List<RozKpiApiGroup>();
-            var document = node.OwnerDocument;
+            var document = documentNode.OwnerDocument;
 
             var groupListTableNode = document.GetElementbyId("ctl00_MainContent_ctl00_GroupListPanel");
             foreach(var link in groupListTableNode.SelectNodes("table/tr/td/a"))
             {
                 var groupName = link.InnerText;
                 var groupLink = link.Attributes["href"].Value;
-                // ViewSchedule.aspx?g=groupId
-                var groupId = new Guid(groupLink.Substring(20));
+                var groupIdPrefix = "ViewSchedule.aspx?g=";
+                var groupId = new Guid(groupLink.Substring(groupIdPrefix.Length));
+
                 var group = new RozKpiApiGroup()
                 {
                     GroupName = groupName,
@@ -30,7 +32,14 @@ namespace KpiSchedule.Common.Parsers.ScheduleGroupSelection
                 groups.Add(group);
             }
 
+            var conflictingGroupNames = string.Join(", ", groups.Select(g => g.GroupName));
+            logger.Information("Parsed {count} conflicting group names: {conflictingGroupNames}", groups.Count, conflictingGroupNames);
             return groups;
+        }
+
+        public bool IsGroupNotFoundPage(HtmlNode documentNode)
+        {
+            return documentNode.InnerHtml.Contains("Групи з такою назвою не знайдено!");
         }
     }
 }

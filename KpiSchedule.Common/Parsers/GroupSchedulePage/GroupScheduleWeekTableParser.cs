@@ -49,10 +49,6 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
                     foreach (var pair in pairsInCell)
                     {
                         var day = scheduleDays[dayNumber - 1];
-                        if (day.Pairs is null)
-                        {
-                            day.Pairs = new List<RozKpiApiGroupPair>();
-                        }
                         day.Pairs.Add(pair);
                     }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Events;
 
 namespace KpiSchedule.Common.ServiceCollectionExtensions
 {
@@ -13,11 +14,11 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
         /// </summary>
         /// <param name="services">Service collection.</param>
         /// <returns>Service collection.</returns>
-        public static IServiceCollection AddSerilogConsoleLogger(this IServiceCollection services)
+        public static IServiceCollection AddSerilogConsoleLogger(this IServiceCollection services, LogEventLevel minimumLogLevel)
         {
-            services.AddScoped<ILogger>(c => 
+            services.AddScoped<ILogger>(c =>
                 new LoggerConfiguration()
-                    .WriteTo.Console()
+                    .WriteTo.Console(restrictedToMinimumLevel: minimumLogLevel)
                     .CreateLogger()
             );
 

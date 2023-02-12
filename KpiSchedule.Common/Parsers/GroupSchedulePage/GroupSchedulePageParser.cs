@@ -17,8 +17,9 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
         {
             var document = documentNode.OwnerDocument;
             var labelHeaderNode = document.GetElementbyId("ctl00_MainContent_lblHeader");
-            // Розклад занять для groupName
-            var groupName = labelHeaderNode.InnerText.Substring(19);
+
+            var groupNamePrefix = "Розклад занять для ";
+            var groupName = labelHeaderNode.InnerText.Substring(groupNamePrefix.Length);
             logger.Information("Parsing schedule tables for {groupName}", groupName);
 
             var firstWeekTableNode = document.GetElementbyId("ctl00_MainContent_FirstScheduleTable");

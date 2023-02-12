@@ -17,7 +17,9 @@ namespace KpiSchedule.Common.Parsers.ScheduleGroupSelection
             var document = documentNode.OwnerDocument;
             var eventValidationElement = document.GetElementbyId("__EVENTVALIDATION");
 
-            return eventValidationElement.Attributes["value"].Value;
+            var validationValue = eventValidationElement.Attributes["value"].Value;
+            logger.Verbose("Parsed schedule selection form validation value: {validationValue}", validationValue);
+            return validationValue;
         }
     }
 }

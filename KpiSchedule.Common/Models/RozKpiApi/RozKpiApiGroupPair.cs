@@ -7,8 +7,8 @@
         /// Not unique, if multiple pairs are at the same time.
         /// </summary>
         public int PairNumber { get; set; }
-        public TimeOnly PairStart { get; set; }
-        public TimeOnly PairEnd { get; set; }
+        public TimeOnly StartTime { get; set; }
+        public TimeOnly EndTime { get; set; }
 
         /// <summary>
         /// List of teachers for this pair.
@@ -20,5 +20,7 @@
         public PairType Type { get; set; }
 
         public bool IsOnline { get; set; }
+
+        public RozKpiApiSubject Subject { get; set; }
     }
 }

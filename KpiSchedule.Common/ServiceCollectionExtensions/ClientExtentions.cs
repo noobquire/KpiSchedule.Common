@@ -25,6 +25,9 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
             {
                 c.BaseAddress = new Uri(clientConfiguration.Url);
                 c.Timeout = TimeSpan.FromSeconds(clientConfiguration.TimeoutSeconds);
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
             });
 
             services.AddScoped<TClient>();

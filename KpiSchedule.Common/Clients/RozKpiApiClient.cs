@@ -6,6 +6,8 @@ using System.Text;
 using HtmlAgilityPack;
 using static KpiSchedule.Common.Clients.RozKpiApiClientConstants;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
+using System.Net;
+using KpiSchedule.Common.Parsers.GroupSchedulePage;
 
 namespace KpiSchedule.Common.Clients
 {
@@ -17,18 +19,26 @@ namespace KpiSchedule.Common.Clients
         private readonly HttpClient client;
         private readonly string formValidationKeyValue;
         private readonly FormValidationParser formValidationParser;
+        private readonly ConflictingGroupNamesParser conflictingGroupNamesParser;
+        private readonly GroupSchedulePageParser scheduleParser;
 
         /// <summary>
         /// Initialize a new instance of the <see cref="RozKpiApiClient"/> class.
         /// </summary>
         /// <param name="clientFactory">HTTP client factory.</param>
         /// <param name="logger">Logging interface.</param>
-        public RozKpiApiClient(IHttpClientFactory clientFactory, ILogger logger, FormValidationParser formValidationParser) : base(logger)
+        public RozKpiApiClient(IHttpClientFactory clientFactory,
+            ILogger logger,
+            FormValidationParser formValidationParser,
+            ConflictingGroupNamesParser conflictingGroupNamesParser,
+            GroupSchedulePageParser scheduleParser) : base(logger)
         {
             client = clientFactory.CreateClient(nameof(RozKpiApiClient));
             client.DefaultRequestHeaders.Host = client.BaseAddress.Host;
             this.formValidationParser = formValidationParser;
             formValidationKeyValue = GetFormEventValidation().Result;
+            this.conflictingGroupNamesParser = conflictingGroupNamesParser;
+            this.scheduleParser = scheduleParser;
         }
 
         /// <summary>
@@ -99,9 +109,15 @@ namespace KpiSchedule.Common.Clients
             var groupSelectionPage = await GetGroupSelectionPage();
 
             return formValidationParser.Parse(groupSelectionPage.DocumentNode);
-        } 
+        }
 
-        public async Task<HtmlDocument> GetGroupSchedulePage(string groupName)
+        /// <summary>
+        /// Get group schedule IDs for given group name.
+        /// If conflicting group names are found, return all of their IDs.
+        /// </summary>
+        /// <param name="groupName">Group name.</param>
+        /// <returns>Group schedule id, all ids if got group name conflict.</returns>
+        public async Task<IEnumerable<Guid>> GetGroupScheduleIds(string groupName)
         {
             string requestApi = "ScheduleGroupSelection.aspx";
 
@@ -118,6 +134,46 @@ namespace KpiSchedule.Common.Clients
             var response = await client.PostAsync(requestApi, request);
 
             var requestUrl = response.RequestMessage.RequestUri.ToString();
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                // we got group names conflict
+                await CheckIfResponseBodyIsNullOrEmpty(response, requestUrl);
+
+                var responseHtml = await response.Content.ReadAsStringAsync();
+                var document = new HtmlDocument();
+                document.LoadHtml(responseHtml);
+
+                if(conflictingGroupNamesParser.IsGroupNotFoundPage(document.DocumentNode))
+                {
+                    logger.Error("Group {groupName} not found", groupName);
+                    throw new KpiScheduleClientGroupNotFoundException("Group with requested name was not found.");
+                }
+
+                var conflictingGroups = conflictingGroupNamesParser.Parse(document.DocumentNode);
+                return conflictingGroups.Select(group => group.Id);
+            }
+
+            await CheckIfExpectedResponseCode(response, HttpStatusCode.Redirect, requestUrl);
+
+            var location = response.Headers.Location.ToString();
+            var viewSchedulePrefix = "/Schedules/ViewSchedule.aspx?g=";
+            var scheduleIdStr = location.Substring(viewSchedulePrefix.Length);
+
+            return new[] { new Guid(scheduleIdStr) };
+        }
+
+        /// <summary>
+        /// Get group schedule page using schedule id from <see cref="GetGroupScheduleIds(string)"/>
+        /// </summary>
+        /// <param name="groupScheduleId">Group schedule id.</param>
+        /// <returns>Group schedule HTML document.</returns>
+        public async Task<HtmlDocument> GetGroupSchedulePage(Guid groupScheduleId)
+        {
+            string requestApi = $"ViewSchedule.aspx?g={groupScheduleId}";
+
+            var response = await client.GetAsync(requestApi);
+
+            var requestUrl = response.RequestMessage.RequestUri.ToString();
             await CheckIfSuccessfulResponse(response, requestUrl);
             await CheckIfResponseBodyIsNullOrEmpty(response, requestUrl);
 
@@ -126,6 +182,20 @@ namespace KpiSchedule.Common.Clients
             document.LoadHtml(responseHtml);
 
             return document;
+        }
+
+        /// <summary>
+        /// Get parsed <see cref="RozKpiApiGroupSchedule"/> for given group schedule id.
+        /// </summary>
+        /// <param name="groupScheduleId">Group schedule id.</param>
+        /// <returns>Parsed group schedule.</returns>
+        public async Task<RozKpiApiGroupSchedule> GetGroupSchedule(Guid groupScheduleId)
+        {
+            var schedulePage = await GetGroupSchedulePage(groupScheduleId);
+
+            var parsedSchedule = scheduleParser.Parse(schedulePage.DocumentNode);
+
+            return parsedSchedule;
         }
     }
 }

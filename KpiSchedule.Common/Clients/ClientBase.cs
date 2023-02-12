@@ -1,6 +1,7 @@
 ﻿using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.ScheduleKpiApi;
 using Serilog;
+using System.Net;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -38,6 +39,23 @@ namespace KpiSchedule.Common.Clients
         protected internal async Task CheckIfSuccessfulResponse(HttpResponseMessage response, string requestApiName)
         {
             if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = await response.Content?.ReadAsStringAsync() ?? string.Empty;
+                logger.Error("Response {responseCode} from {requestApi} does not indicate success: {responseMessage}", response.StatusCode, requestApiName, responseBody);
+                throw new KpiScheduleClientException($"Response status code {response.StatusCode} does not indicate success.");
+            }
+        }
+
+        /// <summary>
+        /// Check if response status code indicates success. If not, log an error message and throw a <see cref="KpiScheduleClientException"/>
+        /// </summary>
+        /// <param name="response">HTTP response.</param>
+        /// <param name="requestApiName">Name of API we sent request to.</param>
+        /// <returns>Task</returns>
+        /// <exception cref="KpiScheduleClientException">Http response code does not indicate success.</exception>
+        protected internal async Task CheckIfExpectedResponseCode(HttpResponseMessage response, HttpStatusCode expectedResponseCode, string requestApiName)
+        {
+            if (response.StatusCode != expectedResponseCode)
             {
                 var responseBody = await response.Content?.ReadAsStringAsync() ?? string.Empty;
                 logger.Error("Response {responseCode} from {requestApi} does not indicate success: {responseMessage}", response.StatusCode, requestApiName, responseBody);

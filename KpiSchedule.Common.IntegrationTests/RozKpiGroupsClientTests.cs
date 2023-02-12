@@ -3,6 +3,7 @@ using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog.Events;
 
 namespace KpiSchedule.Common.IntegrationTests
 {
@@ -20,7 +21,7 @@ namespace KpiSchedule.Common.IntegrationTests
                 .Build();
             bool mockRozKpiApiResponses = config.GetSection("MockRozKpiApiResponses").Get<bool>();
             var services = new ServiceCollection()
-                .AddSerilogConsoleLogger()
+                .AddSerilogConsoleLogger(LogEventLevel.Information)
                 .AddRozKpiParsers();
 
             if (mockRozKpiApiResponses)
@@ -66,12 +67,48 @@ namespace KpiSchedule.Common.IntegrationTests
         }
 
         [Test]
-        public async Task GetGroupSchedulePage_ShouldReturnGroupSchedulePage()
+        public async Task GetGroupScheduleIds_ShouldReturnGroupScheduleId()
         {
             var groupName = "ІТ-04";
-            var page = await client.GetGroupSchedulePage(groupName);
+            var scheduleId = (await client.GetGroupScheduleIds(groupName)).First();
 
-            page.DocumentNode.OuterHtml.Should().Contain("Розклад занять для " + groupName);
+            var expectedId = new Guid("13623e82-3f89-4815-b475-df7f442832e6");
+            scheduleId.Should().Be(expectedId);
+        }
+
+        [Test]
+        public async Task GetGroupScheduleIds_ConflictingGroupNames_ShouldReturnAllScheduleGroupIds()
+        {
+            var groupName = "БМ-01";
+            var scheduleIds = (await client.GetGroupScheduleIds(groupName));
+
+            var expectedIds = new[] 
+            {
+                new Guid("660d6d99-5eef-4aaf-9a50-66171822b53a"),
+                new Guid("613065b1-78cb-4a79-8823-f2cfda862c0a")
+            };
+
+            scheduleIds.Should().BeEquivalentTo(expectedIds);
+        }
+
+        [Test]
+        public async Task GetGroupSchedulePage_ShouldReturnGroupSchedulePage()
+        {
+            var groupId = new Guid("13623e82-3f89-4815-b475-df7f442832e6");
+            var groupName = "ІТ-04";
+            var page = await client.GetGroupSchedulePage(groupId);
+
+            page.DocumentNode.OuterHtml.Should().Contain($"Розклад занять для {groupName}");
+        }
+
+        [Test]
+        public async Task GetParsedGroupSchedule_ShouldReturnGroupSchedule()
+        {
+            var groupId = new Guid("13623e82-3f89-4815-b475-df7f442832e6");
+            var groupName = "ІТ-04";
+            var schedule = await client.GetGroupSchedule(groupId);
+
+            schedule.GroupName = groupName;
         }
     }
 }

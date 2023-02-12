@@ -3,6 +3,7 @@ using KpiSchedule.Common.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RichardSzalay.MockHttp;
+using System.Net;
 
 namespace KpiSchedule.Common.IntegrationTests
 {
@@ -42,7 +43,7 @@ namespace KpiSchedule.Common.IntegrationTests
             // Get group schedule
             var groupScheduleResponse = File.ReadAllText("RozKpiApiResponses/group-schedule-page.html");
             mockHandler
-                .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx")
+                .When(HttpMethod.Get, "http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=13623e82-3f89-4815-b475-df7f442832e6")
                 .Respond("text/html", groupScheduleResponse);
 
             // Get teachers
@@ -77,9 +78,19 @@ namespace KpiSchedule.Common.IntegrationTests
 
             var extramuralGroupScheduleResponse = File.ReadAllText("RozKpiApiResponses/extramural-group-schedule-page.html");
             mockHandler
-                .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx")
-                .WithHeaders(RozKpiApiClientConstants.FORM_GROUP_NAME_KEY, "ІП-з21")
+                .When(HttpMethod.Get, "http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=2d3e0d7f-2cf9-488a-8b94-a82e5798cfe2")
                 .Respond("text/html", extramuralGroupScheduleResponse);
+
+            mockHandler
+                .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx")
+                .Respond(HttpStatusCode.Redirect)
+                .WithHeaders("Location", "/Schedules/ViewSchedule.aspx?g=13623e82-3f89-4815-b475-df7f442832e6");
+
+            mockHandler
+                .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx")
+                .WithHeaders(RozKpiApiClientConstants.FORM_GROUP_NAME_KEY, "БМ-01")
+                .Respond(HttpStatusCode.Redirect)
+                .WithHeaders("Location", "/Schedules/ViewSchedule.aspx?g=13623e82-3f89-4815-b475-df7f442832e6");
 
             return mockHandler;
         }

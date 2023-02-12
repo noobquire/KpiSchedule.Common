@@ -2,6 +2,7 @@
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog.Events;
 
 namespace KpiSchedule.Common.IntegrationTests
 {
@@ -18,7 +19,7 @@ namespace KpiSchedule.Common.IntegrationTests
                 .AddJsonFile("appsettings.json")
                 .Build();
             this.serviceProvider = new ServiceCollection()
-                .AddSerilogConsoleLogger()
+                .AddSerilogConsoleLogger(LogEventLevel.Information)
                 .AddKpiClient<ScheduleKpiApiClient>(config)
                 .BuildServiceProvider();
         }

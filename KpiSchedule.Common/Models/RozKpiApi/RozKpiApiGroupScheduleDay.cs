@@ -10,6 +10,6 @@
         /// <summary>
         /// List of pairs this day.
         /// </summary>
-        public IList<RozKpiApiGroupPair> Pairs { get; set; }
+        public IList<RozKpiApiGroupPair> Pairs { get; set; } = new List<RozKpiApiGroupPair>();
     }
 }
