@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Core.Enrichers;
 using Serilog.Events;
 
 namespace KpiSchedule.Common.ServiceCollectionExtensions
@@ -18,7 +19,9 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
         {
             services.AddScoped<ILogger>(c =>
                 new LoggerConfiguration()
-                    .WriteTo.Console(restrictedToMinimumLevel: minimumLogLevel)
+                    .Enrich.FromLogContext()
+                    .MinimumLevel.Information()
+                    .WriteTo.Console(outputTemplate: "[{Level:w3}] {groupName} d{dayNumber}p{pairNumber}: {Message:l}{NewLine}")
                     .CreateLogger()
             );
 

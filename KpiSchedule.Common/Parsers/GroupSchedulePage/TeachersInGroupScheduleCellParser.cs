@@ -16,13 +16,13 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 
             var scheduleLinkPrefix = "/Schedules/ViewSchedule.aspx?v=";
 
-            var shortNames = GetTeacherLinkNodes(cellNode).Select(n => n.InnerText);
-            var fullNames = GetTeacherLinkNodes(cellNode).Select(n => n.Attributes["title"].Value);
-            var scheduleIds = GetTeacherLinkNodes(cellNode)
+            var shortNames = GetTeacherLinkNodes(cellNode)?.Select(n => n.InnerText);
+            var fullNames = GetTeacherLinkNodes(cellNode)?.Select(n => n.Attributes["title"].Value);
+            var scheduleIds = GetTeacherLinkNodes(cellNode)?
                 .Select(n => n.Attributes["href"].Value)
                 .Select(l => l.Substring(scheduleLinkPrefix.Length));
 
-            for (int i = 0; i < shortNames.Count(); i++)
+            for (int i = 0; i < shortNames?.Count(); i++)
             {
                 var teacher = new RozKpiApiTeacher()
                 {

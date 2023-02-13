@@ -2,6 +2,8 @@
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.RozKpiApi;
 using Serilog;
+using Serilog.Context;
+using Serilog.Core.Enrichers;
 
 namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 {
@@ -25,11 +27,13 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             var scheduleDays = InitScheduleDays(pairsCount);
 
             int pairNumber = 0;
+            
             foreach (HtmlNode rowNode in tableNode.SelectNodes("tr"))
             {
                 // increment and check if this is first row
                 // first row contains day names, pair rows start from second
                 if (pairNumber++ == 0) continue;
+                LogContext.Push(new PropertyEnricher("pairNumber", pairNumber));
                 logger.Verbose("Parsing row {rowNumber}", pairNumber);
 
                 int dayNumber = 0;
@@ -37,14 +41,25 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
                 {
                     // increment and check if this is first column
                     // first column contains pair start time, pair cells start from second column
+                    
                     if (dayNumber == 0)
                     {
                         dayNumber++;
                         continue;
                     }
 
+                    LogContext.Push(new PropertyEnricher("dayNumber", dayNumber));
                     logger.Verbose("Parsing cell {cellNumber}: {cellContents}", dayNumber, cellNode.InnerText);
-                    var pairsInCell = cellParser.Parse(cellNode, dayNumber).ToList();
+
+                    var pairsInCell = new List<RozKpiApiGroupPair>();
+                    try
+                    {
+                        pairsInCell = cellParser.Parse(cellNode, dayNumber).ToList();
+                    }
+                    catch (NotImplementedException ex)
+                    {
+                        logger.Fatal(ex.Message);
+                    }
 
                     foreach (var pair in pairsInCell)
                     {

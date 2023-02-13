@@ -1,6 +1,8 @@
 ﻿using HtmlAgilityPack;
 using KpiSchedule.Common.Models.RozKpiApi;
 using Serilog;
+using Serilog.Context;
+using Serilog.Core.Enrichers;
 
 namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 {
@@ -21,20 +23,22 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             var groupNamePrefix = "Розклад занять для ";
             var groupName = labelHeaderNode.InnerText.Substring(groupNamePrefix.Length);
             logger.Information("Parsing schedule tables for {groupName}", groupName);
-
-            var firstWeekTableNode = document.GetElementbyId("ctl00_MainContent_FirstScheduleTable");
-            var firstWeek = tableParser.Parse(firstWeekTableNode);
-
-            var secondWeekTableNode = document.GetElementbyId("ctl00_MainContent_SecondScheduleTable");
-            var secondWeek = tableParser.Parse(secondWeekTableNode);
-
-            var schedule = new RozKpiApiGroupSchedule()
+            using (LogContext.PushProperty("groupName", groupName))
             {
-                GroupName = groupName,
-                FirstWeek = firstWeek,
-                SecondWeek = secondWeek
-            };
-            return schedule;
+                var firstWeekTableNode = document.GetElementbyId("ctl00_MainContent_FirstScheduleTable");
+                var firstWeek = tableParser.Parse(firstWeekTableNode);
+
+                var secondWeekTableNode = document.GetElementbyId("ctl00_MainContent_SecondScheduleTable");
+                var secondWeek = tableParser.Parse(secondWeekTableNode);
+
+                var schedule = new RozKpiApiGroupSchedule()
+                {
+                    GroupName = groupName,
+                    FirstWeek = firstWeek,
+                    SecondWeek = secondWeek
+                };
+                return schedule;
+            }
         }
     }
 }
