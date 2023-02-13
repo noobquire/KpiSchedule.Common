@@ -12,7 +12,7 @@ using System.Text.Unicode;
 
 namespace KpiSchedule.Common.UnitTests.Clients
 {
-    internal class TestClient : ClientBase
+    internal class TestClient : BaseClient
     {
         public TestClient() : base(new Mock<ILogger>().Object) { }
     }

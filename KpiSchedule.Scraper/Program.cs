@@ -17,10 +17,10 @@ var config = new ConfigurationBuilder()
 var serviceProvider = new ServiceCollection()
     .AddSerilogConsoleLogger(LogEventLevel.Verbose)
     .AddRozKpiParsers()
-    .AddKpiClient<RozKpiApiClient>(config)
+    .AddKpiClient<RozKpiApiGroupsClient>(config)
     .BuildServiceProvider();
 
-var rozKpiApiClient = serviceProvider.GetRequiredService<RozKpiApiClient>();
+var rozKpiApiClient = serviceProvider.GetRequiredService<RozKpiApiGroupsClient>();
 
 var groupNames = await rozKpiApiClient.GetGroups("ІТ");
 var groupScheduleIdTasks = groupNames.Data.Select(async groupName =>

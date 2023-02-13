@@ -1,4 +1,5 @@
-﻿using KpiSchedule.Common.Models.RozKpiApi;
+﻿using KpiSchedule.Common.Clients;
+using KpiSchedule.Common.Models.RozKpiApi;
 using Serilog;
 
 namespace KpiSchedule.Common.Parsers.GroupSchedulePage
@@ -9,10 +10,13 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
     public class GroupSchedulePairDataGroupper
     {
         private readonly ILogger logger;
+        private readonly RozKpiApiTeachersClient teachersClient;
 
-        public GroupSchedulePairDataGroupper(ILogger logger)
+        public GroupSchedulePairDataGroupper(ILogger logger,
+            RozKpiApiTeachersClient teachersClient)
         {
             this.logger = logger;
+            this.teachersClient = teachersClient;
         }
 
         public IEnumerable<RozKpiApiGroupPair> GroupPairData(RozKpiApiGroupPairData data)

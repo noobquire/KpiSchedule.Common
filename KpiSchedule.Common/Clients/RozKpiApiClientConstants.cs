@@ -29,5 +29,10 @@
         /// Schedule group selection page form event target key.
         /// </summary>
         public const string FORM_EVENT_TARGET_KEY = "__EVENTTARGET";
+
+        /// <summary>
+        /// Teacher schedule selection page form teacher name input key.
+        /// </summary>
+        public const string FORM_TEACHER_NAME_KEY = "ctl00$MainContent$txtboxLecturer";
     }
 }

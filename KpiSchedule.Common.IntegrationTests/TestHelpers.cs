@@ -15,17 +15,17 @@ namespace KpiSchedule.Common.IntegrationTests
         /// </summary>
         public static IServiceCollection AddMockRozKpiApiClient(this IServiceCollection services, IConfiguration config)
         {
-            var clientConfiguration = config.GetSection(typeof(RozKpiApiClient).Name).Get<KpiApiClientConfiguration>();
+            var clientConfiguration = config.GetSection(typeof(RozKpiApiGroupsClient).Name).Get<KpiApiClientConfiguration>();
 
             var mockHttpHandler = SetupMockHttpHandler();
 
-            services.AddHttpClient(typeof(RozKpiApiClient).Name, c =>
+            services.AddHttpClient(typeof(RozKpiApiGroupsClient).Name, c =>
             {
                 c.BaseAddress = new Uri(clientConfiguration.Url);
                 c.Timeout = TimeSpan.FromSeconds(clientConfiguration.TimeoutSeconds);
             }).ConfigurePrimaryHttpMessageHandler(() => mockHttpHandler);
 
-            services.AddScoped<RozKpiApiClient>();
+            services.AddScoped<RozKpiApiGroupsClient>();
 
             return services;
         }

@@ -17,7 +17,7 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
         /// <param name="services">Service collection.</param>
         /// <param name="config">Application </param>
         /// <returns>Service collection.</returns>
-        public static IServiceCollection AddKpiClient<TClient>(this IServiceCollection services, IConfiguration config) where TClient : ClientBase
+        public static IServiceCollection AddKpiClient<TClient>(this IServiceCollection services, IConfiguration config) where TClient : BaseClient
         {
             var clientConfiguration = config.GetSection(typeof(TClient).Name).Get<KpiApiClientConfiguration>();
 

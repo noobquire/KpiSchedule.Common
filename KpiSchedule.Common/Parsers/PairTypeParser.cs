@@ -6,6 +6,11 @@ namespace KpiSchedule.Common.Parsers
     {
         public static PairType ParsePairType(string pairTypeString)
         {
+            if(string.IsNullOrEmpty(pairTypeString))
+            {
+                return PairType.Lecture;
+            }
+
             if(pairTypeString.Contains("Лек"))
             {
                 return PairType.Lecture;

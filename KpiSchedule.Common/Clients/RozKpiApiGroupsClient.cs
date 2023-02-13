@@ -14,28 +14,24 @@ namespace KpiSchedule.Common.Clients
     /// <summary>
     /// Client used to get academic groups from roz.kpi.ua API.
     /// </summary>
-    public class RozKpiApiClient : ClientBase
+    public class RozKpiApiGroupsClient : BaseRozKpiApiClient
     {
-        private readonly HttpClient client;
-        private readonly string formValidationKeyValue;
-        private readonly FormValidationParser formValidationParser;
         private readonly ConflictingGroupNamesParser conflictingGroupNamesParser;
         private readonly GroupSchedulePageParser scheduleParser;
 
         /// <summary>
-        /// Initialize a new instance of the <see cref="RozKpiApiClient"/> class.
+        /// Initialize a new instance of the <see cref="RozKpiApiGroupsClient"/> class.
         /// </summary>
         /// <param name="clientFactory">HTTP client factory.</param>
         /// <param name="logger">Logging interface.</param>
-        public RozKpiApiClient(IHttpClientFactory clientFactory,
+        public RozKpiApiGroupsClient(IHttpClientFactory clientFactory,
             ILogger logger,
             FormValidationParser formValidationParser,
             ConflictingGroupNamesParser conflictingGroupNamesParser,
-            GroupSchedulePageParser scheduleParser) : base(logger)
+            GroupSchedulePageParser scheduleParser) : base(logger, formValidationParser)
         {
-            client = clientFactory.CreateClient(nameof(RozKpiApiClient));
+            client = clientFactory.CreateClient(nameof(RozKpiApiGroupsClient));
             client.DefaultRequestHeaders.Host = client.BaseAddress.Host;
-            this.formValidationParser = formValidationParser;
             formValidationKeyValue = GetFormEventValidation().Result;
             this.conflictingGroupNamesParser = conflictingGroupNamesParser;
             this.scheduleParser = scheduleParser;
@@ -63,28 +59,7 @@ namespace KpiSchedule.Common.Clients
         }
 
         /// <summary>
-        /// Get list of teacher names starting with specified prefix.
-        /// </summary>
-        /// <param name="teacherNamePrefix">Teacher name prefix.</param>
-        /// <returns>List of teachers with specified name prefix.</returns>
-        /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
-        public async Task<RozKpiApiTeachersList> GetTeachers(string teacherNamePrefix)
-        {
-            string requestApi = "LecturerSelection.aspx/GetLecturers";
-            var request = new BaseRozKpiApiRequest(teacherNamePrefix);
-            var requestJson = JsonSerializer.Serialize(request);
-            var requestContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync(requestApi, requestContent);
-
-            var teachers = await VerifyAndParseResponseBody<RozKpiApiTeachersList>(response);
-
-            teachers.TeacherNamePrefix = teacherNamePrefix;
-            return teachers;
-        }
-
-        /// <summary>
-        /// Get schedule group selection HTML page.
+        /// Get group schedule selection HTML page.
         /// </summary>
         /// <returns>Schedule group selection HTML page.</returns>
         public async Task<HtmlDocument> GetGroupSelectionPage()
@@ -163,35 +138,13 @@ namespace KpiSchedule.Common.Clients
         }
 
         /// <summary>
-        /// Get group schedule page using schedule id from <see cref="GetGroupScheduleIds(string)"/>
-        /// </summary>
-        /// <param name="groupScheduleId">Group schedule id.</param>
-        /// <returns>Group schedule HTML document.</returns>
-        public async Task<HtmlDocument> GetGroupSchedulePage(Guid groupScheduleId)
-        {
-            string requestApi = $"ViewSchedule.aspx?g={groupScheduleId}";
-
-            var response = await client.GetAsync(requestApi);
-
-            var requestUrl = response.RequestMessage.RequestUri.ToString();
-            await CheckIfSuccessfulResponse(response, requestUrl);
-            await CheckIfResponseBodyIsNullOrEmpty(response, requestUrl);
-
-            var responseHtml = await response.Content.ReadAsStringAsync();
-            var document = new HtmlDocument();
-            document.LoadHtml(responseHtml);
-
-            return document;
-        }
-
-        /// <summary>
         /// Get parsed <see cref="RozKpiApiGroupSchedule"/> for given group schedule id.
         /// </summary>
         /// <param name="groupScheduleId">Group schedule id.</param>
         /// <returns>Parsed group schedule.</returns>
         public async Task<RozKpiApiGroupSchedule> GetGroupSchedule(Guid groupScheduleId)
         {
-            var schedulePage = await GetGroupSchedulePage(groupScheduleId);
+            var schedulePage = await GetSchedulePage(groupScheduleId, RozKpiApiScheduleType.GROUP);
 
             var parsedSchedule = scheduleParser.Parse(schedulePage.DocumentNode);
 

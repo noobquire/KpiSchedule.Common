@@ -1,5 +1,6 @@
 ﻿using KpiSchedule.Common.Parsers.GroupSchedulePage;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
+using KpiSchedule.Common.Parsers.TeacherSchedulePage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KpiSchedule.Common.ServiceCollectionExtensions
@@ -13,9 +14,13 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
             services.AddScoped<GroupScheduleWeekTableParser>();
             services.AddScoped<FormValidationParser>();
             services.AddScoped<ConflictingGroupNamesParser>();
-            services.AddScoped<PairInfoInGroupScheduleCellParser>();
+            services.AddScoped<PairInfoInScheduleCellParser>();
             services.AddScoped<TeachersInGroupScheduleCellParser>();
             services.AddScoped<GroupSchedulePairDataGroupper>();
+
+            services.AddScoped<TeacherSchedulePageParser>();
+            services.AddScoped<TeacherScheduleWeekTableParser>();
+            services.AddScoped<TeacherScheduleCellParser>();
             return services;
         }
     }

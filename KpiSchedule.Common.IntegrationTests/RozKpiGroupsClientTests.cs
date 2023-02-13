@@ -11,7 +11,7 @@ namespace KpiSchedule.Common.IntegrationTests
     internal class RozKpiGroupsClientTests
     {
         private IServiceProvider serviceProvider;
-        private RozKpiApiClient client => serviceProvider.GetRequiredService<RozKpiApiClient>();
+        private RozKpiApiGroupsClient client => serviceProvider.GetRequiredService<RozKpiApiGroupsClient>();
 
         [SetUp]
         public void Setup()
@@ -30,7 +30,7 @@ namespace KpiSchedule.Common.IntegrationTests
             }
             else
             {
-                services.AddKpiClient<RozKpiApiClient>(config);
+                services.AddKpiClient<RozKpiApiGroupsClient>(config);
             }
 
             serviceProvider = services.BuildServiceProvider();
@@ -45,17 +45,6 @@ namespace KpiSchedule.Common.IntegrationTests
 
             Assert.IsNotEmpty(groups.Data);
             Assert.True(groups.Data.All(g => g.StartsWith(groupPrefix)));
-        }
-
-        [Test]
-        public async Task GetTeachers_WithValidGroupRequest_ShouldReturnTeachersList()
-        {
-            var teacherNamePrefix = "А";
-
-            var teachers = await client.GetTeachers(teacherNamePrefix);
-
-            Assert.IsNotEmpty(teachers.Data);
-            Assert.True(teachers.Data.All(g => g.StartsWith(teacherNamePrefix)));
         }
 
         [Test]
@@ -96,7 +85,7 @@ namespace KpiSchedule.Common.IntegrationTests
         {
             var groupId = new Guid("13623e82-3f89-4815-b475-df7f442832e6");
             var groupName = "ІТ-04";
-            var page = await client.GetGroupSchedulePage(groupId);
+            var page = await client.GetSchedulePage(groupId, "g");
 
             page.DocumentNode.OuterHtml.Should().Contain($"Розклад занять для {groupName}");
         }

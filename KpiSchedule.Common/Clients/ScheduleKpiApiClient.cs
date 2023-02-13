@@ -7,7 +7,7 @@ namespace KpiSchedule.Common.Clients
     /// <summary>
     /// Client used to call schedule.kpi.ua API.
     /// </summary>
-    public class ScheduleKpiApiClient : ClientBase
+    public class ScheduleKpiApiClient : BaseClient
     {
         private readonly HttpClient client;
 

@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 {
-    public class PairInfoInGroupScheduleCellParser : BaseParser<IEnumerable<RozKpiApiPairInfo>>
+    public class PairInfoInScheduleCellParser : BaseParser<IEnumerable<RozKpiApiPairInfo>>
     {
-        public PairInfoInGroupScheduleCellParser(ILogger logger) : base(logger)
+        public PairInfoInScheduleCellParser(ILogger logger) : base(logger)
         {
         }
 
