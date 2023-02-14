@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KpiSchedule.Common.UnitTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KpiSchedule.Common.IntegrationTests", "KpiSchedule.Common.IntegrationTests\KpiSchedule.Common.IntegrationTests.csproj", "{461AFA81-2225-475C-8CAA-D6087A844811}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KpiSchedule.Scraper", "KpiSchedule.Scraper\KpiSchedule.Scraper.csproj", "{32DAC63A-1FC7-4049-B860-67810771CB11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KpiSchedule.SampleScraper", "KpiSchedule.SampleScraper\KpiSchedule.SampleScraper.csproj", "{A5533BD4-C5A2-42B9-A703-ED3FF9F345C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,10 @@ Global
 		{461AFA81-2225-475C-8CAA-D6087A844811}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{461AFA81-2225-475C-8CAA-D6087A844811}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{461AFA81-2225-475C-8CAA-D6087A844811}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32DAC63A-1FC7-4049-B860-67810771CB11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32DAC63A-1FC7-4049-B860-67810771CB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32DAC63A-1FC7-4049-B860-67810771CB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32DAC63A-1FC7-4049-B860-67810771CB11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5533BD4-C5A2-42B9-A703-ED3FF9F345C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5533BD4-C5A2-42B9-A703-ED3FF9F345C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5533BD4-C5A2-42B9-A703-ED3FF9F345C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5533BD4-C5A2-42B9-A703-ED3FF9F345C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,7 +45,7 @@ Global
 		{58B4A4FF-2272-4D62-8C87-BF0129AFCD27} = {66266DC9-81D3-4644-84C0-F6D8EA85177F}
 		{5B9D2463-BB34-4DD6-984F-CF9C7D8DA42E} = {C770D0C5-CE23-4B57-9DA5-452D468A2CC3}
 		{461AFA81-2225-475C-8CAA-D6087A844811} = {C770D0C5-CE23-4B57-9DA5-452D468A2CC3}
-		{32DAC63A-1FC7-4049-B860-67810771CB11} = {66266DC9-81D3-4644-84C0-F6D8EA85177F}
+		{A5533BD4-C5A2-42B9-A703-ED3FF9F345C7} = {66266DC9-81D3-4644-84C0-F6D8EA85177F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64D6AE5C-932F-43C3-AEF0-7986C6CC488A}

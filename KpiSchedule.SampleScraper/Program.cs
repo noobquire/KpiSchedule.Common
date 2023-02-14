@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using KpiSchedule.Common.Clients;
+﻿using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.RozKpiApi;
 using KpiSchedule.Common.ServiceCollectionExtensions;
