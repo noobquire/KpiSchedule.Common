@@ -154,6 +154,7 @@ namespace KpiSchedule.Common.Clients
             var schedulePage = await GetSchedulePage(groupScheduleId, RozKpiApiScheduleType.GROUP);
 
             var parsedSchedule = scheduleParser.Parse(schedulePage.DocumentNode);
+            parsedSchedule.ScheduleId = groupScheduleId;
 
             return parsedSchedule;
         }

@@ -1,11 +1,36 @@
 ﻿namespace KpiSchedule.Common.Models.RozKpiApi
 {
+    /// <summary>
+    /// Teacher schedule parsed from roz.kpi.ua.
+    /// </summary>
     public class RozKpiApiTeacherSchedule
     {
+        /// <summary>
+        /// Schedule identifier on roz.kpi.ua.
+        /// </summary>
+        public Guid ScheduleId { get; set; }
+
+        /// <summary>
+        /// Teacher name with faculty division.
+        /// </summary>
         public string TeacherName { get; set; }
+
+        /// <summary>
+        /// First week of the schedule.
+        /// </summary>
         public IList<RozKpiApiTeacherScheduleDay> FirstWeek { get; set; }
+
+        /// <summary>
+        /// Second week of the schedule.
+        /// </summary>
         public IList<RozKpiApiTeacherScheduleDay> SecondWeek { get; set; }
 
+        /// <summary>
+        /// Get teacher's pair by identifier.
+        /// </summary>
+        /// <param name="pairId">Pair identifier (week, day, pair)</param>
+        /// <returns>Teacher's pair at specified identifier.</returns>
+        /// <exception cref="ArgumentNullException">Pair identifier is null.</exception>
         public RozKpiApiTeacherPair GetPair(PairIdentifier pairId)
         {
             if(pairId is null)
@@ -16,6 +41,9 @@
             return GetPair(pairId.WeekNumber, pairId.DayNumber, pairId.PairNumber);
         }
 
+        /// <summary>
+        /// Get teacher's pair by identifier.
+        /// </summary>
         private RozKpiApiTeacherPair GetPair(int weekNumber, int dayNumber, int pairNumber)
         {
             if (!new[] { 1, 2 }.Contains(weekNumber))
