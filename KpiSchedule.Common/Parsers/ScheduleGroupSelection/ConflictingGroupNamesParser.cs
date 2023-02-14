@@ -36,10 +36,5 @@ namespace KpiSchedule.Common.Parsers.ScheduleGroupSelection
             logger.Information("Parsed {count} conflicting group names: {conflictingGroupNames}", groups.Count, conflictingGroupNames);
             return groups;
         }
-
-        public bool IsGroupNotFoundPage(HtmlNode documentNode)
-        {
-            return documentNode.InnerHtml.Contains("Групи з такою назвою не знайдено!");
-        }
     }
 }

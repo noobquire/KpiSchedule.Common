@@ -50,9 +50,14 @@ namespace KpiSchedule.Common.Clients
             var requestJson = JsonSerializer.Serialize(request);
             var requestContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
+            logger.Information("Getting group names for prefix {groupPrefix}", groupPrefix);
             var response = await client.PostAsync(requestApi, requestContent);
 
             var groups = await VerifyAndParseResponseBody<RozKpiApiGroupsList>(response);
+            if(groups.Data is null)
+            {
+                groups.Data = Array.Empty<string>();
+            }
 
             groups.GroupPrefix = groupPrefix;
             return groups;
@@ -106,7 +111,9 @@ namespace KpiSchedule.Common.Clients
 
             var request = new FormUrlEncodedContent(requestDictionary);
 
+            logger.Information("Getting scheduleId for group {groupName}", groupName);
             var response = await client.PostAsync(requestApi, request);
+            logger.Information("Received scheduleId for group {groupName}", groupName);
 
             var requestUrl = response.RequestMessage.RequestUri.ToString();
             if (response.StatusCode == HttpStatusCode.OK)
@@ -118,7 +125,7 @@ namespace KpiSchedule.Common.Clients
                 var document = new HtmlDocument();
                 document.LoadHtml(responseHtml);
 
-                if(conflictingGroupNamesParser.IsGroupNotFoundPage(document.DocumentNode))
+                if(IsGroupNotFoundPage(document.DocumentNode))
                 {
                     logger.Error("Group {groupName} not found", groupName);
                     throw new KpiScheduleClientGroupNotFoundException("Group with requested name was not found.");

@@ -26,10 +26,10 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             using (LogContext.PushProperty("groupName", groupName))
             {
                 var firstWeekTableNode = document.GetElementbyId("ctl00_MainContent_FirstScheduleTable");
-                var firstWeek = tableParser.Parse(firstWeekTableNode);
+                var firstWeek = tableParser.Parse(firstWeekTableNode, 1);
 
                 var secondWeekTableNode = document.GetElementbyId("ctl00_MainContent_SecondScheduleTable");
-                var secondWeek = tableParser.Parse(secondWeekTableNode);
+                var secondWeek = tableParser.Parse(secondWeekTableNode, 2);
 
                 var schedule = new RozKpiApiGroupSchedule()
                 {

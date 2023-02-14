@@ -7,6 +7,7 @@ using Serilog;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using static KpiSchedule.Common.Clients.RozKpiApiClientConstants;
 
 namespace KpiSchedule.Common.Clients
@@ -73,6 +74,10 @@ namespace KpiSchedule.Common.Clients
             var response = await client.PostAsync(requestApi, requestContent);
 
             var teachers = await VerifyAndParseResponseBody<RozKpiApiTeachersList>(response);
+            if (teachers.Data is null)
+            {
+                teachers.Data = Array.Empty<string>();
+            }
 
             teachers.TeacherNamePrefix = teacherNamePrefix;
             return teachers;

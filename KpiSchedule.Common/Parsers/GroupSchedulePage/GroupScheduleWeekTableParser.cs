@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using KpiSchedule.Common.Exceptions;
+using KpiSchedule.Common.Models;
 using KpiSchedule.Common.Models.RozKpiApi;
 using Serilog;
 using Serilog.Context;
@@ -15,7 +16,12 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             this.cellParser = cellParser;
         }
 
-        public override IList<RozKpiApiGroupScheduleDay> Parse(HtmlNode tableNode)
+        public override IList<RozKpiApiGroupScheduleDay> Parse(HtmlNode node)
+        {
+            return Parse(node, 1);
+        }
+
+        public IList<RozKpiApiGroupScheduleDay> Parse(HtmlNode tableNode, int weekNumber)
         {
             if (!IsDaytimeScheduleTable(tableNode))
             {
@@ -32,7 +38,11 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             {
                 // increment and check if this is first row
                 // first row contains day names, pair rows start from second
-                if (pairNumber++ == 0) continue;
+                if (pairNumber == 0)
+                {
+                    pairNumber++;
+                    continue;
+                }
                 LogContext.Push(new PropertyEnricher("pairNumber", pairNumber));
                 logger.Verbose("Parsing row {rowNumber}", pairNumber);
 
@@ -54,7 +64,8 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
                     var pairsInCell = new List<RozKpiApiGroupPair>();
                     try
                     {
-                        pairsInCell = cellParser.Parse(cellNode, dayNumber).ToList();
+                        var pairId = new PairIdentifier(weekNumber, dayNumber, pairNumber);
+                        pairsInCell = cellParser.Parse(cellNode, pairId).ToList();
                     }
                     catch (NotImplementedException ex)
                     {
@@ -69,6 +80,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 
                     dayNumber++;
                 }
+                pairNumber++;
             }
 
             return scheduleDays;

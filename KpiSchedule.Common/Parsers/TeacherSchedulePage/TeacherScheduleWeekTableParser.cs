@@ -26,7 +26,11 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
             {
                 // increment and check if this is first row
                 // first row contains day names, pair rows start from second
-                if (pairNumber++ == 0) continue;
+                if (pairNumber == 0)
+                {
+                    pairNumber++;
+                    continue;
+                }
                 LogContext.Push(new PropertyEnricher("pairNumber", pairNumber));
                 logger.Verbose("Parsing row {rowNumber}", pairNumber);
 
@@ -43,12 +47,12 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
                     }
 
                     LogContext.Push(new PropertyEnricher("dayNumber", dayNumber));
-                    logger.Verbose("Parsing cell {cellNumber}: {cellContents}", dayNumber, cellNode.InnerText);
+                    logger.Verbose("Parsing cell {cellNumber}: {cellContents}", pairNumber, cellNode.InnerText);
 
                     var pairInCell = new RozKpiApiTeacherPair();
                     try
                     {
-                        pairInCell = cellParser.Parse(cellNode, dayNumber);
+                        pairInCell = cellParser.Parse(cellNode, pairNumber);
                     }
                     catch (NotImplementedException ex)
                     {
@@ -63,6 +67,7 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
 
                     dayNumber++;
                 }
+                pairNumber++;
             }
 
             return scheduleDays;

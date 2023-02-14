@@ -13,7 +13,7 @@ namespace KpiSchedule.Common.IntegrationTests
         /// Because roz.kpi.ua API is often unresponsive, this service collection extension adds 
         /// a mock http client which returns saved responses from files.
         /// </summary>
-        public static IServiceCollection AddMockRozKpiApiClient(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddMockRozKpiApiClients(this IServiceCollection services, IConfiguration config)
         {
             var clientConfiguration = config.GetSection(typeof(RozKpiApiGroupsClient).Name).Get<KpiApiClientConfiguration>();
 

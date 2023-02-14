@@ -26,7 +26,7 @@ namespace KpiSchedule.Common.IntegrationTests
 
             if (mockRozKpiApiResponses)
             {
-                services.AddMockRozKpiApiClient(config);
+                services.AddMockRozKpiApiClients(config);
             }
             else
             {

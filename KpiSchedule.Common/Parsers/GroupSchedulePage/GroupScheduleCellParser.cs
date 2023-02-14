@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using KpiSchedule.Common.Models;
 using KpiSchedule.Common.Models.RozKpiApi;
 using Serilog;
 
@@ -22,10 +23,10 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 
         public override IEnumerable<RozKpiApiGroupPair> Parse(HtmlNode cellNode)
         {
-            return Parse(cellNode, 1);
+            return Parse(cellNode, new PairIdentifier(1, 1, 1));
         }
 
-        public IEnumerable<RozKpiApiGroupPair> Parse(HtmlNode cellNode, int pairNumber)
+        public IEnumerable<RozKpiApiGroupPair> Parse(HtmlNode cellNode, PairIdentifier pairId)
         {
             if (string.IsNullOrEmpty(cellNode.InnerHtml))
             {
@@ -40,6 +41,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 
             var pairData = new RozKpiApiGroupPairData()
             {
+                Identifier = pairId,
                 SubjectNames = subjectNames,
                 FullSubjectNames = fullSubjectNames,
                 PairInfos = pairInfos,
@@ -50,8 +52,8 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 
             pairs.ToList().ForEach(p =>
             {
-                p.PairNumber = pairNumber;
-                var startAndEnd = PairSchedule.GetPairStartAndEnd(pairNumber);
+                p.PairNumber = pairId.PairNumber;
+                var startAndEnd = PairSchedule.GetPairStartAndEnd(pairId.PairNumber);
                 p.StartTime = startAndEnd.pairStart;
                 p.EndTime = startAndEnd.pairEnd;
             });

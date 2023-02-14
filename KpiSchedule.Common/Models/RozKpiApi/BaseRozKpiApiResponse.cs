@@ -11,6 +11,6 @@ namespace KpiSchedule.Common.Models.RozKpiApi
         /// Data array with requested resources.
         /// </summary>
         [JsonPropertyName("d")]
-        public IList<string> Data { get; set; }
+        public IList<string> Data { get; set; } = new List<string>();
     }
 }

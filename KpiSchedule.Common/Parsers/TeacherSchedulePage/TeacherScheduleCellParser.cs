@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using KpiSchedule.Common.Models;
 using KpiSchedule.Common.Models.RozKpiApi;
 using KpiSchedule.Common.Parsers.GroupSchedulePage;
 using Serilog;
@@ -48,7 +49,7 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
             var pair = new RozKpiApiTeacherPair()
             {
                 Subject = subject,
-                Type = PairTypeParser.ParsePairType(pairInfos.FirstOrDefault()?.PairType),
+                Type = pairInfos.FirstOrDefault()?.PairType ?? PairType.Lecture,
                 Rooms = pairInfos?.SelectMany(pi => pi.Rooms).ToList() ?? Enumerable.Empty<string>().ToList(),
                 GroupNames = groupNames.ToList(),
                 IsOnline = pairInfos.FirstOrDefault()?.IsOnline ?? false

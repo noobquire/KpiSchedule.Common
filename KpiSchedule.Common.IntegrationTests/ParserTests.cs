@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
 using HtmlAgilityPack;
+using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.Parsers.GroupSchedulePage;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
 using KpiSchedule.Common.ServiceCollectionExtensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Serilog.Events;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -34,10 +35,24 @@ namespace KpiSchedule.Common.IntegrationTests
         [SetUp]
         public void Setup()
         {
-            serviceProvider = new ServiceCollection()
-                .AddSerilogConsoleLogger(LogEventLevel.Verbose)
-                .AddRozKpiParsers()
-                .BuildServiceProvider();
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            bool mockRozKpiApiResponses = config.GetSection("MockRozKpiApiResponses").Get<bool>();
+            var services = new ServiceCollection()
+                .AddSerilogConsoleLogger(LogEventLevel.Information)
+                .AddRozKpiParsers();
+
+            if (mockRozKpiApiResponses)
+            {
+                services.AddMockRozKpiApiClients(config);
+            }
+            else
+            {
+                services.AddKpiClient<RozKpiApiTeachersClient>(config);
+            }
+
+            serviceProvider = services.BuildServiceProvider();
         }
 
         [Test]

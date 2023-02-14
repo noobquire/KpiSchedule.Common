@@ -1,5 +1,4 @@
-﻿using KpiSchedule.Common.Clients;
-using KpiSchedule.Common.Models.RozKpiApi;
+﻿using KpiSchedule.Common.Models.RozKpiApi;
 using Serilog;
 
 namespace KpiSchedule.Common.Parsers.GroupSchedulePage
@@ -10,13 +9,13 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
     public class GroupSchedulePairDataGroupper
     {
         private readonly ILogger logger;
-        private readonly RozKpiApiTeachersClient teachersClient;
+        private readonly TeachersScheduleCache teachersSchedulesCache;
 
         public GroupSchedulePairDataGroupper(ILogger logger,
-            RozKpiApiTeachersClient teachersClient)
+            TeachersScheduleCache teachersSchedules)
         {
             this.logger = logger;
-            this.teachersClient = teachersClient;
+            this.teachersSchedulesCache = teachersSchedules;
         }
 
         public IEnumerable<RozKpiApiGroupPair> GroupPairData(RozKpiApiGroupPairData data)
@@ -35,55 +34,89 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
                 CopyAllTeachersToFirstPair(ref data);
             }
 
-            if(AreSomePairsWithSeveralTeachers(data))
+            if (AreSomePairsWithSeveralTeachers(data))
             {
                 logger.Information("Schedule cell has some pairs with several teachers, looking into teacher schedule to group teachers by pair");
-                // TODO: rename handlers like this to reflect what they are doing
-                HandlePairsWithSeveralTeachers(ref data);
+                var fixedData = FixPairsWithSeveralTeachers(data);
+                data = fixedData;
             }
 
-            if(AreMultiplePairsWithSinglePairInfo(data))
+            if (AreMultiplePairsWithSinglePairInfo(data))
             {
                 logger.Information("Schedule cell has multiple pairs with single pair info, copying pair info to all pairs");
                 CopySinglePairInfoToAllPairs(ref data);
             }
 
-            if(IsNonMatchingPairInfoAndPairsCount(data))
+            if (IsNonMatchingPairInfoAndPairsCount(data))
             {
                 logger.Information("Schedule cell has less pair infos than pairs, looking into teacher schedule to get pair info for each pair");
-                HandleNonMatchingPairInfoAndPairsCount(ref data);
+                var fixedData = FixNonMatchingPairInfoAndPairsCount(data);
+                data = fixedData;
             }
 
-            if(IsSinglePairWithSeveralRooms(data))
+            if (IsSinglePairWithSeveralRooms(data))
             {
                 logger.Information("Schedule cell has single pair with multiple pair infos, copying all rooms from pair infos to first pair");
                 CopyAllRoomsToFirstPair(ref data);
             }
 
-            if(AreSomePairsWithSeveralRooms(data))
+            if (AreSomePairsWithSeveralRooms(data))
             {
                 logger.Information("Schedule cell some pairs with several rooms, looking into teacher schedule to get rooms for each pair");
-                HandleSomePairsWithSeveralRooms(ref data);
+                var fixedData = FixSomePairsWithSeveralRooms(data);
+                data = fixedData;
             }
 
-            if(AreSeveralPairsWithOneTeacher(data))
+            if (AreSeveralPairsWithOneTeacher(data))
             {
                 logger.Information("Schedule cell has multiple pairs with single teacher, copying teacher to all pairs");
                 CopyFirstTeacherToAllPairs(ref data);
             }
 
-            if(AreMorePairsThanTeachers(data))
+            if (AreMorePairsThanTeachers(data))
             {
                 logger.Information("Schedule cell has more pairs than teachers, looking into teacher schedules to assign them to correct pairs");
-                HandleMorePairsThanTeachers(ref data);
+                var fixedData = FixMorePairsThanTeachers(data);
+                data = fixedData;
             }
 
             return CreatePairsFromData(data);
         }
 
-        private void HandleMorePairsThanTeachers(ref RozKpiApiGroupPairData data)
+        private IEnumerable<RozKpiApiTeacherSchedule> GetTeacherSchedules(RozKpiApiGroupPairData data)
         {
-            throw new NotImplementedException();
+            var teacherSchedulesTasks = data.Teachers
+                .SelectMany(t => t)
+                .Select(t => t.ScheduleId)
+                .Select(id => teachersSchedulesCache.GetTeacherSchedule(id));
+            var teacherSchedules = Task.WhenAll(teacherSchedulesTasks).Result;
+            return teacherSchedules;
+        }
+
+        private RozKpiApiGroupPairData FixMorePairsThanTeachers(RozKpiApiGroupPairData data)
+        {
+            // look at teacher's schedule, distribute teachers by subject names
+            // and leave some lessons with empty teacher lists
+            var teacherSchedules = GetTeacherSchedules(data);
+
+            var teacherPairs = teacherSchedules.Select(s => s.GetPair(data.Identifier)).ToList();
+
+            var newTeachers = new RozKpiApiTeacher[data.SubjectNames.Count()][];
+            for (int i = 0; i < data.SubjectNames.Count(); i++)
+            {
+                var subjectName = data.SubjectNames.ElementAt(i);
+                var matchingTeacherIndex = teacherPairs.FindIndex(p => p.Subject.SubjectName == subjectName);
+                if (matchingTeacherIndex != -1)
+                {
+                    newTeachers[i] = data.Teachers[matchingTeacherIndex];
+                }
+                else
+                {
+                    newTeachers[i] = Array.Empty<RozKpiApiTeacher>();
+                }
+            }
+            data.Teachers = newTeachers;
+            return data;
         }
 
         private void CopyFirstTeacherToAllPairs(ref RozKpiApiGroupPairData data)
@@ -95,8 +128,9 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             data.Teachers = newTeachersArray;
         }
 
-        private void HandleSomePairsWithSeveralRooms(ref RozKpiApiGroupPairData data)
+        private RozKpiApiGroupPairData FixSomePairsWithSeveralRooms(RozKpiApiGroupPairData data)
         {
+            // go through teachers schedules and get rooms for each lesson
             throw new NotImplementedException();
         }
 
@@ -110,14 +144,35 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             data.PairInfos = newPairInfos;
         }
 
-        private void HandleNonMatchingPairInfoAndPairsCount(ref RozKpiApiGroupPairData data)
+        private RozKpiApiGroupPairData FixNonMatchingPairInfoAndPairsCount(RozKpiApiGroupPairData data)
         {
-            throw new NotImplementedException();
+            var teacherSchedules = GetTeacherSchedules(data);
+
+            var teacherPairInfos = teacherSchedules
+                .Select(s => s.GetPair(data.Identifier))
+                .Select(tp => new RozKpiApiPairInfo()
+                {
+                    Rooms = tp.Rooms,
+                    PairType = tp.Type,
+                    IsOnline = tp.IsOnline
+                });
+            data.PairInfos = teacherPairInfos;
+            return data;
         }
 
-        private void HandlePairsWithSeveralTeachers(ref RozKpiApiGroupPairData data)
+        private RozKpiApiGroupPairData FixPairsWithSeveralTeachers(RozKpiApiGroupPairData data)
         {
-            throw new NotImplementedException();
+            var teacherSchedules = GetTeacherSchedules(data);
+
+            var teacherPairs = teacherSchedules.Select(s => s.GetPair(data.Identifier));
+            var teacherPairsWithTeachers = teacherPairs.Zip(data.Teachers.SelectMany(t => t));
+
+            var grouppedTeacherPairs = teacherPairsWithTeachers.GroupBy(tp => tp.First.Subject);
+            var newTeachers = grouppedTeacherPairs
+                .Select(g => g.Select(t => t.Second).ToArray()).ToArray();
+
+            data.Teachers = newTeachers;
+            return data;
         }
 
         private void CopyAllTeachersToFirstPair(ref RozKpiApiGroupPairData data)
@@ -137,7 +192,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             logger.Verbose("Groupping {subjectsCount} subjects, {teachersCount} teachers, {infoCount} pair infos", data.SubjectNames.Count(), data.Teachers.SelectMany(t => t).Count(), data.PairInfos.Count());
             var pairs = new List<RozKpiApiGroupPair>();
 
-            for(int i = 0; i < data.SubjectNames.Count(); i++)
+            for (int i = 0; i < data.SubjectNames.Count(); i++)
             {
                 var subjectName = data.SubjectNames.ElementAt(i);
                 var subjectFullName = data.FullSubjectNames.ElementAt(i);
@@ -156,7 +211,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
                     Teachers = teachers,
                     Rooms = pairInfo?.Rooms ?? Enumerable.Empty<string>().ToList(),
                     IsOnline = pairInfo?.IsOnline ?? false,
-                    Type = PairTypeParser.ParsePairType(pairInfo.PairType)
+                    Type = pairInfo?.PairType ?? Models.PairType.Lecture
                 };
 
                 pairs.Add(pair);

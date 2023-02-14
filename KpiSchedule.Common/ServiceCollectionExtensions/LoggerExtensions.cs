@@ -17,11 +17,14 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
         /// <returns>Service collection.</returns>
         public static IServiceCollection AddSerilogConsoleLogger(this IServiceCollection services, LogEventLevel minimumLogLevel)
         {
+            var consoleMessageTemplate = "[{Level:w3}] {groupName} d{dayNumber}p{pairNumber}: {Message:l}{NewLine}";
+            var fileMessageTemplate = "{Timestamp:HH:mm:ss} {Level:w3} {groupName} d{dayNumber}p{pairNumber}: {Message:l}{NewLine}";
             services.AddScoped<ILogger>(c =>
                 new LoggerConfiguration()
                     .Enrich.FromLogContext()
                     .MinimumLevel.Information()
-                    .WriteTo.Console(outputTemplate: "[{Level:w3}] {groupName} d{dayNumber}p{pairNumber}: {Message:l}{NewLine}")
+                    .WriteTo.Console(outputTemplate: consoleMessageTemplate)
+                    .WriteTo.File($"logs/group-schedule-scraper-{DateTime.Now.ToString("yyyy-MM-dd_HH-mm")}.log", outputTemplate: fileMessageTemplate)
                     .CreateLogger()
             );
 

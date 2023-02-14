@@ -26,11 +26,13 @@ namespace KpiSchedule.Common.IntegrationTests
 
             if (mockRozKpiApiResponses)
             {
-                services.AddMockRozKpiApiClient(config);
+                services.AddMockRozKpiApiClients(config);
             }
             else
             {
-                services.AddKpiClient<RozKpiApiGroupsClient>(config);
+                services
+                    .AddKpiClient<RozKpiApiTeachersClient>(config)
+                    .AddKpiClient<RozKpiApiGroupsClient>(config);
             }
 
             serviceProvider = services.BuildServiceProvider();
@@ -97,7 +99,7 @@ namespace KpiSchedule.Common.IntegrationTests
             var groupName = "ІТ-04";
             var schedule = await client.GetGroupSchedule(groupId);
 
-            schedule.GroupName = groupName;
+            schedule.GroupName.Should().Be(groupName);
         }
     }
 }

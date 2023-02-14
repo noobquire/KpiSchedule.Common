@@ -1,4 +1,5 @@
-﻿using KpiSchedule.Common.Parsers.GroupSchedulePage;
+﻿using KpiSchedule.Common.Parsers;
+using KpiSchedule.Common.Parsers.GroupSchedulePage;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
 using KpiSchedule.Common.Parsers.TeacherSchedulePage;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,9 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
     {
         public static IServiceCollection AddRozKpiParsers(this IServiceCollection services)
         {
+            services.AddMemoryCache();
+            services.AddScoped<TeachersScheduleCache>();
+
             services.AddScoped<GroupScheduleCellParser>();
             services.AddScoped<GroupSchedulePageParser>();
             services.AddScoped<GroupScheduleWeekTableParser>();

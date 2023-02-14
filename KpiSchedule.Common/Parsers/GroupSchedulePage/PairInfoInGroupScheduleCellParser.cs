@@ -42,7 +42,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
         {
             var pairInfo = new RozKpiApiPairInfo()
             {
-                PairType = pairInfoString.Split(" ")[0],
+                PairType = PairTypeParser.ParsePairType(pairInfoString.Split(" ")[0]),
                 Rooms = Array.Empty<string>(),
                 IsOnline = pairInfoString.Contains("on-line")
             };
@@ -54,13 +54,15 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
         {
             var node = CreateHtmlNode(pairInfoString);
 
-            var room = node.InnerHtml.Substring(0, node.InnerHtml.IndexOf(' '));
-            var pairType = node.InnerHtml.Substring(node.InnerHtml.IndexOf(' ') + 1);
+            var infoSpaceIndex = node.InnerHtml.IndexOf(' ');
+            
+            var room = infoSpaceIndex == -1 ? node.InnerHtml : node.InnerHtml.Substring(0, infoSpaceIndex);
+            var pairType = infoSpaceIndex == -1 ? node.InnerHtml : node.InnerHtml.Substring(node.InnerHtml.IndexOf(' ') + 1);
             var isOnline = node.InnerHtml.Contains("on-line");
 
             var pairInfo = new RozKpiApiPairInfo()
             {
-                PairType = pairType,
+                PairType = PairTypeParser.ParsePairType(pairType),
                 Rooms = new[] { room },
                 IsOnline = isOnline
             };

@@ -6,5 +6,7 @@
         public IEnumerable<string> FullSubjectNames { get; set; }
         public RozKpiApiTeacher[][] Teachers { get; set; }
         public IEnumerable<RozKpiApiPairInfo> PairInfos { get; set; }
+
+        public PairIdentifier Identifier { get; set; }
     }
 }

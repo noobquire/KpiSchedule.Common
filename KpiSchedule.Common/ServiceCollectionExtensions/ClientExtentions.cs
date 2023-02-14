@@ -2,6 +2,7 @@
 using KpiSchedule.Common.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
 
 namespace KpiSchedule.Common.ServiceCollectionExtensions
 {
@@ -28,7 +29,7 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
             {
                 AllowAutoRedirect = false,
-            });
+            }).AddTransientHttpErrorPolicy(x => x.WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(3, retryAttempt))));
 
             services.AddScoped<TClient>();
 

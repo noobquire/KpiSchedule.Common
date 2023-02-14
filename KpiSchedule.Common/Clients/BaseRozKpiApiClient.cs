@@ -1,9 +1,11 @@
 ﻿using HtmlAgilityPack;
+using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,6 +34,13 @@ namespace KpiSchedule.Common.Clients
 
             var response = await client.GetAsync(requestApi);
 
+            var errorLocation = "/Error.aspx?aspxerrorpath=/Schedules/ViewSchedule.aspx";
+            if (response.StatusCode == HttpStatusCode.Redirect && response.Headers.Location.ToString() == errorLocation)
+            {
+                logger.Error("Schedule ID {scheduleId} exists, but schedule page does not exist", scheduleId);
+                throw new KpiScheduleClientGroupNotFoundException("Group with requested name was not found.");
+            }
+
             var requestUrl = response.RequestMessage.RequestUri.ToString();
             await CheckIfSuccessfulResponse(response, requestUrl);
             await CheckIfResponseBodyIsNullOrEmpty(response, requestUrl);
@@ -41,6 +50,11 @@ namespace KpiSchedule.Common.Clients
             document.LoadHtml(responseHtml);
 
             return document;
+        }
+
+        protected bool IsGroupNotFoundPage(HtmlNode documentNode)
+        {
+            return documentNode.InnerHtml.Contains("Групи з такою назвою не знайдено!");
         }
     }
 }
