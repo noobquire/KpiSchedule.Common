@@ -92,7 +92,7 @@ namespace KpiSchedule.Common.Clients
             var requestDictionary = new Dictionary<string, string>()
             {
                 [FORM_EVENT_VALIDATION_KEY] = formValidationValue,
-                [FORM_SHOW_SCHEDULE_KEY] = FORM_SHOW_SCHEDULE_VALUE,
+                [FORM_SHOW_GROUP_SCHEDULE_KEY] = FORM_SHOW_SCHEDULE_VALUE,
                 [FORM_GROUP_NAME_KEY] = groupName,
                 [FORM_EVENT_TARGET_KEY] = string.Empty
             };

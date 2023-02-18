@@ -50,12 +50,10 @@ namespace KpiSchedule.Common.IntegrationTests
         [Test]
         public async Task GetTeacherSchedule_ShouldReturnTeacherSchedule()
         {
-            var teacherName = "Лісовиченко Олег Іванович (ІПІ)";
-            var teacherScheduleId = new Guid("de47207f-8e13-4747-8654-9d29f7d01e89");
+            var scheduleId = await client.GetTeacherScheduleId("Лісовиченко Олег Іванович");
+            var teacherSchedule = await client.GetTeacherSchedule(scheduleId);
 
-            var teacherSchedule = await client.GetTeacherSchedule(teacherScheduleId);
-
-            teacherSchedule.TeacherName.Should().Be(teacherName);
+            teacherSchedule.TeacherName.Should().Contain("Лісовиченко Олег Іванович");
         }
     }
 }

@@ -88,13 +88,13 @@ namespace KpiSchedule.Common.Clients
         /// <inheritdoc/>
         public async Task<Guid> GetTeacherScheduleId(string teacherName)
         {
-            string requestApi = "ScheduleGroupSelection.aspx";
+            string requestApi = "LecturerSelection.aspx";
 
             var requestDictionary = new Dictionary<string, string>()
             {
                 [FORM_EVENT_VALIDATION_KEY] = formValidationValue,
-                [FORM_SHOW_SCHEDULE_KEY] = FORM_SHOW_SCHEDULE_VALUE,
-                [FORM_GROUP_NAME_KEY] = teacherName,
+                [FORM_SHOW_TEACHER_SCHEDULE_KEY] = FORM_SHOW_SCHEDULE_VALUE,
+                [FORM_TEACHER_NAME_KEY] = teacherName,
                 [FORM_EVENT_TARGET_KEY] = string.Empty
             };
 
@@ -120,7 +120,7 @@ namespace KpiSchedule.Common.Clients
             await CheckIfExpectedResponseCode(response, HttpStatusCode.Redirect, requestUrl);
 
             var location = response.Headers.Location.ToString();
-            var viewSchedulePrefix = "/Schedules/ViewSchedule.aspx?g=";
+            var viewSchedulePrefix = "/Schedules/ViewSchedule.aspx?v=";
             var scheduleIdStr = location.Substring(viewSchedulePrefix.Length);
 
             return new Guid(scheduleIdStr);

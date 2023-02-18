@@ -11,9 +11,14 @@
         public const string FORM_EVENT_VALIDATION_KEY = "__EVENTVALIDATION";
 
         /// <summary>
-        /// Schedule selection page form show schedule button key.
+        /// Group schedule selection page form show schedule button key.
         /// </summary>
-        public const string FORM_SHOW_SCHEDULE_KEY = "ctl00$MainContent$ctl00$btnShowSchedule";
+        public const string FORM_SHOW_GROUP_SCHEDULE_KEY = "ctl00$MainContent$ctl00$btnShowSchedule";
+
+        /// <summary>
+        /// Group schedule selection page form show schedule button key.
+        /// </summary>
+        public const string FORM_SHOW_TEACHER_SCHEDULE_KEY = "ctl00$MainContent$btnSchedule";
 
         /// <summary>
         /// Schedule selection page form group name input key.
