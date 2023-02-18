@@ -1,10 +1,10 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using KpiSchedule.Common.Models.RozKpiApi;
+using KpiSchedule.Common.Entities.RozKpi;
 
 namespace KpiSchedule.Common.Repositories
 {
-    public class RozKpiTeacherSchedulesRepository : BaseDynamoDbSchedulesRepository<RozKpiApiTeacherSchedule>
+    public class RozKpiTeacherSchedulesRepository : BaseDynamoDbSchedulesRepository<TeacherScheduleEntity>
     {
         public RozKpiTeacherSchedulesRepository(IDynamoDBContext dynamoDbContext) : base(dynamoDbContext)
         {
