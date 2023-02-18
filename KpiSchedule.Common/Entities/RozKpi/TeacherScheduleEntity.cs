@@ -1,5 +1,4 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using KpiSchedule.Common.Models.RozKpiApi;
 
 namespace KpiSchedule.Common.Entities.RozKpi
 {
@@ -12,8 +11,8 @@ namespace KpiSchedule.Common.Entities.RozKpi
         [DynamoDBGlobalSecondaryIndexHashKey]
         public string TeacherName { get; set; }
 
-        public IList<RozKpiApiTeacherScheduleDay> FirstWeek { get; set; }
+        public List<TeacherScheduleDayEntity> FirstWeek { get; set; }
 
-        public IList<RozKpiApiTeacherScheduleDay> SecondWeek { get; set; }
+        public List<TeacherScheduleDayEntity> SecondWeek { get; set; }
     }
 }

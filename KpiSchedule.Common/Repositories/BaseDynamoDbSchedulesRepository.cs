@@ -1,5 +1,4 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using System.Text.Json;
 
 namespace KpiSchedule.Common.Repositories
 {
@@ -32,7 +31,7 @@ namespace KpiSchedule.Common.Repositories
         {
             if(!schedules.Any())
             {
-                throw new ArgumentException("Argument contains no elements.", nameof(schedules));
+                throw new ArgumentException("Input contains no elements.", nameof(schedules));
             }
 
             var writeSchedules = dynamoDbContext.CreateBatchWrite<TSchedule>();

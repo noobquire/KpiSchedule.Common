@@ -2,13 +2,13 @@
 
 namespace KpiSchedule.Common.Repositories
 {
-    [DynamoDBTable("RozKpiGroupSchedules", LowerCamelCaseProperties = true)]
-    public class GroupScheduleSearchResult
+    [DynamoDBTable("RozKpiTeacherSchedules")]
+    public class TeacherScheduleSearchResult
     {
         [DynamoDBHashKey]
         public Guid scheduleId { get; set; }
 
         [DynamoDBGlobalSecondaryIndexHashKey]
-        public string groupName { get; set; }
+        public string teacherName { get; set; }
     }
 }

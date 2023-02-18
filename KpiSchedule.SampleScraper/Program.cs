@@ -10,6 +10,10 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
+using KpiSchedule.Common.Mappers;
+using AutoMapper;
+using KpiSchedule.Common.Entities.RozKpi;
+using KpiSchedule.Common.Repositories;
 
 Console.OutputEncoding = Encoding.UTF8;
 var config = new ConfigurationBuilder()
@@ -20,13 +24,16 @@ var serviceProvider = new ServiceCollection()
     .AddRozKpiParsers()
     .AddKpiClient<RozKpiApiTeachersClient>(config)
     .AddKpiClient<RozKpiApiGroupsClient>(config)
+    .AddAutoMapper(typeof(RozKpiApiGroupSchedule_GroupScheduleEntity_MapperProfile))
+    .AddDynamoDbSchedulesRepository<RozKpiGroupSchedulesRepository, GroupScheduleEntity>(config)
     .BuildServiceProvider();
 
 var logger = serviceProvider.GetService<ILogger>();
-
+var mapper = serviceProvider.GetService<IMapper>();
+var repository = serviceProvider.GetService<RozKpiGroupSchedulesRepository>();
 var rozKpiApiClient = serviceProvider.GetRequiredService<RozKpiApiGroupsClient>();
 
-var ukrainianAlphabet = "абвгдеєжзиіїйклмнопрстуфхцчшщюя";
+var ukrainianAlphabet = new[] { "ІТ" };//"абвгдеєжзиіїйклмнопрстуфхцчшщюя";
 
 var groupNameTasks = ukrainianAlphabet.Select(async c => await rozKpiApiClient.GetGroups(c.ToString()));
 var groupNames = new List<string>();
@@ -113,3 +120,16 @@ logger.Information("Parsed a total of {schedulesCount} schedules, writing them t
 var schedulesJson = JsonSerializer.Serialize(groupSchedules, options);
 
 File.WriteAllText("schedules.json", schedulesJson);
+
+/*
+ * // Uncomment to write schedules to DynamoDb
+var mappedSchedules = mapper!.Map<IEnumerable<GroupScheduleEntity>>(groupSchedules);
+logger.Information("Writing {schedulesCount} schedules to DynamoDb", groupSchedules.Count);
+await repository!.BatchPutSchedules(mappedSchedules);
+
+var schedulesFromRepo = await repository.SearchScheduleId("ІТ");
+var schedulesDict = schedulesFromRepo.ToDictionary(s => s.scheduleId, s => s.groupName);
+var schedulesDictJson = JsonSerializer.Serialize(schedulesDict, options);
+
+logger.Information("Found those schedules in DynamoDb: {schedules}", schedulesDictJson);
+*/

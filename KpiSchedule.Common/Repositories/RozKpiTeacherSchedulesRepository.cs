@@ -10,10 +10,10 @@ namespace KpiSchedule.Common.Repositories
         {
         }
 
-        public async Task<IEnumerable<GroupScheduleSearchResult>> SearchScheduleId(string searchQuery)
+        public async Task<IEnumerable<TeacherScheduleSearchResult>> SearchScheduleId(string searchQuery)
         {
-            var query = new QueryCondition("groupName", QueryOperator.BeginsWith, searchQuery);
-            var results = await dynamoDbContext.QueryAsync<GroupScheduleSearchResult>(query).GetRemainingAsync();
+            var query = new ScanCondition("teacherName", ScanOperator.BeginsWith, searchQuery);
+            var results = await dynamoDbContext.ScanAsync<TeacherScheduleSearchResult>(new[] { query }).GetRemainingAsync();
             return results;
         }
     }
