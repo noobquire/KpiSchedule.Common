@@ -32,8 +32,8 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
 
             pair.PairNumber = pairNumber;
             var startAndEnd = PairSchedule.GetPairStartAndEnd(pairNumber);
-            pair.StartTime = startAndEnd.pairStart;
-            pair.EndTime = startAndEnd.pairEnd;
+            //pair.StartTime = startAndEnd.pairStart;
+            //pair.EndTime = startAndEnd.pairEnd;
 
             return pair;
         }

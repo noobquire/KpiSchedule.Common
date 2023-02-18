@@ -1,13 +1,14 @@
 ﻿using Serilog;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.ScheduleKpiApi.Responses;
+using KpiSchedule.Common.Clients.Interfaces;
 
 namespace KpiSchedule.Common.Clients
 {
     /// <summary>
-    /// Client used to call schedule.kpi.ua API.
+    /// Client for pulling schedules data from schedule.kpi.ua.
     /// </summary>
-    public class ScheduleKpiApiClient : BaseClient
+    public class ScheduleKpiApiClient : BaseClient, IScheduleKpiApiClient
     {
         private readonly HttpClient client;
 
@@ -21,11 +22,7 @@ namespace KpiSchedule.Common.Clients
             client = clientFactory.CreateClient(nameof(ScheduleKpiApiClient));
         }
 
-        /// <summary>
-        /// Get list of all groups.
-        /// </summary>
-        /// <returns>List of all groups.</returns>
-        /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
+        /// <inheritdoc/>
         public async Task<ScheduleKpiApiGroupsResponse> GetAllGroups()
         {
             string requestApi = "schedule/groups";
@@ -36,11 +33,7 @@ namespace KpiSchedule.Common.Clients
             return groups;
         }
 
-        /// <summary>
-        /// Get list of all teachers.
-        /// </summary>
-        /// <returns>List of all groups.</returns>
-        /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
+        /// <inheritdoc/>
         public async Task<ScheduleKpiApiTeachersResponse> GetAllTeachers()
         {
             string requestApi = "schedule/lecturer/list";
@@ -51,11 +44,7 @@ namespace KpiSchedule.Common.Clients
             return teachers;
         }
 
-        /// <summary>
-        /// Get group schedule for specific group.
-        /// </summary>
-        /// <param name="groupId">Unique group identifier.</param>
-        /// <returns>Group schedule.</returns>
+        /// <inheritdoc/>
         public async Task<ScheduleKpiApiGroupScheduleResponse> GetGroupSchedule(string groupId)
         {
             string requestApi = $"schedule/lessons/?groupId={groupId}";
@@ -66,10 +55,7 @@ namespace KpiSchedule.Common.Clients
             return schedule;
         }
 
-        /// <summary>
-        /// Get schedule current time info.
-        /// </summary>
-        /// <returns>Time info.</returns>
+        /// <inheritdoc/>
         public async Task<ScheduleKpiApiTimeResponse> GetTimeInfo()
         {
             string requestApi = "time/current";
@@ -80,11 +66,7 @@ namespace KpiSchedule.Common.Clients
             return timeInfo;
         }
 
-        /// <summary>
-        /// Get teacher schedule for specific teacher.
-        /// </summary>
-        /// <param name="teacherId">Unique teacher identifier.</param>
-        /// <returns>Teacher schedule.</returns>
+        /// <inheritdoc/>
         public async Task<ScheduleKpiApiTeacherScheduleResponse> GetTeacherSchedule(string teacherId)
         {
             string requestApi = $"schedule/lecturer?lecturerId={teacherId}";

@@ -7,21 +7,19 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>KpiSchedule.Common</PackageId>
 		<PackageProjectUrl>https://github.com/noobquire/KpiSchedule.Common</PackageProjectUrl>
-		<Version>0.2.0</Version>
+		<Version>0.3.0</Version>
 		<Authors>Oleksii Lytvynov</Authors>
 		<Description>
-			This library contains a set of common tools to pull and parse academic schedules for Kyiv Polytechnic Institute.
-			It supports group and teacher schedules with two main data sources: calling schedules.kpi.ua API and parsing schedule pages from roz.kpi.ua.
-			See project page with more details and examples: https://github.com/noobquire/KpiSchedule.Common
+			This library contains a set of common tools to pull and parse academic schedules for Kyiv Polytechnic Institute. It supports group and teacher schedules with two main data sources: calling schedules.kpi.ua API and parsing schedule pages from roz.kpi.ua. See project page with more details and examples: https://github.com/noobquire/KpiSchedule.Common
 		</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Clients\Interfaces\" />
 		<Folder Include="Logging\" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.44" />
 		<PackageReference Include="EnumExtensions.System.Text.Json" Version="1.1.0" />
 		<PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />

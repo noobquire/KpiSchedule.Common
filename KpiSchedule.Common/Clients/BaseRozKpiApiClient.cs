@@ -1,20 +1,16 @@
 ﻿using HtmlAgilityPack;
+using KpiSchedule.Common.Clients.Interfaces;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KpiSchedule.Common.Clients
 {
-    public class BaseRozKpiApiClient : BaseClient
+    public class BaseRozKpiApiClient : BaseClient, IBaseRozKpiClient
     {
         protected HttpClient client;
-        protected string formValidationKeyValue;
+        protected string formValidationValue;
         protected readonly FormValidationParser formValidationParser;
 
         public BaseRozKpiApiClient(ILogger logger, FormValidationParser formValidationParser) : base(logger)
@@ -22,15 +18,11 @@ namespace KpiSchedule.Common.Clients
             this.formValidationParser = formValidationParser;
         }
 
-        /// <summary>
-        /// Get group/teacher schedule page using schedule id.
-        /// </summary>
-        /// <param name="scheduleId">Schedule id.</param>
-        /// <param name="scheduleType">Schedule type key: v for teacher, g for group</param>
-        /// <returns>Schedule HTML document.</returns>
-        public async Task<HtmlDocument> GetSchedulePage(Guid scheduleId, string scheduleType)
+        /// <inheritdoc/>
+        public async Task<HtmlDocument> GetSchedulePage(Guid scheduleId, RozKpiApiScheduleType type = RozKpiApiScheduleType.GroupSchedule)
         {
-            string requestApi = $"ViewSchedule.aspx?{scheduleType}={scheduleId}";
+            var scheduleParamKey = GetScheduleTypeKey(type);
+            string requestApi = $"ViewSchedule.aspx?{scheduleParamKey}={scheduleId}";
 
             var response = await client.GetAsync(requestApi);
 
@@ -56,5 +48,12 @@ namespace KpiSchedule.Common.Clients
         {
             return documentNode.InnerHtml.Contains("Групи з такою назвою не знайдено!");
         }
+
+        private string GetScheduleTypeKey(RozKpiApiScheduleType type) => type switch
+        {
+            RozKpiApiScheduleType.GroupSchedule => "g",
+            RozKpiApiScheduleType.TeacherSchedule => "v",
+            _ => "g"
+        };
     }
 }

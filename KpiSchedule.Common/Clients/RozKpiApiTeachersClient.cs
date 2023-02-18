@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using KpiSchedule.Common.Clients.Interfaces;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Models.RozKpiApi;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
@@ -7,15 +8,24 @@ using Serilog;
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using static KpiSchedule.Common.Clients.RozKpiApiClientConstants;
 
 namespace KpiSchedule.Common.Clients
 {
-    public class RozKpiApiTeachersClient : BaseRozKpiApiClient
+    /// <summary>
+    /// Client for pulling teacher schedules data from roz.kpi.ua.
+    /// </summary>
+    public class RozKpiApiTeachersClient : BaseRozKpiApiClient, IRozKpiApiTeachersClient
     {
         private TeacherSchedulePageParser scheduleParser;
 
+        /// <summary>
+        /// Initialize a new instance of <see cref="RozKpiApiTeachersClient"/> class.
+        /// </summary>
+        /// <param name="clientFactory">HTTP client factory.</param>
+        /// <param name="logger">Logging interface.</param>
+        /// <param name="formValidationParser">Form validation field parser.</param>
+        /// <param name="scheduleParser">Teacher schedules parser.</param>
         public RozKpiApiTeachersClient(
             IHttpClientFactory clientFactory,
             ILogger logger,
@@ -24,8 +34,8 @@ namespace KpiSchedule.Common.Clients
         {
             client = clientFactory.CreateClient(nameof(RozKpiApiTeachersClient));
             client.DefaultRequestHeaders.Host = client.BaseAddress.Host;
-            formValidationKeyValue = GetFormEventValidation().Result;
-            formValidationKeyValue = GetFormEventValidation().Result;
+            formValidationValue = GetFormEventValidation().Result;
+            formValidationValue = GetFormEventValidation().Result;
             this.scheduleParser = scheduleParser;
         }
 
@@ -36,10 +46,7 @@ namespace KpiSchedule.Common.Clients
             return formValidationParser.Parse(teacherSelectionPage.DocumentNode);
         }
 
-        /// <summary>
-        /// Get teacher schedule selection HTML page.
-        /// </summary>
-        /// <returns>Schedule group selection HTML page.</returns>
+        /// <inheritdoc/>
         public async Task<HtmlDocument> GetTeacherSelectionPage()
         {
             string requestApi = "LecturerSelection.aspx";
@@ -58,12 +65,7 @@ namespace KpiSchedule.Common.Clients
         }
 
 
-        /// <summary>
-        /// Get list of teacher names starting with specified prefix.
-        /// </summary>
-        /// <param name="teacherNamePrefix">Teacher name prefix.</param>
-        /// <returns>List of teachers with specified name prefix.</returns>
-        /// <exception cref="KpiScheduleClientException">Unable to deserialize response.</exception>
+        /// <inheritdoc/>
         public async Task<RozKpiApiTeachersList> GetTeachers(string teacherNamePrefix)
         {
             string requestApi = "LecturerSelection.aspx/GetLecturers";
@@ -83,18 +85,14 @@ namespace KpiSchedule.Common.Clients
             return teachers;
         }
 
-        /// <summary>
-        /// Get teacher schedule ID for given teacher name.
-        /// </summary>
-        /// <param name="teacherName">Teacher name.</param>
-        /// <returns>Teacher schedule id.</returns>
+        /// <inheritdoc/>
         public async Task<Guid> GetTeacherScheduleId(string teacherName)
         {
             string requestApi = "ScheduleGroupSelection.aspx";
 
             var requestDictionary = new Dictionary<string, string>()
             {
-                [FORM_EVENT_VALIDATION_KEY] = formValidationKeyValue,
+                [FORM_EVENT_VALIDATION_KEY] = formValidationValue,
                 [FORM_SHOW_SCHEDULE_KEY] = FORM_SHOW_SCHEDULE_VALUE,
                 [FORM_GROUP_NAME_KEY] = teacherName,
                 [FORM_EVENT_TARGET_KEY] = string.Empty
@@ -102,6 +100,7 @@ namespace KpiSchedule.Common.Clients
 
             var request = new FormUrlEncodedContent(requestDictionary);
 
+            logger.Information("Getting scheduleId for teacher {teacherName}", teacherName);
             var response = await client.PostAsync(requestApi, request);
 
             var requestUrl = response.RequestMessage.RequestUri.ToString();
@@ -132,14 +131,10 @@ namespace KpiSchedule.Common.Clients
             return documentNode.InnerHtml.Contains("Викладача з такими даними не знайдено!");
         }
 
-        /// <summary>
-        /// Get parsed <see cref="RozKpiApiTeacherSchedule"/> for given teacher schedule id.
-        /// </summary>
-        /// <param name="groupScheduleId">Teacher schedule id.</param>
-        /// <returns>Parsed teacher schedule.</returns>
+        /// <inheritdoc/>
         public async Task<RozKpiApiTeacherSchedule> GetTeacherSchedule(Guid teacherScheduleId)
         {
-            var schedulePage = await GetSchedulePage(teacherScheduleId, RozKpiApiScheduleType.TEACHER);
+            var schedulePage = await GetSchedulePage(teacherScheduleId, RozKpiApiScheduleType.TeacherSchedule);
 
             var parsedSchedule = scheduleParser.Parse(schedulePage.DocumentNode);
             parsedSchedule.ScheduleId = teacherScheduleId;

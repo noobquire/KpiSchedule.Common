@@ -13,8 +13,8 @@ using System.Text.Unicode;
 
 Console.OutputEncoding = Encoding.UTF8;
 var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+    .AddJsonFile("appsettings.json")
+    .Build();
 var serviceProvider = new ServiceCollection()
     .AddSerilogConsoleLogger(LogEventLevel.Verbose)
     .AddRozKpiParsers()
@@ -36,6 +36,9 @@ foreach (var groupNameTask in groupNameTasks)
     groupNames.AddRange(groupNamesForPrefix.Data);
 }
 
+logger!.Information("Got {groupNamesCount} group names from roz.kpi.ua", groupNames.Count);
+
+int schedulesNotFoundCount = 0;
 var groupScheduleIdTasks = groupNames.Select(async groupName =>
 {
     try
@@ -44,6 +47,7 @@ var groupScheduleIdTasks = groupNames.Select(async groupName =>
     }
     catch (KpiScheduleClientGroupNotFoundException)
     {
+        schedulesNotFoundCount++;
         return Guid.Empty;
     }
 });
@@ -57,6 +61,10 @@ foreach (var groupScheduleIdTask in groupScheduleIdTasks)
         groupScheduleIds.Add(id);
     }
 }
+
+logger.Information("Got {scheduleIdsCount} scheduleIds from roz.kpi.ua, {schedulesNotFoundCount} scheduleIds were not found", groupScheduleIds.Count, schedulesNotFoundCount);
+
+int parserExceptionsCount = 0, clientExceptionsCount = 0, unhandledExceptionsCount = 0;
 var groupScheduleTasks = groupScheduleIds.Select(async id =>
 {
     try
@@ -66,14 +74,17 @@ var groupScheduleTasks = groupScheduleIds.Select(async id =>
     }
     catch (KpiScheduleParserException)
     {
+        parserExceptionsCount++;
         return null;
     }
     catch (KpiScheduleClientException)
     {
+        clientExceptionsCount++;
         return null;
     }
     catch (Exception)
     {
+        unhandledExceptionsCount++;
         logger.Fatal("Caught an unhandled exception when trying to parse scheduleId {scheduleId}", id);
         return null;
     }
@@ -97,6 +108,7 @@ var options = new JsonSerializerOptions
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
 };
 
+logger.Information("Total exceptions caught during parsing: {parserExceptionsCount} during parsing, {clientExceptionsCount} from clients, {unhandledExceptionsCount} unhandled", parserExceptionsCount, clientExceptionsCount, unhandledExceptionsCount);
 logger.Information("Parsed a total of {schedulesCount} schedules, writing them to schedules.json", groupSchedules.Count);
 var schedulesJson = JsonSerializer.Serialize(groupSchedules, options);
 

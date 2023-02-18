@@ -70,7 +70,7 @@ namespace KpiSchedule.Common.IntegrationTests
         [Test]
         public async Task GetGroupScheduleIds_ConflictingGroupNames_ShouldReturnAllScheduleGroupIds()
         {
-            var groupName = "БМ-01";
+            var groupName = "conflict";
             var scheduleIds = (await client.GetGroupScheduleIds(groupName));
 
             var expectedIds = new[] 
@@ -87,7 +87,7 @@ namespace KpiSchedule.Common.IntegrationTests
         {
             var groupId = new Guid("13623e82-3f89-4815-b475-df7f442832e6");
             var groupName = "ІТ-04";
-            var page = await client.GetSchedulePage(groupId, "g");
+            var page = await client.GetSchedulePage(groupId, RozKpiApiScheduleType.GroupSchedule);
 
             page.DocumentNode.OuterHtml.Should().Contain($"Розклад занять для {groupName}");
         }
