@@ -3,29 +3,17 @@ using KpiSchedule.Common.Models.RozKpiApi;
 
 namespace KpiSchedule.Common.Entities.RozKpi
 {
-    [DynamoDBTable("RozKpiGroupSchedules", LowerCamelCaseProperties = true)]
-    public class GroupScheduleEntity
+    [DynamoDBTable("RozKpiTeacherSchedules", LowerCamelCaseProperties = true)]
+    public class TeacherScheduleEntity
     {
         [DynamoDBHashKey]
         public Guid ScheduleId { get; set; }
 
         [DynamoDBGlobalSecondaryIndexHashKey]
-        public string GroupName { get; set; }
+        public string TeacherName { get; set; }
 
-        public IList<RozKpiApiGroupScheduleDay> FirstWeek { get; set; }
+        public IList<RozKpiApiTeacherScheduleDay> FirstWeek { get; set; }
 
-        public IList<RozKpiApiGroupScheduleDay> SecondWeek { get; set; }
-
-        public GroupScheduleEntity()
-        {
-        }
-
-        public GroupScheduleEntity(RozKpiApiGroupSchedule rozKpiSchedule)
-        {
-            this.ScheduleId = rozKpiSchedule.ScheduleId;
-            this.FirstWeek = rozKpiSchedule.FirstWeek;
-            this.SecondWeek = rozKpiSchedule.SecondWeek;
-            this.GroupName = rozKpiSchedule.GroupName;
-        }
+        public IList<RozKpiApiTeacherScheduleDay> SecondWeek { get; set; }
     }
 }

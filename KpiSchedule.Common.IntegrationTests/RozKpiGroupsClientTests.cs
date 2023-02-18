@@ -70,7 +70,7 @@ namespace KpiSchedule.Common.IntegrationTests
         [Test]
         public async Task GetGroupScheduleIds_ConflictingGroupNames_ShouldReturnAllScheduleGroupIds()
         {
-            var groupName = "conflict";
+            var groupName = "БМ-01";
             var scheduleIds = (await client.GetGroupScheduleIds(groupName));
 
             var expectedIds = new[] 

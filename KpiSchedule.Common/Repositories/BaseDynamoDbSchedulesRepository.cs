@@ -1,4 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using System.Text.Json;
 
 namespace KpiSchedule.Common.Repositories
 {

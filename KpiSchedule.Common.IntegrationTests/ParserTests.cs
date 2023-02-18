@@ -23,11 +23,11 @@ namespace KpiSchedule.Common.IntegrationTests
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            var groupScheduleHtml = File.ReadAllText("RozKpiApiResponses/group-schedule-page.html");
+            var groupScheduleHtml = File.ReadAllText("TestData/RozKpiApiResponses/group-schedule-page.html");
             groupScheduleDocument = new HtmlDocument();
             groupScheduleDocument.LoadHtml(groupScheduleHtml);
 
-            var conflictingGroupsListHtml = File.ReadAllText("RozKpiApiResponses/group-selection-name-conflict-page.html");
+            var conflictingGroupsListHtml = File.ReadAllText("TestData/RozKpiApiResponses/group-selection-name-conflict-page.html");
             conflictingGroupsListDocument = new HtmlDocument();
             conflictingGroupsListDocument.LoadHtml(conflictingGroupsListHtml);
         }

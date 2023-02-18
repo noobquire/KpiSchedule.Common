@@ -29,28 +29,31 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RozKpiApiResponses\extramural-group-schedule-page.html">
+    <None Update="TestData\RozKpiApiResponses\extramural-group-schedule-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RozKpiApiResponses\group-selection-name-conflict-page.html">
+    <None Update="TestData\RozKpiApiResponses\group-selection-name-conflict-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RozKpiApiResponses\groups.json">
+    <None Update="TestData\RozKpiApiResponses\groups.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RozKpiApiResponses\group-schedule-page.html">
+    <None Update="TestData\RozKpiApiResponses\group-schedule-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RozKpiApiResponses\group-selection-page.html">
+    <None Update="TestData\RozKpiApiResponses\group-selection-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RozKpiApiResponses\lecturer-schedule-page.html">
+    <None Update="TestData\RozKpiApiResponses\lecturer-schedule-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RozKpiApiResponses\lecturer-selection-page.html">
+    <None Update="TestData\RozKpiApiResponses\lecturer-selection-page.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="RozKpiApiResponses\teachers.json">
+    <None Update="TestData\RozKpiApiResponses\teachers.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\testGroupSchedule.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -45,55 +45,55 @@ namespace KpiSchedule.Common.IntegrationTests
             var mockHandler = new MockHttpMessageHandler();
 
             // Get groups
-            var groupsResponse = File.ReadAllText("RozKpiApiResponses/groups.json");
+            var groupsResponse = File.ReadAllText("TestData/RozKpiApiResponses/groups.json");
             mockHandler
                 .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx/GetGroups")
                 .Respond("application/json", groupsResponse);
 
             // Get group schedule
-            var groupScheduleResponse = File.ReadAllText("RozKpiApiResponses/group-schedule-page.html");
+            var groupScheduleResponse = File.ReadAllText("TestData/RozKpiApiResponses/group-schedule-page.html");
             mockHandler
                 .When(HttpMethod.Get, "http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=13623e82-3f89-4815-b475-df7f442832e6")
                 .Respond("text/html", groupScheduleResponse);
 
             // Get teachers
-            var teachersResponse = File.ReadAllText("RozKpiApiResponses/teachers.json");
+            var teachersResponse = File.ReadAllText("TestData/RozKpiApiResponses/teachers.json");
             mockHandler
                 .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/LecturerSelection.aspx/GetLecturers")
                 .Respond("application/json", teachersResponse);
 
             // Get group selection page 
-            var groupSelectionResponse = File.ReadAllText("RozKpiApiResponses/group-selection-page.html");
+            var groupSelectionResponse = File.ReadAllText("TestData/RozKpiApiResponses/group-selection-page.html");
             mockHandler
                 .When(HttpMethod.Get, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx")
                 .Respond("text/html", groupSelectionResponse);
 
             // Get teacher selection page
-            var teacherSelectionResponse = File.ReadAllText("RozKpiApiResponses/lecturer-selection-page.html");
+            var teacherSelectionResponse = File.ReadAllText("TestData/RozKpiApiResponses/lecturer-selection-page.html");
             mockHandler
                 .When(HttpMethod.Get, "http://epi.kpi.ua/Schedules/LecturerSelection.aspx")
                 .Respond("text/html", teacherSelectionResponse);
 
             // Get teacher schedule
-            var teacherScheduleResponse = File.ReadAllText("RozKpiApiResponses/lecturer-schedule-page.html");
+            var teacherScheduleResponse = File.ReadAllText("TestData/RozKpiApiResponses/lecturer-schedule-page.html");
             mockHandler
                 .When(HttpMethod.Get, "http://epi.kpi.ua/Schedules/ViewSchedule.aspx?v=de47207f-8e13-4747-8654-9d29f7d01e89")
                 .Respond("text/html", teacherScheduleResponse);
 
             // Get group name conflict
-            var groupNameConflictResponse = File.ReadAllText("RozKpiApiResponses/group-selection-name-conflict-page.html");
+            var groupNameConflictResponse = File.ReadAllText("TestData/RozKpiApiResponses/group-selection-name-conflict-page.html");
             mockHandler
                 .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx")
                 .WithHeaders(RozKpiApiClientConstants.FORM_GROUP_NAME_KEY, "БМ-01")
                 .Respond("text/html", groupNameConflictResponse);
 
             // Get schedule with unparsable table
-            var extramuralGroupScheduleResponse = File.ReadAllText("RozKpiApiResponses/extramural-group-schedule-page.html");
+            var extramuralGroupScheduleResponse = File.ReadAllText("TestData/RozKpiApiResponses/extramural-group-schedule-page.html");
             mockHandler
                 .When(HttpMethod.Get, "http://epi.kpi.ua/Schedules/ViewSchedule.aspx?g=2d3e0d7f-2cf9-488a-8b94-a82e5798cfe2")
                 .Respond("text/html", extramuralGroupScheduleResponse);
             
-            // Get schedule 
+            // Get schedule id
             mockHandler
                 .When(HttpMethod.Post, "http://epi.kpi.ua/Schedules/ScheduleGroupSelection.aspx")
                 .WithHeaders(RozKpiApiClientConstants.FORM_GROUP_NAME_KEY, "ІТ-04")

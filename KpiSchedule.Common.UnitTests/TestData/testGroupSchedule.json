@@ -1,0 +1,1097 @@
+﻿{
+  "scheduleId": "606c1db1-0c7f-45e1-a4a0-60a06ad72eea",
+  "firstWeek": [
+    {
+      "dayNumber": 1,
+      "pairs": [
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Групова динаміка та комунікації",
+            "subjectName": "Групова динаміка та комунікації"
+          },
+          "teachers": [
+            {
+              "scheduleId": "8ec3f3d5-cd4c-4eaa-a834-ff56934b60b3",
+              "fullName": "посада Ясенова Анна Вадимівна",
+              "shortName": "пос. Ясенова А. В."
+            }
+          ],
+          "type": "prac"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Системне програмне забезпечення",
+            "subjectName": "Системне програмне забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "70691434-2783-4cbc-9e79-c9070f52f7f8",
+              "fullName": "посада Пархоменко Андрій Володимирович",
+              "shortName": "пос. Пархоменко А. В."
+            }
+          ],
+          "type": "lab"
+        }
+      ]
+    },
+    {
+      "dayNumber": 2,
+      "pairs": [
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Вступ до розробки програмного забезпечення",
+            "subjectName": "Вступ до розробки програмного забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "f1ad598f-3968-4de6-98a7-cfced073066c",
+              "fullName": "посада Солдатова Марія Олександрівна",
+              "shortName": "пос. Солдатова М. О."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Практикум з Linux",
+            "subjectName": "Практикум з Linux"
+          },
+          "teachers": [
+            {
+              "scheduleId": "d21647af-8e11-4d68-84a0-0f55160865f6",
+              "fullName": "асистент Храмченко Микола Сергійович",
+              "shortName": "ас. Храмченко М. С."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Основи розробки програмного забезпечення на платформі Node.JS",
+            "subjectName": "Основи розробки програмного забезпечення на платформі Node.JS"
+          },
+          "teachers": [
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Основи розробки програмного забезпечення на платформі Microsoft.NET",
+            "subjectName": "Основи розробки програмного забезпечення на платформі Microsoft.NET"
+          },
+          "teachers": [
+            {
+              "scheduleId": "05d730a0-ee34-4c53-a239-7226f96edf21",
+              "fullName": "доцент Ліщук Катерина Ігорівна",
+              "shortName": "доц. Ліщук К. І."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Основи розробки програмного забезпечення на платформі Java",
+            "subjectName": "Основи розробки програмного забезпечення на платформі Java"
+          },
+          "teachers": [
+            {
+              "scheduleId": "d9aba0f1-0b29-4762-80b8-f5351e6f542c",
+              "fullName": "доцент Іванова Любов Миколаївна",
+              "shortName": "доц. Іванова Л. М."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Комп’ютерна графіка та мультимедіа",
+            "subjectName": "Комп’ютерна графіка та мультимедіа"
+          },
+          "teachers": [
+            {
+              "scheduleId": "2e9f2c75-20e4-47a8-ae34-6d5dd79ac8cb",
+              "fullName": "старший викладач Хмелюк Марина Сергіївна",
+              "shortName": "ст.вик. Хмелюк М. С."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Системне програмне забезпечення",
+            "subjectName": "Системне програмне забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "de47207f-8e13-4747-8654-9d29f7d01e89",
+              "fullName": "доцент Лісовиченко Олег Іванович",
+              "shortName": "доц. Лісовиченко О. І."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "13:55:00",
+          "isOnline": true,
+          "pairNumber": 3,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "12:20:00",
+          "subject": {
+            "subjectFullName": "Ймовірнісні моделі та статистичне оцінювання в інформаційних системах",
+            "subjectName": "Ймовірнісні моделі та статистичне оцінювання в інформаційних системах"
+          },
+          "teachers": [
+            {
+              "scheduleId": "3838af4d-0413-4ae4-832f-6a01d459f725",
+              "fullName": "професор Павлов Олександр Анатолійович",
+              "shortName": "проф. Павлов О. А."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "17:45:00",
+          "isOnline": true,
+          "pairNumber": 5,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "16:10:00",
+          "subject": {
+            "subjectFullName": "Основи розробки програмного забезпечення на платформі Java",
+            "subjectName": "Основи розробки програмного забезпечення на платформі Java"
+          },
+          "teachers": [
+            {
+              "scheduleId": "d9aba0f1-0b29-4762-80b8-f5351e6f542c",
+              "fullName": "доцент Іванова Любов Миколаївна",
+              "shortName": "доц. Іванова Л. М."
+            }
+          ],
+          "type": "lab"
+        },
+        {
+          "endTime": "17:45:00",
+          "isOnline": true,
+          "pairNumber": 5,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "16:10:00",
+          "subject": {
+            "subjectFullName": "Основи розробки програмного забезпечення на платформі Microsoft.NET",
+            "subjectName": "Основи розробки програмного забезпечення на платформі Microsoft.NET"
+          },
+          "teachers": [
+            {
+              "scheduleId": "f28a0f7e-3025-49ca-8a49-1aaf23b9d2b9",
+              "fullName": "доцент Крамар Юлія Михайлівна",
+              "shortName": "доц. Крамар Ю. М."
+            }
+          ],
+          "type": "lab"
+        },
+        {
+          "endTime": "17:45:00",
+          "isOnline": true,
+          "pairNumber": 5,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "16:10:00",
+          "subject": {
+            "subjectFullName": "Основи розробки програмного забезпечення на платформі Node.JS",
+            "subjectName": "Основи розробки програмного забезпечення на платформі Node.JS"
+          },
+          "teachers": [
+            {
+              "scheduleId": "ca6d004b-9804-47c6-a3b5-709da2ebfa9c",
+              "fullName": "асистент Носов Костянтин Сергійович",
+              "shortName": "ас. Носов К. С."
+            }
+          ],
+          "type": "lab"
+        }
+      ]
+    },
+    {
+      "dayNumber": 3,
+      "pairs": [
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Основи підприємницької діяльності",
+            "subjectName": "Основи підприємницької діяльності"
+          },
+          "teachers": [
+            {
+              "scheduleId": "2ad33310-ca47-493a-bcf2-c785978bcfbd",
+              "fullName": "доцент Кавтиш Оксана Петрівна",
+              "shortName": "доц. Кавтиш О. П."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Стилі в образотворчому мистецтві",
+            "subjectName": "Стилі в образотворчому мистецтві"
+          },
+          "teachers": [
+            {
+              "scheduleId": "907a4f06-cdc6-4a74-9582-605679f7039d",
+              "fullName": "професор Оляніна Світлана Валеріївна",
+              "shortName": "проф. Оляніна С. В."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Основи академічної доброчесності",
+            "subjectName": "Основи академічної доброчесності"
+          },
+          "teachers": [
+            {
+              "scheduleId": "105b2770-31b6-478b-90ea-b7ec3890ea01",
+              "fullName": "старший викладач Кулик Євгенія Володимирівна",
+              "shortName": "ст.вик. Кулик Є. В."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Корпоративна культура та діловий етикет",
+            "subjectName": "Корпоративна культура та діловий етикет"
+          },
+          "teachers": [
+            {
+              "scheduleId": "f282b40e-5a40-4f25-9af4-58fba13d7ef7",
+              "fullName": "старший викладач Тимошенко Наталія Леонідівна",
+              "shortName": "ст.вик. Тимошенко Н. Л."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Естетика промислового дизайну",
+            "subjectName": "Естетика промислового дизайну"
+          },
+          "teachers": [
+            {
+              "scheduleId": "22576087-cbb4-4f23-8ff5-778d9a5d2f72",
+              "fullName": "старший викладач Кузіна Ольга Юріївна",
+              "shortName": "ст.вик. Кузіна О. Ю."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "15:50:00",
+          "isOnline": true,
+          "pairNumber": 4,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "14:15:00",
+          "subject": {
+            "subjectFullName": "Естетика промислового дизайну",
+            "subjectName": "Естетика промислового дизайну"
+          },
+          "teachers": [
+            {
+              "scheduleId": "22576087-cbb4-4f23-8ff5-778d9a5d2f72",
+              "fullName": "старший викладач Кузіна Ольга Юріївна",
+              "shortName": "ст.вик. Кузіна О. Ю."
+            }
+          ],
+          "type": "prac"
+        }
+      ]
+    },
+    {
+      "dayNumber": 4,
+      "pairs": [
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Компоненти програмної інженерії. Частина 3. Архітектура програмного забезпечення",
+            "subjectName": "Компоненти програмної інженерії. Частина 3. Архітектура програмного забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "07480d3e-0d28-4f81-9fb0-9cf8fc24e3ae",
+              "fullName": "старший викладач Сирота Олена Петрівна",
+              "shortName": "ст.вик. Сирота О. П."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Групова динаміка та комунікації",
+            "subjectName": "Групова динаміка та комунікації"
+          },
+          "teachers": [
+            {
+              "scheduleId": "318f7459-ddf0-47ee-b882-5650e756cf2a",
+              "fullName": "старший викладач Халус Олена Андріївна",
+              "shortName": "ст.вик. Халус О. А."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "13:55:00",
+          "isOnline": true,
+          "pairNumber": 3,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "12:20:00",
+          "subject": {
+            "subjectFullName": "Аналіз даних в інформаційних системах",
+            "subjectName": "Аналіз даних в інформаційних системах"
+          },
+          "teachers": [
+            {
+              "scheduleId": "54cc0c0b-b177-4272-aed7-aedcd7a4d81f",
+              "fullName": "посада Ліхоузова Тетяна Анатоліївна",
+              "shortName": "пос. Ліхоузова Т. А."
+            },
+            {
+              "scheduleId": "a0c27e81-86a5-49b4-a8fe-8ea5d69a3269",
+              "fullName": "старший викладач Олійник Юрій Олександрович",
+              "shortName": "ст.вик. Олійник Ю. О."
+            }
+          ],
+          "type": "lecture"
+        }
+      ]
+    },
+    {
+      "dayNumber": 5,
+      "pairs": [
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Компоненти програмної інженерії. Частина 3. Архітектура програмного забезпечення",
+            "subjectName": "Компоненти програмної інженерії. Частина 3. Архітектура програмного забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "8114f9c2-4192-4315-a4ad-3fba7007bb18",
+              "fullName": "посада Сопов Олексій Олександрович",
+              "shortName": "пос. Сопов О. О."
+            }
+          ],
+          "type": "lab"
+        },
+        {
+          "endTime": "13:55:00",
+          "isOnline": true,
+          "pairNumber": 3,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "12:20:00",
+          "subject": {
+            "subjectFullName": "Ймовірнісні моделі та статистичне оцінювання в інформаційних системах",
+            "subjectName": "Ймовірнісні моделі та статистичне оцінювання в інформаційних системах"
+          },
+          "teachers": [
+            {
+              "scheduleId": "63180cd9-39cf-450a-a0a4-942dad857af0",
+              "fullName": "старший викладач Вєчерковська Анастасія Сергіївна",
+              "shortName": "ст.вик. Вєчерковська А. С."
+            }
+          ],
+          "type": "prac"
+        }
+      ]
+    },
+    {
+      "dayNumber": 6,
+      "pairs": [
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Практичний курс іноземної мови. Частина 2",
+            "subjectName": "Практичний курс іноземної мови. Частина 2"
+          },
+          "teachers": [
+            {
+              "scheduleId": "c630606d-c286-46cd-bf33-85307498a711",
+              "fullName": "викладач Бойко Ірина Віталіївна",
+              "shortName": "вик. Бойко І. В."
+            }
+          ],
+          "type": "prac"
+        }
+      ]
+    }
+  ],
+  "groupName": "ІП-14",
+  "secondWeek": [
+    {
+      "dayNumber": 1,
+      "pairs": [
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Групова динаміка та комунікації",
+            "subjectName": "Групова динаміка та комунікації"
+          },
+          "teachers": [
+            {
+              "scheduleId": "8ec3f3d5-cd4c-4eaa-a834-ff56934b60b3",
+              "fullName": "посада Ясенова Анна Вадимівна",
+              "shortName": "пос. Ясенова А. В."
+            }
+          ],
+          "type": "prac"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Системне програмне забезпечення",
+            "subjectName": "Системне програмне забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "70691434-2783-4cbc-9e79-c9070f52f7f8",
+              "fullName": "посада Пархоменко Андрій Володимирович",
+              "shortName": "пос. Пархоменко А. В."
+            }
+          ],
+          "type": "lab"
+        }
+      ]
+    },
+    {
+      "dayNumber": 2,
+      "pairs": [
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Вступ до розробки програмного забезпечення",
+            "subjectName": "Вступ до розробки програмного забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "f1ad598f-3968-4de6-98a7-cfced073066c",
+              "fullName": "посада Солдатова Марія Олександрівна",
+              "shortName": "пос. Солдатова М. О."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Практикум з Linux",
+            "subjectName": "Практикум з Linux"
+          },
+          "teachers": [
+            {
+              "scheduleId": "d21647af-8e11-4d68-84a0-0f55160865f6",
+              "fullName": "асистент Храмченко Микола Сергійович",
+              "shortName": "ас. Храмченко М. С."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Основи розробки програмного забезпечення на платформі Node.JS",
+            "subjectName": "Основи розробки програмного забезпечення на платформі Node.JS"
+          },
+          "teachers": [
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Основи розробки програмного забезпечення на платформі Microsoft.NET",
+            "subjectName": "Основи розробки програмного забезпечення на платформі Microsoft.NET"
+          },
+          "teachers": [
+            {
+              "scheduleId": "05d730a0-ee34-4c53-a239-7226f96edf21",
+              "fullName": "доцент Ліщук Катерина Ігорівна",
+              "shortName": "доц. Ліщук К. І."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Основи розробки програмного забезпечення на платформі Java",
+            "subjectName": "Основи розробки програмного забезпечення на платформі Java"
+          },
+          "teachers": [
+            {
+              "scheduleId": "d9aba0f1-0b29-4762-80b8-f5351e6f542c",
+              "fullName": "доцент Іванова Любов Миколаївна",
+              "shortName": "доц. Іванова Л. М."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Комп’ютерна графіка та мультимедіа",
+            "subjectName": "Комп’ютерна графіка та мультимедіа"
+          },
+          "teachers": [
+            {
+              "scheduleId": "2e9f2c75-20e4-47a8-ae34-6d5dd79ac8cb",
+              "fullName": "старший викладач Хмелюк Марина Сергіївна",
+              "shortName": "ст.вик. Хмелюк М. С."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Системне програмне забезпечення",
+            "subjectName": "Системне програмне забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "de47207f-8e13-4747-8654-9d29f7d01e89",
+              "fullName": "доцент Лісовиченко Олег Іванович",
+              "shortName": "доц. Лісовиченко О. І."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "13:55:00",
+          "isOnline": true,
+          "pairNumber": 3,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "12:20:00",
+          "subject": {
+            "subjectFullName": "Ймовірнісні моделі та статистичне оцінювання в інформаційних системах",
+            "subjectName": "Ймовірнісні моделі та статистичне оцінювання в інформаційних системах"
+          },
+          "teachers": [
+            {
+              "scheduleId": "3838af4d-0413-4ae4-832f-6a01d459f725",
+              "fullName": "професор Павлов Олександр Анатолійович",
+              "shortName": "проф. Павлов О. А."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "17:45:00",
+          "isOnline": true,
+          "pairNumber": 5,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "16:10:00",
+          "subject": {
+            "subjectFullName": "Практикум з Linux",
+            "subjectName": "Практикум з Linux"
+          },
+          "teachers": [
+            {
+              "scheduleId": "d21647af-8e11-4d68-84a0-0f55160865f6",
+              "fullName": "асистент Храмченко Микола Сергійович",
+              "shortName": "ас. Храмченко М. С."
+            }
+          ],
+          "type": "lab"
+        }
+      ]
+    },
+    {
+      "dayNumber": 3,
+      "pairs": [
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Основи академічної доброчесності",
+            "subjectName": "Основи академічної доброчесності"
+          },
+          "teachers": [
+            {
+              "scheduleId": "105b2770-31b6-478b-90ea-b7ec3890ea01",
+              "fullName": "старший викладач Кулик Євгенія Володимирівна",
+              "shortName": "ст.вик. Кулик Є. В."
+            }
+          ],
+          "type": "prac"
+        },
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Корпоративна культура та діловий етикет",
+            "subjectName": "Корпоративна культура та діловий етикет"
+          },
+          "teachers": [
+            {
+              "scheduleId": "f282b40e-5a40-4f25-9af4-58fba13d7ef7",
+              "fullName": "старший викладач Тимошенко Наталія Леонідівна",
+              "shortName": "ст.вик. Тимошенко Н. Л."
+            }
+          ],
+          "type": "prac"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Основи підприємницької діяльності",
+            "subjectName": "Основи підприємницької діяльності"
+          },
+          "teachers": [
+            {
+              "scheduleId": "2ad33310-ca47-493a-bcf2-c785978bcfbd",
+              "fullName": "доцент Кавтиш Оксана Петрівна",
+              "shortName": "доц. Кавтиш О. П."
+            }
+          ],
+          "type": "prac"
+        },
+        {
+          "endTime": "17:45:00",
+          "isOnline": true,
+          "pairNumber": 5,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "16:10:00",
+          "subject": {
+            "subjectFullName": "Вступ до розробки програмного забезпечення",
+            "subjectName": "Вступ до розробки програмного забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "f1ad598f-3968-4de6-98a7-cfced073066c",
+              "fullName": "посада Солдатова Марія Олександрівна",
+              "shortName": "пос. Солдатова М. О."
+            }
+          ],
+          "type": "lab"
+        },
+        {
+          "endTime": "17:45:00",
+          "isOnline": true,
+          "pairNumber": 5,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "16:10:00",
+          "subject": {
+            "subjectFullName": "Комп’ютерна графіка та мультимедіа",
+            "subjectName": "Комп’ютерна графіка та мультимедіа"
+          },
+          "teachers": [
+            {
+              "scheduleId": "2e9f2c75-20e4-47a8-ae34-6d5dd79ac8cb",
+              "fullName": "старший викладач Хмелюк Марина Сергіївна",
+              "shortName": "ст.вик. Хмелюк М. С."
+            }
+          ],
+          "type": "lab"
+        }
+      ]
+    },
+    {
+      "dayNumber": 4,
+      "pairs": [
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Компоненти програмної інженерії. Частина 3. Архітектура програмного забезпечення",
+            "subjectName": "Компоненти програмної інженерії. Частина 3. Архітектура програмного забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "07480d3e-0d28-4f81-9fb0-9cf8fc24e3ae",
+              "fullName": "старший викладач Сирота Олена Петрівна",
+              "shortName": "ст.вик. Сирота О. П."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Групова динаміка та комунікації",
+            "subjectName": "Групова динаміка та комунікації"
+          },
+          "teachers": [
+            {
+              "scheduleId": "318f7459-ddf0-47ee-b882-5650e756cf2a",
+              "fullName": "старший викладач Халус Олена Андріївна",
+              "shortName": "ст.вик. Халус О. А."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "13:55:00",
+          "isOnline": true,
+          "pairNumber": 3,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "12:20:00",
+          "subject": {
+            "subjectFullName": "Аналіз даних в інформаційних системах",
+            "subjectName": "Аналіз даних в інформаційних системах"
+          },
+          "teachers": [
+            {
+              "scheduleId": "54cc0c0b-b177-4272-aed7-aedcd7a4d81f",
+              "fullName": "посада Ліхоузова Тетяна Анатоліївна",
+              "shortName": "пос. Ліхоузова Т. А."
+            },
+            {
+              "scheduleId": "a0c27e81-86a5-49b4-a8fe-8ea5d69a3269",
+              "fullName": "старший викладач Олійник Юрій Олександрович",
+              "shortName": "ст.вик. Олійник Ю. О."
+            }
+          ],
+          "type": "lecture"
+        },
+        {
+          "endTime": "15:50:00",
+          "isOnline": true,
+          "pairNumber": 4,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "14:15:00",
+          "subject": {
+            "subjectFullName": "Ймовірнісні моделі та статистичне оцінювання в інформаційних системах",
+            "subjectName": "Ймовірнісні моделі та статистичне оцінювання в інформаційних системах"
+          },
+          "teachers": [
+            {
+              "scheduleId": "3838af4d-0413-4ae4-832f-6a01d459f725",
+              "fullName": "професор Павлов Олександр Анатолійович",
+              "shortName": "проф. Павлов О. А."
+            }
+          ],
+          "type": "lecture"
+        }
+      ]
+    },
+    {
+      "dayNumber": 5,
+      "pairs": [
+        {
+          "endTime": "10:05:00",
+          "isOnline": true,
+          "pairNumber": 1,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "08:30:00",
+          "subject": {
+            "subjectFullName": "Стилі в образотворчому мистецтві",
+            "subjectName": "Стилі в образотворчому мистецтві"
+          },
+          "teachers": [
+            {
+              "scheduleId": "907a4f06-cdc6-4a74-9582-605679f7039d",
+              "fullName": "професор Оляніна Світлана Валеріївна",
+              "shortName": "проф. Оляніна С. В."
+            }
+          ],
+          "type": "prac"
+        },
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Компоненти програмної інженерії. Частина 3. Архітектура програмного забезпечення",
+            "subjectName": "Компоненти програмної інженерії. Частина 3. Архітектура програмного забезпечення"
+          },
+          "teachers": [
+            {
+              "scheduleId": "8114f9c2-4192-4315-a4ad-3fba7007bb18",
+              "fullName": "посада Сопов Олексій Олександрович",
+              "shortName": "пос. Сопов О. О."
+            }
+          ],
+          "type": "lab"
+        },
+        {
+          "endTime": "13:55:00",
+          "isOnline": true,
+          "pairNumber": 3,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "12:20:00",
+          "subject": {
+            "subjectFullName": "Аналіз даних в інформаційних системах",
+            "subjectName": "Аналіз даних в інформаційних системах"
+          },
+          "teachers": [
+            {
+              "scheduleId": "a0c27e81-86a5-49b4-a8fe-8ea5d69a3269",
+              "fullName": "старший викладач Олійник Юрій Олександрович",
+              "shortName": "ст.вик. Олійник Ю. О."
+            }
+          ],
+          "type": "lab"
+        }
+      ]
+    },
+    {
+      "dayNumber": 6,
+      "pairs": [
+        {
+          "endTime": "12:00:00",
+          "isOnline": true,
+          "pairNumber": 2,
+          "rooms": [
+            "-18"
+          ],
+          "startTime": "10:25:00",
+          "subject": {
+            "subjectFullName": "Практичний курс іноземної мови. Частина 2",
+            "subjectName": "Практичний курс іноземної мови. Частина 2"
+          },
+          "teachers": [
+            {
+              "scheduleId": "c630606d-c286-46cd-bf33-85307498a711",
+              "fullName": "викладач Бойко Ірина Віталіївна",
+              "shortName": "вик. Бойко І. В."
+            }
+          ],
+          "type": "prac"
+        }
+      ]
+    }
+  ]
+}

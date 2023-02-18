@@ -1,31 +1,20 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using KpiSchedule.Common.Models.RozKpiApi;
 
 namespace KpiSchedule.Common.Entities.RozKpi
 {
     [DynamoDBTable("RozKpiGroupSchedules", LowerCamelCaseProperties = true)]
-    public class TeacherScheduleEntity
+    public class GroupScheduleEntity
     {
         [DynamoDBHashKey]
         public Guid ScheduleId { get; set; }
 
         [DynamoDBGlobalSecondaryIndexHashKey]
-        public string TeacherName { get; set; }
+        public string GroupName { get; set; }
 
-        public IList<RozKpiApiTeacherScheduleDay> FirstWeek { get; set; }
+        [DynamoDBProperty]
+        public List<GroupScheduleDayEntity> FirstWeek { get; set; }
 
-        public IList<RozKpiApiTeacherScheduleDay> SecondWeek { get; set; }
-
-        public TeacherScheduleEntity()
-        {
-        }
-
-        public TeacherScheduleEntity(RozKpiApiTeacherSchedule rozKpiSchedule)
-        {
-            this.ScheduleId = rozKpiSchedule.ScheduleId;
-            this.FirstWeek = rozKpiSchedule.FirstWeek;
-            this.SecondWeek = rozKpiSchedule.SecondWeek;
-            this.TeacherName = rozKpiSchedule.TeacherName;
-        }
+        [DynamoDBProperty]
+        public List<GroupScheduleDayEntity> SecondWeek { get; set; }
     }
 }
