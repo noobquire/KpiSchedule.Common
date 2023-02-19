@@ -18,13 +18,14 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
             services.AddScoped<GroupScheduleWeekTableParser>();
             services.AddScoped<FormValidationParser>();
             services.AddScoped<ConflictingGroupNamesParser>();
-            services.AddScoped<PairInfoInScheduleCellParser>();
+            services.AddScoped<PairInfoInGroupScheduleCellParser>();
             services.AddScoped<TeachersInGroupScheduleCellParser>();
             services.AddScoped<GroupSchedulePairDataGroupper>();
 
             services.AddScoped<TeacherSchedulePageParser>();
             services.AddScoped<TeacherScheduleWeekTableParser>();
             services.AddScoped<TeacherScheduleCellParser>();
+            services.AddScoped<PairInfoInTeacherScheduleCellParser>();
             return services;
         }
     }

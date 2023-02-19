@@ -1,5 +1,4 @@
 ﻿using HtmlAgilityPack;
-using KpiSchedule.Common.Models;
 using KpiSchedule.Common.Models.RozKpiApi;
 using KpiSchedule.Common.Parsers.GroupSchedulePage;
 using Serilog;
@@ -8,9 +7,9 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
 {
     public class TeacherScheduleCellParser : BaseParser<RozKpiApiTeacherPair>
     {
-        private readonly PairInfoInScheduleCellParser pairInfoParser;
+        private readonly PairInfoInTeacherScheduleCellParser pairInfoParser;
 
-        public TeacherScheduleCellParser(ILogger logger, PairInfoInScheduleCellParser pairInfoParser) : base(logger)
+        public TeacherScheduleCellParser(ILogger logger, PairInfoInTeacherScheduleCellParser pairInfoParser) : base(logger)
         {
             this.pairInfoParser = pairInfoParser;
         }
@@ -32,13 +31,13 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
 
             pair.PairNumber = pairNumber;
             var startAndEnd = PairSchedule.GetPairStartAndEnd(pairNumber);
-            //pair.StartTime = startAndEnd.pairStart;
-            //pair.EndTime = startAndEnd.pairEnd;
+            pair.StartTime = startAndEnd.pairStart;
+            pair.EndTime = startAndEnd.pairEnd;
 
             return pair;
         }
 
-        private RozKpiApiTeacherPair GroupPairData(string subjectName, string fullSubjectName, IEnumerable<string> groupNames, IEnumerable<RozKpiApiPairInfo> pairInfos)
+        private RozKpiApiTeacherPair GroupPairData(string subjectName, string fullSubjectName, IEnumerable<string> groupNames, RozKpiApiPairInfo pairInfo)
         {
             var subject = new RozKpiApiSubject()
             {
@@ -49,10 +48,10 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
             var pair = new RozKpiApiTeacherPair()
             {
                 Subject = subject,
-                Type = pairInfos.FirstOrDefault()?.PairType ?? PairType.Lecture,
-                Rooms = pairInfos?.SelectMany(pi => pi.Rooms).ToList() ?? Enumerable.Empty<string>().ToList(),
+                Type = pairInfo.PairType,
+                Rooms = pairInfo.Rooms,
                 GroupNames = groupNames.ToList(),
-                IsOnline = pairInfos.FirstOrDefault()?.IsOnline ?? false
+                IsOnline = pairInfo.IsOnline
             };
 
             return pair;
@@ -61,7 +60,7 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
         private IEnumerable<string> ParseGroupsInCell(HtmlNode cellNode)
         {
             var groupsString = cellNode
-                .SelectSingleNode("span[@class=\"disLabel\"]/following-sibling::text()")
+                .SelectSingleNode("span[@class=\"disLabel\"]/following-sibling::text()[last()]")
                 .InnerText;
 
             var groups = groupsString.Split(", ");

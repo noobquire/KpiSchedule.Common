@@ -7,13 +7,13 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 {
     public class GroupScheduleCellParser : BaseParser<IEnumerable<RozKpiApiGroupPair>>
     {
-        private readonly PairInfoInScheduleCellParser pairInfoParser;
+        private readonly PairInfoInGroupScheduleCellParser pairInfoParser;
         private readonly TeachersInGroupScheduleCellParser teachersParser;
         private readonly GroupSchedulePairDataGroupper pairDataGroupper;
 
         public GroupScheduleCellParser(ILogger logger,
             TeachersInGroupScheduleCellParser teachersParser,
-            PairInfoInScheduleCellParser pairInfoParser,
+            PairInfoInGroupScheduleCellParser pairInfoParser,
             GroupSchedulePairDataGroupper pairDataGroupper) : base(logger)
         {
             this.teachersParser = teachersParser;

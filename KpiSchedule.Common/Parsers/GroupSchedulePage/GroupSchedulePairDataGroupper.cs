@@ -209,9 +209,9 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
                 {
                     Subject = subject,
                     Teachers = teachers,
-                    Rooms = pairInfo?.Rooms ?? Enumerable.Empty<string>().ToList(),
-                    IsOnline = pairInfo?.IsOnline ?? false,
-                    Type = pairInfo?.PairType ?? Models.PairType.Lecture
+                    Rooms = pairInfo.Rooms,
+                    IsOnline = pairInfo.IsOnline,
+                    Type = pairInfo.PairType
                 };
 
                 pairs.Add(pair);

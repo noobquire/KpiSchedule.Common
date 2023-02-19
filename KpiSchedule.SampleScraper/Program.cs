@@ -14,6 +14,7 @@ using KpiSchedule.Common.Mappers;
 using AutoMapper;
 using KpiSchedule.Common.Entities.RozKpi;
 using KpiSchedule.Common.Repositories;
+using System.Collections.Concurrent;
 
 Console.OutputEncoding = Encoding.UTF8;
 var config = new ConfigurationBuilder()
@@ -28,108 +29,177 @@ var serviceProvider = new ServiceCollection()
     .AddDynamoDbSchedulesRepository<RozKpiGroupSchedulesRepository, GroupScheduleEntity>(config)
     .BuildServiceProvider();
 
-var logger = serviceProvider.GetService<ILogger>();
-var mapper = serviceProvider.GetService<IMapper>();
-var repository = serviceProvider.GetService<RozKpiGroupSchedulesRepository>();
-var rozKpiApiClient = serviceProvider.GetRequiredService<RozKpiApiGroupsClient>();
+var logger = serviceProvider.GetService<ILogger>()!;
+var mapper = serviceProvider.GetService<IMapper>()!;
+var repository = serviceProvider.GetService<RozKpiGroupSchedulesRepository>()!;
+var rozKpiApiGroupsClient = serviceProvider.GetRequiredService<RozKpiApiGroupsClient>()!;
+var rozKpiApiTeachersClient = serviceProvider.GetRequiredService<RozKpiApiTeachersClient>()!;
+var maxDegreeOfParallelism = 5;
 
-var ukrainianAlphabet = new[] { "ІТ" };//"абвгдеєжзиіїйклмнопрстуфхцчшщюя";
+var groupPrefixesToScrape = new[] { "а", "б", "в" }; // string or array of strings
+var teacherPrefixesToScrape = new[] { "а", "б", "в" };
 
-var groupNameTasks = ukrainianAlphabet.Select(async c => await rozKpiApiClient.GetGroups(c.ToString()));
-var groupNames = new List<string>();
-foreach (var groupNameTask in groupNameTasks)
+await ScrapeGroupSchedules(groupPrefixesToScrape);
+await ScrapeTeacherSchedules(teacherPrefixesToScrape);
+
+async Task ScrapeGroupSchedules(IEnumerable<string> prefixesToScrape)
 {
-    var groupNamesForPrefix = await groupNameTask;
-    groupNames.AddRange(groupNamesForPrefix.Data);
+    var groupNames = new ConcurrentBag<string>();
+    await Parallel.ForEachAsync(prefixesToScrape, new ParallelOptions
+    {
+        MaxDegreeOfParallelism = maxDegreeOfParallelism,
+    }, async (prefix, token) =>
+    {
+        var groupNamesForPrefix = await rozKpiApiGroupsClient.GetGroups(prefix);
+        foreach (var groupName in groupNamesForPrefix.Data)
+        {
+            groupNames.Add(groupName);
+        }
+    });
+
+    var groupScheduleIds = new ConcurrentBag<Guid>();
+    await Parallel.ForEachAsync(groupNames, new ParallelOptions
+    {
+        MaxDegreeOfParallelism = maxDegreeOfParallelism,
+    }, async (groupName, token) =>
+    {
+        try
+        {
+            var groupScheduleIdsForName = await rozKpiApiGroupsClient.GetGroupScheduleIds(groupName);
+            foreach (var groupScheduleId in groupScheduleIdsForName)
+            {
+                groupScheduleIds.Add(groupScheduleId);
+            }
+        }
+        catch (KpiScheduleClientGroupNotFoundException)
+        {
+            logger.Error("ScheduleId for group {groupName} not found", groupName);
+        }
+        catch
+        {
+            logger.Fatal("Unhandled error when getting scheduleId for {groupName}", groupName);
+        }
+    });
+
+    int parserExceptionsCount = 0;
+    int clientExceptionsCount = 0;
+    int unhandledExceptionsCount = 0;
+
+    var groupSchedules = new ConcurrentBag<RozKpiApiGroupSchedule>();
+    await Parallel.ForEachAsync(groupScheduleIds, new ParallelOptions
+    {
+        MaxDegreeOfParallelism = maxDegreeOfParallelism
+    }, async (groupScheduleId, token) =>
+    {
+        try
+        {
+            var schedule = await rozKpiApiGroupsClient.GetGroupSchedule(groupScheduleId);
+            groupSchedules.Add(schedule);
+        }
+        catch (KpiScheduleParserException)
+        {
+            Interlocked.Increment(ref parserExceptionsCount);
+        }
+        catch (KpiScheduleClientException)
+        {
+            Interlocked.Increment(ref clientExceptionsCount);
+        }
+        catch (Exception)
+        {
+            Interlocked.Increment(ref unhandledExceptionsCount);
+            logger.Fatal("Caught an unhandled exception when trying to parse scheduleId {scheduleId}", groupScheduleId);
+        }
+    });
+
+    var options = new JsonSerializerOptions
+    {
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+
+    logger.Information("Total exceptions caught during parsing: {parserExceptionsCount} during parsing, {clientExceptionsCount} from clients, {unhandledExceptionsCount} unhandled", parserExceptionsCount, clientExceptionsCount, unhandledExceptionsCount);
+    logger.Information("Parsed a total of {schedulesCount} schedules, writing them to schedules.json", groupSchedules.Count);
+    var schedulesJson = JsonSerializer.Serialize(groupSchedules, options);
+
+    File.WriteAllText("group-schedules.json", schedulesJson);
 }
-
-logger!.Information("Got {groupNamesCount} group names from roz.kpi.ua", groupNames.Count);
-
-int schedulesNotFoundCount = 0;
-var groupScheduleIdTasks = groupNames.Select(async groupName =>
+async Task ScrapeTeacherSchedules(IEnumerable<string> prefixesToScrape)
 {
-    try
+    var teacherNames = new ConcurrentBag<string>();
+    await Parallel.ForEachAsync(prefixesToScrape, new ParallelOptions
     {
-        return (await rozKpiApiClient.GetGroupScheduleIds(groupName)).First();
-    }
-    catch (KpiScheduleClientGroupNotFoundException)
+        MaxDegreeOfParallelism = maxDegreeOfParallelism,
+    }, async (prefix, token) =>
     {
-        schedulesNotFoundCount++;
-        return Guid.Empty;
-    }
-});
+        var teacherNamesForPrefix = await rozKpiApiTeachersClient.GetTeachers(prefix);
+        foreach (var teacherName in teacherNamesForPrefix.Data)
+        {
+            teacherNames.Add(teacherName);
+        }
+    });
 
-var groupScheduleIds = new List<Guid>();
-foreach (var groupScheduleIdTask in groupScheduleIdTasks)
-{
-    var id = await groupScheduleIdTask;
-    if (id != Guid.Empty)
+    var teacherScheduleIds = new ConcurrentBag<Guid>();
+    await Parallel.ForEachAsync(teacherNames, new ParallelOptions
     {
-        groupScheduleIds.Add(id);
-    }
+        MaxDegreeOfParallelism = maxDegreeOfParallelism,
+    }, async (teacherName, token) =>
+    {
+        try
+        {
+            var teacherScheduleId = await rozKpiApiTeachersClient.GetTeacherScheduleId(teacherName);
+            teacherScheduleIds.Add(teacherScheduleId);
+        }
+        catch (KpiScheduleClientGroupNotFoundException)
+        {
+            logger.Error("ScheduleId for teacher {teacherName} not found", teacherName);
+        }
+        catch
+        {
+            logger.Fatal("Unhandled error when getting scheduleId for {teacherName}", teacherName);
+        }
+    });
+
+    int parserExceptionsCount = 0;
+    int clientExceptionsCount = 0;
+    int unhandledExceptionsCount = 0;
+
+    var teacherSchedules = new ConcurrentBag<RozKpiApiTeacherSchedule>();
+    await Parallel.ForEachAsync(teacherScheduleIds, new ParallelOptions
+    {
+        MaxDegreeOfParallelism = maxDegreeOfParallelism
+    }, async (teacherScheduleId, token) =>
+    {
+        try
+        {
+            var schedule = await rozKpiApiTeachersClient.GetTeacherSchedule(teacherScheduleId);
+            teacherSchedules.Add(schedule);
+        }
+        catch (KpiScheduleParserException)
+        {
+            Interlocked.Increment(ref parserExceptionsCount);
+        }
+        catch (KpiScheduleClientException)
+        {
+            Interlocked.Increment(ref clientExceptionsCount);
+        }
+        catch (Exception)
+        {
+            Interlocked.Increment(ref unhandledExceptionsCount);
+            logger.Fatal("Caught an unhandled exception when trying to parse scheduleId {scheduleId}", teacherScheduleId);
+        }
+    });
+
+    var options = new JsonSerializerOptions
+    {
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
+
+    logger.Information("Total exceptions caught during parsing: {parserExceptionsCount} during parsing, {clientExceptionsCount} from clients, {unhandledExceptionsCount} unhandled", parserExceptionsCount, clientExceptionsCount, unhandledExceptionsCount);
+    logger.Information("Parsed a total of {schedulesCount} schedules, writing them to schedules.json", teacherSchedules.Count);
+    var schedulesJson = JsonSerializer.Serialize(teacherSchedules, options);
+
+    File.WriteAllText("teacher-schedules.json", schedulesJson);
 }
-
-logger.Information("Got {scheduleIdsCount} scheduleIds from roz.kpi.ua, {schedulesNotFoundCount} scheduleIds were not found", groupScheduleIds.Count, schedulesNotFoundCount);
-
-int parserExceptionsCount = 0, clientExceptionsCount = 0, unhandledExceptionsCount = 0;
-var groupScheduleTasks = groupScheduleIds.Select(async id =>
-{
-    try
-    {
-        var schedule = await rozKpiApiClient.GetGroupSchedule(id);
-        return schedule;
-    }
-    catch (KpiScheduleParserException)
-    {
-        parserExceptionsCount++;
-        return null;
-    }
-    catch (KpiScheduleClientException)
-    {
-        clientExceptionsCount++;
-        return null;
-    }
-    catch (Exception)
-    {
-        unhandledExceptionsCount++;
-        logger.Fatal("Caught an unhandled exception when trying to parse scheduleId {scheduleId}", id);
-        return null;
-    }
-});
-
-var groupSchedules = new List<RozKpiApiGroupSchedule>();
-
-foreach (var groupScheduleTask in groupScheduleTasks)
-{
-    var groupSchedule = await groupScheduleTask;
-    if (groupSchedule != null)
-    {
-        groupSchedules.Add(groupSchedule);
-    }
-}
-
-var options = new JsonSerializerOptions
-{
-    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-    WriteIndented = true,
-    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-};
-
-logger.Information("Total exceptions caught during parsing: {parserExceptionsCount} during parsing, {clientExceptionsCount} from clients, {unhandledExceptionsCount} unhandled", parserExceptionsCount, clientExceptionsCount, unhandledExceptionsCount);
-logger.Information("Parsed a total of {schedulesCount} schedules, writing them to schedules.json", groupSchedules.Count);
-var schedulesJson = JsonSerializer.Serialize(groupSchedules, options);
-
-File.WriteAllText("schedules.json", schedulesJson);
-
-/*
- * // Uncomment to write schedules to DynamoDb
-var mappedSchedules = mapper!.Map<IEnumerable<GroupScheduleEntity>>(groupSchedules);
-logger.Information("Writing {schedulesCount} schedules to DynamoDb", groupSchedules.Count);
-await repository!.BatchPutSchedules(mappedSchedules);
-
-var schedulesFromRepo = await repository.SearchScheduleId("ІТ");
-var schedulesDict = schedulesFromRepo.ToDictionary(s => s.scheduleId, s => s.groupName);
-var schedulesDictJson = JsonSerializer.Serialize(schedulesDict, options);
-
-logger.Information("Found those schedules in DynamoDb: {schedules}", schedulesDictJson);
-*/

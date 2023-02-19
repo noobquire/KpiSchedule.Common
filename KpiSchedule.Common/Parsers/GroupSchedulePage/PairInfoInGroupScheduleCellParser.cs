@@ -1,13 +1,12 @@
 ﻿using HtmlAgilityPack;
 using KpiSchedule.Common.Models.RozKpiApi;
 using Serilog;
-using System.Text.RegularExpressions;
 
 namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 {
-    public class PairInfoInScheduleCellParser : BaseParser<IEnumerable<RozKpiApiPairInfo>>
+    public class PairInfoInGroupScheduleCellParser : BaseParser<IEnumerable<RozKpiApiPairInfo>>
     {
-        public PairInfoInScheduleCellParser(ILogger logger) : base(logger)
+        public PairInfoInGroupScheduleCellParser(ILogger logger) : base(logger)
         {
         }
 
@@ -15,31 +14,46 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
         {
             var pairInfos = new List<RozKpiApiPairInfo>();
 
-            var pairInfoMatch = Regex.Match(cellNode.InnerHtml, "(<\\/a><br>|<br> |(?<!<\\/span>)<br>)+(.+)$");
-
-            if (!pairInfoMatch.Success)
+            var linkPairInfos = cellNode.SelectNodes("span[@class=\"disLabel\"]/following-sibling::a[contains(@href, \"google.com\")]");
+            if(linkPairInfos is not null && linkPairInfos.Any())
             {
-                logger.Verbose("No pair infos matched in cell");
-                return pairInfos;
+                foreach(var node in linkPairInfos)
+                {
+                    var info = ParseLinkInfo(node);
+                    pairInfos.Add(info);
+                }
             }
 
-            var pairInfosString = pairInfoMatch.Groups[2].ToString();
-            var splitPairInfoStrings = Regex.Split(pairInfosString, "(?!\\d), (?!\\d)").Select(s => s.Trim());
-
-            foreach (var pairInfoString in splitPairInfoStrings)
+            var plainPairInfos = cellNode.SelectNodes("span[@class=\"disLabel\"]/following-sibling::text()[contains(., \"Лек\") or contains(., \"Прак\") or contains (., \"Лаб\")]");
+            if (plainPairInfos is not null && plainPairInfos.Any())
             {
-                var pairInfo = pairInfoString.Contains("maps.google.com") ?
-                    ParseLinkInfo(pairInfoString) :
-                    ParsePlainInfo(pairInfoString);
+                foreach (var node in plainPairInfos)
+                {
+                    var info = ParsePlainInfo(node);
+                    pairInfos.Add(info);
+                }
+            }
 
-                pairInfos.Add(pairInfo);
+            if(plainPairInfos is null && linkPairInfos is null)
+            {
+                pairInfos.Add(new RozKpiApiPairInfo()
+                {
+                    PairType = Models.PairType.Lecture,
+                    Rooms = Array.Empty<string>(),
+                    IsOnline = false
+                }) ;
             }
 
             return pairInfos;
         }
 
-        private RozKpiApiPairInfo ParsePlainInfo(string pairInfoString)
+        private RozKpiApiPairInfo ParsePlainInfo(HtmlNode node)
         {
+            // Прак on-line
+            // Прак
+            var pairInfoString = node.InnerText;
+            var infoSpaceIndex = pairInfoString.IndexOf(' ');
+
             var pairInfo = new RozKpiApiPairInfo()
             {
                 PairType = PairTypeParser.ParsePairType(pairInfoString.Split(" ")[0]),
@@ -50,15 +64,16 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             return pairInfo;
         }
 
-        private RozKpiApiPairInfo ParseLinkInfo(string pairInfoString)
+        private RozKpiApiPairInfo ParseLinkInfo(HtmlNode node)
         {
-            var node = CreateHtmlNode(pairInfoString);
-
-            var infoSpaceIndex = node.InnerHtml.IndexOf(' ');
+            // <a class="plainLink" href="http://maps.google.com?q=50.447021,30.456021">-18 Лек on-line</a>
+            // <a class="plainLink" href="http://maps.google.com?q=50.447021,30.456021">404-18</a>
+            var pairInfoString = node.InnerText;
+            var infoSpaceIndex = pairInfoString.IndexOf(' ');
             
-            var room = infoSpaceIndex == -1 ? node.InnerHtml : node.InnerHtml.Substring(0, infoSpaceIndex);
-            var pairType = infoSpaceIndex == -1 ? node.InnerHtml : node.InnerHtml.Substring(node.InnerHtml.IndexOf(' ') + 1);
-            var isOnline = node.InnerHtml.Contains("on-line");
+            var room = infoSpaceIndex == -1 ? pairInfoString : pairInfoString.Substring(0, infoSpaceIndex);
+            var pairType = infoSpaceIndex == -1 ? pairInfoString : pairInfoString.Substring(node.InnerHtml.IndexOf(' ') + 1);
+            var isOnline = pairInfoString.Contains("on-line");
 
             var pairInfo = new RozKpiApiPairInfo()
             {
@@ -68,14 +83,6 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             };
 
             return pairInfo;
-        }
-
-        private HtmlNode CreateHtmlNode(string htmlString)
-        {
-            var document = new HtmlDocument();
-            var div = document.CreateElement("div");
-            div.InnerHtml = htmlString.Trim();
-            return div.ChildNodes.First();
         }
     }
 }
