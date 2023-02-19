@@ -50,7 +50,7 @@ namespace KpiSchedule.Common.Parsers.TeacherSchedulePage
                 Subject = subject,
                 Type = pairInfo.PairType,
                 Rooms = pairInfo.Rooms,
-                GroupNames = groupNames.ToList(),
+                GroupNames = groupNames.Distinct().OrderBy(g => g).ToList(),
                 IsOnline = pairInfo.IsOnline
             };
 
