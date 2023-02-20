@@ -29,6 +29,12 @@ jobs:
       - name: Unit test
         run: dotnet test --no-build -c Release KpiSchedule.Common.UnitTests
         
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::251999958052:role/kpi-schedule-github-actions-role
+          aws-region: eu-central-1
+        
       - name: Integration test
         run: dotnet test --no-build -c Release KpiSchedule.Common.IntegrationTests
 
