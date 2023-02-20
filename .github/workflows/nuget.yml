@@ -34,6 +34,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::251999958052:role/kpi-schedule-github-actions-role
           aws-region: eu-central-1
+          role-session-name: GithubActions
         
       - name: Integration test
         run: dotnet test --no-build -c Release KpiSchedule.Common.IntegrationTests
