@@ -33,4 +33,4 @@ jobs:
         run: dotnet test --no-build KpiSchedule.Common.IntegrationTests
 
       - name: Push generated package to NuGet.org
-        run: dotnet nuget push ./KpiSchedule.Common/bin/Release/*.nupkg --skip-duplicate --no-symbols -k ${{NUGET_API_KEY}} -s ${{NUGET_URL}}
+        run: dotnet nuget push ./KpiSchedule.Common/bin/Release/*.nupkg --skip-duplicate --no-symbols -k ${{ secrets.NUGET_API_KEY }} -s ${{ secrets.NUGET_URL }}
