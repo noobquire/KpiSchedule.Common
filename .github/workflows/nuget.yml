@@ -1,0 +1,36 @@
+name: NuGet package CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    name: Update NuGet package
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v1
+
+      - name: Setup .NET Core @ Latest
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x     
+          
+      - name: Build solution and generate NuGet package
+        run: dotnet build -c Release
+          
+      - name: Unit test
+        run: dotnet test --no-build KpiSchedule.Common.UnitTests
+        
+      - name: Integration test
+        run: dotnet test --no-build KpiSchedule.Common.IntegrationTests
+
+      - name: Push generated package to NuGet.org
+        run: dotnet nuget push ./KpiSchedule.Common/bin/Release/*.nupkg --skip-duplicate --no-symbols -k ${{NUGET_API_KEY}} -s ${{NUGET_URL}}
