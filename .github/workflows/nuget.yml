@@ -18,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v1
 
-      - name: Setup .NET Core @ Latest
+      - name: Setup .NET 6
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x     
@@ -27,10 +27,10 @@ jobs:
         run: dotnet build -c Release
           
       - name: Unit test
-        run: dotnet test --no-build KpiSchedule.Common.UnitTests
+        run: dotnet test --no-build -c Release KpiSchedule.Common.UnitTests
         
       - name: Integration test
-        run: dotnet test --no-build KpiSchedule.Common.IntegrationTests
+        run: dotnet test --no-build -c Release KpiSchedule.Common.IntegrationTests
 
       - name: Push generated package to NuGet.org
         run: dotnet nuget push ./KpiSchedule.Common/bin/Release/*.nupkg --skip-duplicate --no-symbols -k ${{ secrets.NUGET_API_KEY }} -s ${{ secrets.NUGET_URL }}
