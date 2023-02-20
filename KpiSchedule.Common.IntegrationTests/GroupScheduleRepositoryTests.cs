@@ -19,7 +19,6 @@ namespace KpiSchedule.Common.IntegrationTests
             repository = new RozKpiGroupSchedulesRepository(context);
         }
 
-        [Ignore("Ignored until AWS credentials are set up in GitHub Actions")]
         [Test]
         public async Task GetSchedule_ReturnsSchedule()
         {
