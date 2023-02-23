@@ -12,6 +12,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
     name: Update NuGet package
     steps:
 
@@ -28,6 +31,12 @@ jobs:
           
       - name: Unit test
         run: dotnet test --no-build -c Release KpiSchedule.Common.UnitTests
+        
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::251999958052:role/kpi-schedule-github-actions-role
+          aws-region: eu-central-1
         
       - name: Integration test
         run: dotnet test --no-build -c Release KpiSchedule.Common.IntegrationTests
