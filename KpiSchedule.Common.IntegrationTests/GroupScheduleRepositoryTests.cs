@@ -9,17 +9,16 @@ namespace KpiSchedule.Common.IntegrationTests
     [TestFixture]
     public class GroupScheduleRepositoryTests
     {
-        private RozKpiGroupSchedulesRepository repository;
+        private GroupSchedulesRepository repository;
 
         [SetUp]
         public void Setup()
         {
             var client = new AmazonDynamoDBClient(RegionEndpoint.EUCentral1);
             var context = new DynamoDBContext(client);
-            repository = new RozKpiGroupSchedulesRepository(context);
+            repository = new GroupSchedulesRepository(context);
         }
 
-        [Ignore("Ignored until AWS credentials are set up in GitHub Actions")]
         [Test]
         public async Task GetSchedule_ReturnsSchedule()
         {

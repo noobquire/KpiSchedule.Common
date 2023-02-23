@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using KpiSchedule.Common.Entities.RozKpi;
+using KpiSchedule.Common.Entities;
 using KpiSchedule.Common.Mappers;
 using KpiSchedule.Common.Models.RozKpiApi;
 using System;
@@ -42,7 +42,7 @@ namespace KpiSchedule.Common.UnitTests.Mappers
             result.ScheduleId.Should().Be(rozKpiSchedule.ScheduleId);
             result.GroupName.Should().Be(rozKpiSchedule.GroupName);
             result.FirstWeek.Count.Should().Be(rozKpiSchedule.FirstWeek.Count);
-            result.FirstWeek[0].pairs[0].subject.subjectName
+            result.FirstWeek[0].Pairs[0].Subject.SubjectName
                 .Should().Be(rozKpiSchedule.FirstWeek[0].Pairs[0].Subject.SubjectName);
         }
 
@@ -62,7 +62,7 @@ namespace KpiSchedule.Common.UnitTests.Mappers
             result.GroupName.Should().Be(groupScheduleEntity.GroupName);
             result.FirstWeek.Count.Should().Be(groupScheduleEntity.FirstWeek.Count);
             result.FirstWeek[0].Pairs[0].Subject.SubjectName
-                .Should().Be(groupScheduleEntity.FirstWeek[0].pairs[0].subject.subjectName);
+                .Should().Be(groupScheduleEntity.FirstWeek[0].Pairs[0].Subject.SubjectName);
         }
     }
 }

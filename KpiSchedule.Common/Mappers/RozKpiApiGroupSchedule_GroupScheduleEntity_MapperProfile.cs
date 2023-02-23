@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using KpiSchedule.Common.Entities.RozKpi;
+using KpiSchedule.Common.Entities;
 using KpiSchedule.Common.Models.RozKpiApi;
 
 namespace KpiSchedule.Common.Mappers
@@ -9,10 +9,10 @@ namespace KpiSchedule.Common.Mappers
         public RozKpiApiGroupSchedule_GroupScheduleEntity_MapperProfile()
         {
             CreateMap<RozKpiApiGroupScheduleDay, GroupScheduleDayEntity>().ReverseMap();
-            CreateMap<RozKpiApiGroupPair, GroupPairEntity>();
-            CreateMap<GroupPairEntity, RozKpiApiGroupPair>()
-                .ForMember(d => d.StartTime, x => x.MapFrom(s => TimeOnly.Parse(s.startTime)))
-                .ForMember(d => d.EndTime, x => x.MapFrom(s => TimeOnly.Parse(s.endTime)));
+            CreateMap<RozKpiApiGroupPair, GroupSchedulePairEntity>();
+            CreateMap<GroupSchedulePairEntity, RozKpiApiGroupPair>()
+                .ForMember(d => d.StartTime, x => x.MapFrom(s => TimeOnly.Parse(s.StartTime)))
+                .ForMember(d => d.EndTime, x => x.MapFrom(s => TimeOnly.Parse(s.EndTime)));
             CreateMap<RozKpiApiTeacher, TeacherEntity>().ReverseMap();
             CreateMap<RozKpiApiSubject, SubjectEntity>().ReverseMap();
             CreateMap<RozKpiApiGroupSchedule, GroupScheduleEntity>();

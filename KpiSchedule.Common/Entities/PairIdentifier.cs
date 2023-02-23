@@ -1,4 +1,4 @@
-﻿namespace KpiSchedule.Common.Models
+﻿namespace KpiSchedule.Common.Entities
 {
     /// <summary>
     /// Pair identifier.

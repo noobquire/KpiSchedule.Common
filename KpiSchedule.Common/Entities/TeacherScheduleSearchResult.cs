@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 
-namespace KpiSchedule.Common.Repositories
+namespace KpiSchedule.Common.Entities
 {
     [DynamoDBTable("RozKpiTeacherSchedules")]
     public class TeacherScheduleSearchResult

@@ -12,7 +12,7 @@ using System.Text.Json;
 using System.Text.Unicode;
 using KpiSchedule.Common.Mappers;
 using AutoMapper;
-using KpiSchedule.Common.Entities.RozKpi;
+using KpiSchedule.Common.Entities;
 using KpiSchedule.Common.Repositories;
 using System.Collections.Concurrent;
 
@@ -26,12 +26,12 @@ var serviceProvider = new ServiceCollection()
     .AddKpiClient<RozKpiApiTeachersClient>(config)
     .AddKpiClient<RozKpiApiGroupsClient>(config)
     .AddAutoMapper(typeof(RozKpiApiGroupSchedule_GroupScheduleEntity_MapperProfile))
-    .AddDynamoDbSchedulesRepository<RozKpiGroupSchedulesRepository, GroupScheduleEntity>(config)
+    .AddDynamoDbSchedulesRepository<GroupSchedulesRepository, GroupScheduleEntity, GroupScheduleDayEntity, GroupSchedulePairEntity>(config)
     .BuildServiceProvider();
 
 var logger = serviceProvider.GetService<ILogger>()!;
 var mapper = serviceProvider.GetService<IMapper>()!;
-var repository = serviceProvider.GetService<RozKpiGroupSchedulesRepository>()!;
+var groupSchedulesRepository = serviceProvider.GetService<GroupSchedulesRepository>()!;
 var rozKpiApiGroupsClient = serviceProvider.GetRequiredService<RozKpiApiGroupsClient>()!;
 var rozKpiApiTeachersClient = serviceProvider.GetRequiredService<RozKpiApiTeachersClient>()!;
 var maxDegreeOfParallelism = 5;
@@ -115,11 +115,10 @@ async Task ScrapeGroupSchedules(IEnumerable<string> prefixesToScrape)
     {
         Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
         WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
     logger.Information("Total exceptions caught during parsing: {parserExceptionsCount} during parsing, {clientExceptionsCount} from clients, {unhandledExceptionsCount} unhandled", parserExceptionsCount, clientExceptionsCount, unhandledExceptionsCount);
-    logger.Information("Parsed a total of {schedulesCount} schedules, writing them to schedules.json", groupSchedules.Count);
+    logger.Information("Parsed a total of {schedulesCount} schedules, writing them to group-schedules.json", groupSchedules.Count);
     var schedulesJson = JsonSerializer.Serialize(groupSchedules, options);
 
     File.WriteAllText("group-schedules.json", schedulesJson);
@@ -194,11 +193,10 @@ async Task ScrapeTeacherSchedules(IEnumerable<string> prefixesToScrape)
     {
         Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
         WriteIndented = true,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
     logger.Information("Total exceptions caught during parsing: {parserExceptionsCount} during parsing, {clientExceptionsCount} from clients, {unhandledExceptionsCount} unhandled", parserExceptionsCount, clientExceptionsCount, unhandledExceptionsCount);
-    logger.Information("Parsed a total of {schedulesCount} schedules, writing them to schedules.json", teacherSchedules.Count);
+    logger.Information("Parsed a total of {schedulesCount} schedules, writing them to teacher-schedules.json", teacherSchedules.Count);
     var schedulesJson = JsonSerializer.Serialize(teacherSchedules, options);
 
     File.WriteAllText("teacher-schedules.json", schedulesJson);

@@ -33,7 +33,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             var scheduleDays = InitScheduleDays(pairsCount);
 
             int pairNumber = 0;
-            
+
             foreach (HtmlNode rowNode in tableNode.SelectNodes("tr"))
             {
                 // increment and check if this is first row
@@ -51,7 +51,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
                 {
                     // increment and check if this is first column
                     // first column contains pair start time, pair cells start from second column
-                    
+
                     if (dayNumber == 0)
                     {
                         dayNumber++;
@@ -64,7 +64,12 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
                     var pairsInCell = new List<RozKpiApiGroupPair>();
                     try
                     {
-                        var pairId = new PairIdentifier(weekNumber, dayNumber, pairNumber);
+                        var pairId = new PairIdentifier()
+                        {
+                            WeekNumber = weekNumber,
+                            DayNumber = dayNumber,
+                            PairNumber = pairNumber
+                        };
                         pairsInCell = cellParser.Parse(cellNode, pairId).ToList();
                     }
                     catch (NotImplementedException ex)

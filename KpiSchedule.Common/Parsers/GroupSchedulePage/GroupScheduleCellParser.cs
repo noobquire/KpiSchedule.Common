@@ -23,7 +23,12 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
 
         public override IEnumerable<RozKpiApiGroupPair> Parse(HtmlNode cellNode)
         {
-            return Parse(cellNode, new PairIdentifier(1, 1, 1));
+            return Parse(cellNode, new PairIdentifier()
+            {
+                PairNumber = 1,
+                WeekNumber = 1,
+                DayNumber = 1
+            });
         }
 
         public IEnumerable<RozKpiApiGroupPair> Parse(HtmlNode cellNode, PairIdentifier pairId)
