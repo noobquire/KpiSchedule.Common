@@ -2,13 +2,13 @@
 
 namespace KpiSchedule.Common.Entities
 {
-    [DynamoDBTable("RozKpiTeacherSchedules")]
+    [DynamoDBTable("KpiSchedule-TeacherSchedules")]
     public class TeacherScheduleSearchResult
     {
         [DynamoDBHashKey]
-        public Guid scheduleId { get; set; }
+        public Guid ScheduleId { get; set; }
 
         [DynamoDBGlobalSecondaryIndexHashKey]
-        public string teacherName { get; set; }
+        public string TeacherName { get; set; }
     }
 }
