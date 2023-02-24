@@ -2,7 +2,7 @@
 
 namespace KpiSchedule.Common.Entities
 {
-    [DynamoDBTable("KpiSchedule-GroupSchedules", LowerCamelCaseProperties = true)]
+    [DynamoDBTable("KpiSchedule-GroupSchedules")]
     public class GroupScheduleSearchResult
     {
         [DynamoDBHashKey]
