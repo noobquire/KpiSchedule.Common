@@ -2,13 +2,13 @@
 
 namespace KpiSchedule.Common.Entities
 {
-    [DynamoDBTable("RozKpiGroupSchedules", LowerCamelCaseProperties = true)]
+    [DynamoDBTable("KpiSchedule-GroupSchedules", LowerCamelCaseProperties = true)]
     public class GroupScheduleSearchResult
     {
         [DynamoDBHashKey]
-        public Guid scheduleId { get; set; }
+        public Guid ScheduleId { get; set; }
 
         [DynamoDBGlobalSecondaryIndexHashKey]
-        public string groupName { get; set; }
+        public string GroupName { get; set; }
     }
 }
