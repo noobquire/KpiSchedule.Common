@@ -19,27 +19,6 @@ namespace KpiSchedule.Common.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<TeacherScheduleEntity> GetScheduleById(Guid scheduleId)
-        {
-            var schedule = await dynamoDbContext.LoadAsync<TeacherScheduleEntity>(scheduleId);
-            return schedule;
-        }
-
-        /// <inheritdoc/>
-        public async Task<IEnumerable<SubjectEntity>> GetScheduleSubjects(Guid scheduleId)
-        {
-            var schedule = await GetScheduleById(scheduleId);
-
-            var firstWeekSubjects = schedule.FirstWeek.SelectMany(d => d.Pairs).Select(p => p.Subject);
-            var secondWeekSubjects = schedule.SecondWeek.SelectMany(d => d.Pairs).Select(p => p.Subject);
-
-            var allSubjects = firstWeekSubjects.Concat(secondWeekSubjects);
-            var uniqueSubjects = allSubjects.DistinctBy(s => s.SubjectName);
-
-            return uniqueSubjects;
-        }
-
-        /// <inheritdoc/>
         public async Task<IEnumerable<TeacherScheduleSearchResult>> SearchTeacherSchedules(string teacherNamePrefix)
         {
             var query = new ScanCondition("TeacherName", ScanOperator.BeginsWith, teacherNamePrefix);

@@ -21,6 +21,7 @@ namespace KpiSchedule.Common.Repositories
         public async Task DeletePair(Guid scheduleId, PairIdentifier pairId)
         {
             var schedule = await GetScheduleById(scheduleId);
+            CheckIfScheduleIsNull(schedule);
 
             schedule.RemoveSchedulePair(pairId);
 
@@ -43,6 +44,7 @@ namespace KpiSchedule.Common.Repositories
         public async Task<IEnumerable<SubjectEntity>> GetScheduleSubjects(Guid scheduleId)
         {
             var schedule = await GetScheduleById(scheduleId);
+            CheckIfScheduleIsNull(schedule);
 
             var firstWeekSubjects = schedule.FirstWeek.SelectMany(d => d.Pairs).Select(p => p.Subject);
             var secondWeekSubjects = schedule.SecondWeek.SelectMany(d => d.Pairs).Select(p => p.Subject);
@@ -56,6 +58,7 @@ namespace KpiSchedule.Common.Repositories
         public async Task<StudentScheduleEntity> UpdatePair(Guid scheduleId, PairIdentifier pairId, StudentSchedulePairEntity pair)
         {
             var schedule = await GetScheduleById(scheduleId);
+            CheckIfScheduleIsNull(schedule);
 
             schedule.UpdateSchedulePair(pairId, pair);
 

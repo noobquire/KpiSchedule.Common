@@ -30,6 +30,7 @@ namespace KpiSchedule.Common.Repositories
         public async Task<IEnumerable<TeacherEntity>> GetTeachersInGroupSchedule(Guid groupScheduleId)
         {
             var schedule = await GetScheduleById(groupScheduleId);
+            CheckIfScheduleIsNull(schedule);
 
             var firstWeekTeachers = schedule.FirstWeek.SelectMany(d => d.Pairs).SelectMany(p => p.Teachers);
             var secondWeekTeachers = schedule.SecondWeek.SelectMany(d => d.Pairs).SelectMany(p => p.Teachers);

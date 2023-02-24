@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using KpiSchedule.Common.Entities;
+using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Repositories.Interfaces;
 
 namespace KpiSchedule.Common.Repositories
@@ -53,6 +54,7 @@ namespace KpiSchedule.Common.Repositories
         public virtual async Task<IEnumerable<SubjectEntity>> GetScheduleSubjects(Guid scheduleId)
         {
             var schedule = await GetScheduleById(scheduleId);
+            CheckIfScheduleIsNull(schedule);
 
             var firstWeekSubjects = schedule.FirstWeek.SelectMany(d => d.Pairs).Select(p => p.Subject);
             var secondWeekSubjects = schedule.SecondWeek.SelectMany(d => d.Pairs).Select(p => p.Subject);
@@ -65,7 +67,18 @@ namespace KpiSchedule.Common.Repositories
 
         public async Task DeleteSchedule(Guid scheduleId)
         {
+            var schedule = await GetScheduleById(scheduleId);
+            CheckIfScheduleIsNull(schedule);
+
             await dynamoDbContext.DeleteAsync(scheduleId);
+        }
+
+        protected void CheckIfScheduleIsNull(TSchedule schedule)
+        {
+            if (schedule is null)
+            {
+                throw new ScheduleNotFoundException();
+            }
         }
     }
 }
