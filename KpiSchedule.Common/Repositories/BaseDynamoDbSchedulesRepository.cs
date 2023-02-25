@@ -19,6 +19,11 @@ namespace KpiSchedule.Common.Repositories
 
         private void AssignNullRoomsToEmptyArrays(IEnumerable<TDay> week)
         {
+            if (week is null)
+            {
+                return;
+            }
+
             foreach(var day in week)
             {
                 foreach(var pair in day.Pairs)
@@ -32,8 +37,8 @@ namespace KpiSchedule.Common.Repositories
         {
             var schedule = await dynamoDbContext.LoadAsync<TSchedule>(scheduleId);
             // this is a crutch, idk why empty room arrays are saved as null in dynamodb
-            AssignNullRoomsToEmptyArrays(schedule.FirstWeek);
-            AssignNullRoomsToEmptyArrays(schedule.SecondWeek);
+            AssignNullRoomsToEmptyArrays(schedule?.FirstWeek);
+            AssignNullRoomsToEmptyArrays(schedule?.SecondWeek);
 
             return schedule;
         }
