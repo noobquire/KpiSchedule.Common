@@ -9,7 +9,7 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
 {
     public static class RepositoryExtensions
     {
-        public static IServiceCollection AddDynamoDbSchedulesRepository<TRepository, TSchedule, TDay, TPair>(this IServiceCollection services, IConfiguration config) 
+        public static IServiceCollection AddDynamoDbSchedulesRepository<TRepository, TSchedule, TDay, TPair>(this IServiceCollection services, IConfiguration config)
             where TRepository : class, ISchedulesRepository<TSchedule, TDay, TPair>
             where TSchedule : BaseScheduleEntity<TDay, TPair>
             where TDay : BaseScheduleDayEntity<TPair>
@@ -17,6 +17,11 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
         {
             services.AddDefaultAWSOptions(config.GetAWSOptions());
             services.AddAWSService<IAmazonDynamoDB>();
+            services.AddTransient<IDynamoDBContext>(c => new DynamoDBContext(c.GetService<IAmazonDynamoDB>(),
+                new DynamoDBContextConfig
+                {
+                    Conversion = DynamoDBEntryConversion.V2
+                }));
             services.AddTransient<IDynamoDBContext, DynamoDBContext>();
             services.AddTransient<TRepository>();
 
@@ -32,7 +37,11 @@ namespace KpiSchedule.Common.ServiceCollectionExtensions
         {
             services.AddDefaultAWSOptions(config.GetAWSOptions());
             services.AddAWSService<IAmazonDynamoDB>();
-            services.AddTransient<IDynamoDBContext, DynamoDBContext>();
+            services.AddTransient<IDynamoDBContext>(c => new DynamoDBContext(c.GetService<IAmazonDynamoDB>(),
+                new DynamoDBContextConfig
+                {
+                    Conversion = DynamoDBEntryConversion.V2
+                }));
             services.AddTransient<TRepositoryInterface, TRepository>();
 
             return services;
