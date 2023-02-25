@@ -11,6 +11,8 @@ namespace KpiSchedule.Common.Mappers
             CreateMap<RozKpiApiTeacherScheduleDay, TeacherScheduleDayEntity>().ReverseMap();
             CreateMap<RozKpiApiTeacherPair, TeacherSchedulePairEntity>()
                 .ForMember(p => p.PairType, x => x.MapFrom(p => p.Type))
+                .ForMember(p => p.Rooms, x => x.MapFrom(p => p.Rooms))
+                .ForMember(p => p.Groups, x => x.MapFrom(p => p.GroupNames.Select(g => new GroupEntity() { GroupName = g })))
                 .ReverseMap();
             CreateMap<TeacherSchedulePairEntity, RozKpiApiTeacherPair>()
                 .ForMember(d => d.StartTime, x => x.MapFrom(s => TimeOnly.Parse(s.StartTime)))
