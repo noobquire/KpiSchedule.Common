@@ -78,7 +78,7 @@ namespace KpiSchedule.Common.Clients
             var teachers = await VerifyAndParseResponseBody<RozKpiApiTeachersList>(response);
             if (teachers.Data is null)
             {
-                teachers.Data = Array.Empty<string>();
+                teachers.Data = Enumerable.Empty<string>().ToList();
             }
 
             teachers.TeacherNamePrefix = teacherNamePrefix;

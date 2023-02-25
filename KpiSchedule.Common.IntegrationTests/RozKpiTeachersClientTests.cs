@@ -1,5 +1,8 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using KpiSchedule.Common.Clients;
+using KpiSchedule.Common.Entities;
+using KpiSchedule.Common.Mappers;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,6 +54,7 @@ namespace KpiSchedule.Common.IntegrationTests
         public async Task GetTeacherSchedule_ShouldReturnTeacherSchedule()
         {
             var scheduleId = await client.GetTeacherScheduleId("Лісовиченко Олег Іванович");
+
             var teacherSchedule = await client.GetTeacherSchedule(scheduleId);
 
             teacherSchedule.TeacherName.Should().Contain("Лісовиченко Олег Іванович");

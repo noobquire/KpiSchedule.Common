@@ -52,7 +52,7 @@ namespace KpiSchedule.Common.Clients
             var groups = await VerifyAndParseResponseBody<RozKpiApiGroupsList>(response);
             if(groups.Data is null)
             {
-                groups.Data = Array.Empty<string>();
+                groups.Data = Enumerable.Empty<string>().ToList();
             }
 
             groups.GroupPrefix = groupPrefix;

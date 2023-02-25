@@ -36,7 +36,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             if (string.IsNullOrEmpty(cellNode.InnerHtml))
             {
                 logger.Verbose("Cell is empty, skipping...");
-                return Array.Empty<RozKpiApiGroupPair>();
+                return Enumerable.Empty<RozKpiApiGroupPair>().ToList();
             }
 
             var subjectNames = ParseSubjectNamesInCell(cellNode);

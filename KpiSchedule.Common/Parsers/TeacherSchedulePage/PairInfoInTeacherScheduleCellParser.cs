@@ -27,7 +27,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             return new RozKpiApiPairInfo()
             {
                 PairType = PairType.Lecture,
-                Rooms = Array.Empty<string>(),
+                Rooms = Enumerable.Empty<string>().ToList(),
                 IsOnline = false
             };
         }
@@ -57,7 +57,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             var pairInfo = new RozKpiApiPairInfo()
             {
                 PairType = PairTypeParser.ParsePairType(pairInfoString),
-                Rooms = Array.Empty<string>(),
+                Rooms = Enumerable.Empty<string>().ToList(),
                 IsOnline = pairInfoString.Contains("on-line")
             };
 

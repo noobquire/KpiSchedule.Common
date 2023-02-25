@@ -25,13 +25,15 @@ var serviceProvider = new ServiceCollection()
     .AddRozKpiParsers()
     .AddKpiClient<RozKpiApiTeachersClient>(config)
     .AddKpiClient<RozKpiApiGroupsClient>(config)
-    .AddAutoMapper(typeof(RozKpiApiGroupSchedule_GroupScheduleEntity_MapperProfile))
+    .AddAutoMapper(typeof(RozKpiApiGroupSchedule_GroupScheduleEntity_MapperProfile), typeof(RozKpiApiTeacherSchedule_TeacherScheduleEntity_MapperProfile))
     .AddDynamoDbSchedulesRepository<GroupSchedulesRepository, GroupScheduleEntity, GroupScheduleDayEntity, GroupSchedulePairEntity>(config)
+    .AddDynamoDbSchedulesRepository<TeacherSchedulesRepository, TeacherScheduleEntity, TeacherScheduleDayEntity, TeacherSchedulePairEntity>(config)
     .BuildServiceProvider();
 
 var logger = serviceProvider.GetService<ILogger>()!;
 var mapper = serviceProvider.GetService<IMapper>()!;
 var groupSchedulesRepository = serviceProvider.GetService<GroupSchedulesRepository>()!;
+var teacherSchedulesRepository = serviceProvider.GetService<TeacherSchedulesRepository>()!;
 var rozKpiApiGroupsClient = serviceProvider.GetRequiredService<RozKpiApiGroupsClient>()!;
 var rozKpiApiTeachersClient = serviceProvider.GetRequiredService<RozKpiApiTeachersClient>()!;
 var maxDegreeOfParallelism = 5;
@@ -197,6 +199,7 @@ async Task ScrapeTeacherSchedules(IEnumerable<string> prefixesToScrape)
 
     logger.Information("Total exceptions caught during parsing: {parserExceptionsCount} during parsing, {clientExceptionsCount} from clients, {unhandledExceptionsCount} unhandled", parserExceptionsCount, clientExceptionsCount, unhandledExceptionsCount);
     logger.Information("Parsed a total of {schedulesCount} schedules, writing them to teacher-schedules.json", teacherSchedules.Count);
+
     var schedulesJson = JsonSerializer.Serialize(teacherSchedules, options);
 
     File.WriteAllText("teacher-schedules.json", schedulesJson);

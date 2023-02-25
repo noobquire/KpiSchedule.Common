@@ -138,7 +138,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
         {
             var rooms = data.PairInfos.SelectMany(pi => pi.Rooms);
             var newPairInfos = data.PairInfos.ToList();
-            newPairInfos.ForEach(pi => pi.Rooms = Array.Empty<string>());
+            newPairInfos.ForEach(pi => pi.Rooms = Enumerable.Empty<string>().ToList());
             newPairInfos[0].Rooms = rooms.ToList();
 
             data.PairInfos = newPairInfos;
