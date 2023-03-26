@@ -17,7 +17,7 @@ namespace KpiSchedule.Common.Entities
         /// Id of the user who owns this schedule.
         /// </summary>
         [DynamoDBHashKey]
-        public Guid OwnerId { get; set; }
+        public string OwnerId { get; set; }
 
         /// <summary>
         /// Id of the schedule.
