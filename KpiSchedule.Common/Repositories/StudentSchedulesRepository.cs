@@ -30,9 +30,8 @@ namespace KpiSchedule.Common.Repositories
 
         public override async Task<StudentScheduleEntity> GetScheduleById(Guid scheduleId)
         {
-            var scheduleQuery = new QueryCondition("ScheduleId", QueryOperator.Equal, scheduleId);
-            var results = await dynamoDbContext.QueryAsync<StudentScheduleEntity>(new[] { scheduleQuery }).GetRemainingAsync();
-            var schedule = results.First();
+            var results = await dynamoDbContext.QueryAsync<StudentScheduleEntity>(scheduleId).GetRemainingAsync();
+            var schedule = results.FirstOrDefault();
             return schedule;
         }
 
