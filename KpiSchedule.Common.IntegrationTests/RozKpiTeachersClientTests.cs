@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using KpiSchedule.Common.Clients;
-using KpiSchedule.Common.Entities;
-using KpiSchedule.Common.Mappers;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

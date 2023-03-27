@@ -1,32 +1,14 @@
-﻿using AutoMapper;
-using FluentAssertions;
+﻿using FluentAssertions;
 using KpiSchedule.Common.Entities;
 using KpiSchedule.Common.Mappers;
 using KpiSchedule.Common.Models.RozKpiApi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace KpiSchedule.Common.UnitTests.Mappers
 {
     [TestFixture]
     public class GroupScheduleMapperTests
     {
-        private IMapper mapper;
-
-        [SetUp]
-        public void Setup()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<RozKpiApiGroupSchedule_GroupScheduleEntity_MapperProfile>();
-            });
-            mapper = config.CreateMapper();
-        }
-
         [Test]
         public void Map_RozKpiSchedule_ToEntity_Success()
         {
@@ -37,7 +19,7 @@ namespace KpiSchedule.Common.UnitTests.Mappers
             };
             var rozKpiSchedule = JsonSerializer.Deserialize<RozKpiApiGroupSchedule>(rozKpiScheduleJson, options);
 
-            var result = mapper.Map<GroupScheduleEntity>(rozKpiSchedule);
+            var result = rozKpiSchedule.MapToEntity();
 
             result.ScheduleId.Should().Be(rozKpiSchedule.ScheduleId);
             result.GroupName.Should().Be(rozKpiSchedule.GroupName);
@@ -56,7 +38,7 @@ namespace KpiSchedule.Common.UnitTests.Mappers
             };
             var groupScheduleEntity = JsonSerializer.Deserialize<GroupScheduleEntity>(groupScheduleEntityJson, options);
 
-            var result = mapper.Map<RozKpiApiGroupSchedule>(groupScheduleEntity);
+            var result = groupScheduleEntity.MapToModel()!;
 
             result.ScheduleId.Should().Be(groupScheduleEntity.ScheduleId);
             result.GroupName.Should().Be(groupScheduleEntity.GroupName);

@@ -25,7 +25,6 @@ var serviceProvider = new ServiceCollection()
     .AddRozKpiParsers()
     .AddKpiClient<RozKpiApiTeachersClient>(config)
     .AddKpiClient<RozKpiApiGroupsClient>(config)
-    .AddAutoMapper(typeof(RozKpiApiGroupSchedule_GroupScheduleEntity_MapperProfile), typeof(RozKpiApiTeacherSchedule_TeacherScheduleEntity_MapperProfile))
     .AddDynamoDbSchedulesRepository<GroupSchedulesRepository, GroupScheduleEntity, GroupScheduleDayEntity, GroupSchedulePairEntity>(config)
     .AddDynamoDbSchedulesRepository<TeacherSchedulesRepository, TeacherScheduleEntity, TeacherScheduleDayEntity, TeacherSchedulePairEntity>(config)
     .BuildServiceProvider();
