@@ -196,8 +196,8 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             {
                 var subjectName = data.SubjectNames.ElementAt(i);
                 var subjectFullName = data.FullSubjectNames.ElementAt(i);
-                var teachers = data.Teachers.Any() ? data.Teachers.ElementAt(i) : null;
-                var pairInfo = data.PairInfos.Any() ? data.PairInfos?.ElementAt(i) : null;
+                var teachers = data.Teachers.Any() ? data.Teachers.ElementAt(i) : Enumerable.Empty<RozKpiApiTeacher>();
+                var pairInfo = data.PairInfos.Any() ? data.PairInfos?.ElementAt(i) : new RozKpiApiPairInfo { IsOnline = true, PairType = Models.PairType.Lecture, Rooms = Enumerable.Empty<string>().ToList() };
 
                 var subject = new RozKpiApiSubject()
                 {
@@ -208,7 +208,7 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
                 var pair = new RozKpiApiGroupPair()
                 {
                     Subject = subject,
-                    Teachers = teachers,
+                    Teachers = teachers.ToList(),
                     Rooms = pairInfo.Rooms,
                     IsOnline = pairInfo.IsOnline,
                     Type = pairInfo.PairType
