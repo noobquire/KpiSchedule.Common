@@ -13,7 +13,7 @@ namespace KpiSchedule.Common.Repositories.Interfaces
         /// </summary>
         /// <param name="userId">User unique identifier.</param>
         /// <returns>List of schedules for given student. Empty list if none are found.</returns>
-        Task<IEnumerable<StudentScheduleEntity>> GetSchedulesForStudent(string userId);
+        Task<IEnumerable<StudentScheduleSearchResult>> GetSchedulesForStudent(string userId);
 
         /// <summary>
         /// Create or update a pair in schedule.

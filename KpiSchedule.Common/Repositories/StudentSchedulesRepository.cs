@@ -28,10 +28,10 @@ namespace KpiSchedule.Common.Repositories
             await PutSchedule(schedule);
         }
 
-        public async Task<IEnumerable<StudentScheduleEntity>> GetSchedulesForStudent(string userId)
+        public async Task<IEnumerable<StudentScheduleSearchResult>> GetSchedulesForStudent(string userId)
         {
             var query = new ScanCondition("OwnerId", ScanOperator.Equal, userId);
-            var results = await dynamoDbContext.ScanAsync<StudentScheduleEntity>(new[] { query }).GetRemainingAsync();
+            var results = await dynamoDbContext.ScanAsync<StudentScheduleSearchResult>(new[] { query }).GetRemainingAsync();
             return results;
         }
 

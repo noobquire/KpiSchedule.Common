@@ -11,7 +11,7 @@ namespace KpiSchedule.Common.Entities
         /// <summary>
         /// Boolean indicating if this schedule should be made public to other users.
         /// </summary>
-        public bool IsPrivate { get; set; }
+        public bool IsPublic { get; set; }
 
         /// <summary>
         /// Owner unique identifier.
@@ -19,6 +19,9 @@ namespace KpiSchedule.Common.Entities
         [DynamoDBGlobalSecondaryIndexHashKey]
         public string OwnerId { get; set; }
 
+        /// <summary>
+        /// Schedule unique identifier.
+        /// </summary>
         [DynamoDBHashKey]
         public override Guid ScheduleId { get; set; }
     }
