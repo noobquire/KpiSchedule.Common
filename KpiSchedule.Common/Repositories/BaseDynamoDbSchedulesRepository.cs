@@ -90,7 +90,7 @@ namespace KpiSchedule.Common.Repositories
             var schedule = await GetScheduleById(scheduleId);
             CheckIfScheduleIsNull(schedule);
 
-            await dynamoDbContext.DeleteAsync(scheduleId);
+            await dynamoDbContext.DeleteAsync(schedule);
         }
 
         protected void CheckIfScheduleIsNull(TSchedule schedule)
