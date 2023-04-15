@@ -31,13 +31,5 @@ namespace KpiSchedule.Common.Repositories.Interfaces
         /// <param name="pairId">Pair identifier.</param>
         /// <returns>Task.</returns>
         Task DeletePair(Guid scheduleId, PairIdentifier pairId);
-
-        /// <summary>
-        /// Get student schedule by id of the user which owns it and id of the schedule.
-        /// </summary>
-        /// <param name="ownerId">Schedule owner identifier.</param>
-        /// <param name="scheduleId">Schedule unique identifier.</param>
-        /// <returns></returns>
-        Task<StudentScheduleEntity> GetStudentScheduleByOwnerAndId(string ownerId, Guid scheduleId);
     }
 }

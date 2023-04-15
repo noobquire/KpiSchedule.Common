@@ -14,15 +14,12 @@ namespace KpiSchedule.Common.Entities
         public bool IsPrivate { get; set; }
 
         /// <summary>
-        /// Id of the user who owns this schedule.
+        /// Owner unique identifier.
         /// </summary>
-        [DynamoDBHashKey]
+        [DynamoDBGlobalSecondaryIndexHashKey]
         public string OwnerId { get; set; }
 
-        /// <summary>
-        /// Id of the schedule.
-        /// </summary>
-        [DynamoDBRangeKey]
+        [DynamoDBHashKey]
         public override Guid ScheduleId { get; set; }
     }
 }

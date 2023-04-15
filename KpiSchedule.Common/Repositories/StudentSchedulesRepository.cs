@@ -28,15 +28,10 @@ namespace KpiSchedule.Common.Repositories
             await PutSchedule(schedule);
         }
 
-        public override async Task<StudentScheduleEntity> GetScheduleById(Guid scheduleId)
-        {
-            return await GetStudentScheduleByOwnerAndId(Guid.Empty.ToString(), scheduleId);
-        }
-
         public async Task<IEnumerable<StudentScheduleEntity>> GetSchedulesForStudent(string userId)
         {
-            var schedulesQuery = new QueryCondition("OwnerId", QueryOperator.Equal, userId);
-            var results = await dynamoDbContext.QueryAsync<StudentScheduleEntity>(new[] { schedulesQuery }).GetRemainingAsync();
+            var query = new ScanCondition("OwnerId", ScanOperator.Equal, userId);
+            var results = await dynamoDbContext.ScanAsync<StudentScheduleEntity>(new[] { query }).GetRemainingAsync();
             return results;
         }
 
@@ -49,12 +44,6 @@ namespace KpiSchedule.Common.Repositories
 
             await PutSchedule(schedule);
 
-            return schedule;
-        }
-
-        public async Task<StudentScheduleEntity> GetStudentScheduleByOwnerAndId(string ownerId, Guid scheduleId)
-        {
-            var schedule = await dynamoDbContext.LoadAsync<StudentScheduleEntity>(ownerId, scheduleId);
             return schedule;
         }
     }
