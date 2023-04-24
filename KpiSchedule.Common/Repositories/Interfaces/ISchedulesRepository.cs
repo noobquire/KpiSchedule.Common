@@ -1,4 +1,4 @@
-﻿using KpiSchedule.Common.Entities;
+﻿using KpiSchedule.Common.Entities.Base;
 
 namespace KpiSchedule.Common.Repositories.Interfaces
 {

@@ -1,7 +1,8 @@
 ﻿using FluentAssertions;
-using KpiSchedule.Common.Entities;
-using KpiSchedule.Common.Models.ScheduleKpiApi;
-using KpiSchedule.Common.Models.ScheduleKpiApi.Responses;
+using KpiSchedule.Common.Entities.Group;
+using KpiSchedule.Common.Models.ScheduleKpiApi.Base;
+using KpiSchedule.Common.Models.ScheduleKpiApi.Group;
+using KpiSchedule.Common.Models.ScheduleKpiApi.Teacher;
 using System.Text.Json;
 
 namespace KpiSchedule.Common.UnitTests.Models

@@ -1,6 +1,6 @@
-﻿using KpiSchedule.Common.Models.RozKpiApi;
-using KpiSchedule.Common.Exceptions;
+﻿using KpiSchedule.Common.Exceptions;
 using HtmlAgilityPack;
+using KpiSchedule.Common.Models.RozKpiApi.Teacher;
 
 namespace KpiSchedule.Common.Clients.Interfaces
 {

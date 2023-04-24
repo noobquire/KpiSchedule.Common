@@ -1,4 +1,6 @@
-﻿using KpiSchedule.Common.Models.RozKpiApi;
+﻿using KpiSchedule.Common.Models.RozKpiApi.Base;
+using KpiSchedule.Common.Models.RozKpiApi.Group;
+using KpiSchedule.Common.Models.RozKpiApi.Teacher;
 using Serilog;
 
 namespace KpiSchedule.Common.Parsers.GroupSchedulePage

@@ -1,5 +1,5 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
-using KpiSchedule.Common.Entities;
+using KpiSchedule.Common.Entities.Base;
 using KpiSchedule.Common.Exceptions;
 using KpiSchedule.Common.Repositories.Interfaces;
 

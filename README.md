@@ -1,6 +1,7 @@
 # KpiSchedule.Common
-![CI/CD](https://github.com/noobquire/KpiSchedule.Common/actions/workflows/nuget.yml/badge.svg)
+![CI/CD](https://github.com/noobquire/KpiSchedule.Common/actions/workflows/nuget.yml/badge.svg)  
 Common code libraries used by KPI Schedule project services. This includes:
+- Client models and database entities for schedules data.
 - Client to get academic schedules data from schedule.kpi.ua API with models.
 - Parsers to parse data from roz.kpi.ua HTML schedule pages.
 - Client to get and parse academic schedules data from roz.kpi.ua API and HTML pages with models.

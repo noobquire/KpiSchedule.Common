@@ -1,6 +1,5 @@
 ﻿using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.Exceptions;
-using KpiSchedule.Common.Models.RozKpiApi;
 using KpiSchedule.Common.ServiceCollectionExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,11 +9,12 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
-using KpiSchedule.Common.Mappers;
-using AutoMapper;
-using KpiSchedule.Common.Entities;
 using KpiSchedule.Common.Repositories;
 using System.Collections.Concurrent;
+using KpiSchedule.Common.Entities.Group;
+using KpiSchedule.Common.Entities.Teacher;
+using KpiSchedule.Common.Models.RozKpiApi.Group;
+using KpiSchedule.Common.Models.RozKpiApi.Teacher;
 
 Console.OutputEncoding = Encoding.UTF8;
 var config = new ConfigurationBuilder()
@@ -30,7 +30,6 @@ var serviceProvider = new ServiceCollection()
     .BuildServiceProvider();
 
 var logger = serviceProvider.GetService<ILogger>()!;
-var mapper = serviceProvider.GetService<IMapper>()!;
 var groupSchedulesRepository = serviceProvider.GetService<GroupSchedulesRepository>()!;
 var teacherSchedulesRepository = serviceProvider.GetService<TeacherSchedulesRepository>()!;
 var rozKpiApiGroupsClient = serviceProvider.GetRequiredService<RozKpiApiGroupsClient>()!;

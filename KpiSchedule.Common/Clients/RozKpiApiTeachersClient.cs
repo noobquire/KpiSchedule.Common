@@ -1,7 +1,8 @@
 ﻿using HtmlAgilityPack;
 using KpiSchedule.Common.Clients.Interfaces;
 using KpiSchedule.Common.Exceptions;
-using KpiSchedule.Common.Models.RozKpiApi;
+using KpiSchedule.Common.Models.RozKpiApi.Base;
+using KpiSchedule.Common.Models.RozKpiApi.Teacher;
 using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
 using KpiSchedule.Common.Parsers.TeacherSchedulePage;
 using Serilog;
@@ -17,7 +18,7 @@ namespace KpiSchedule.Common.Clients
     /// </summary>
     public class RozKpiApiTeachersClient : BaseRozKpiApiClient, IRozKpiApiTeachersClient
     {
-        private TeacherSchedulePageParser scheduleParser;
+        private readonly TeacherSchedulePageParser scheduleParser;
 
         /// <summary>
         /// Initialize a new instance of <see cref="RozKpiApiTeachersClient"/> class.

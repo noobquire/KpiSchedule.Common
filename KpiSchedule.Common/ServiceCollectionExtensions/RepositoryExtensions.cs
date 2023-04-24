@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
-using KpiSchedule.Common.Entities;
+using KpiSchedule.Common.Entities.Base;
 using KpiSchedule.Common.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

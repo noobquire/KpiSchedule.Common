@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
-using KpiSchedule.Common.Entities;
+using KpiSchedule.Common.Entities.Group;
+using KpiSchedule.Common.Entities.Teacher;
 using KpiSchedule.Common.Repositories.Interfaces;
 
 namespace KpiSchedule.Common.Repositories

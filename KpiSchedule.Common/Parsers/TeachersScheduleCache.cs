@@ -1,6 +1,6 @@
 ﻿using KpiSchedule.Common.Clients;
 using KpiSchedule.Common.Clients.Interfaces;
-using KpiSchedule.Common.Models.RozKpiApi;
+using KpiSchedule.Common.Models.RozKpiApi.Teacher;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace KpiSchedule.Common.Parsers

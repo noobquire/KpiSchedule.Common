@@ -1,5 +1,5 @@
 ﻿using HtmlAgilityPack;
-using KpiSchedule.Common.Models.RozKpiApi;
+using KpiSchedule.Common.Models.RozKpiApi.Group;
 using Serilog;
 using Serilog.Context;
 using Serilog.Core.Enrichers;

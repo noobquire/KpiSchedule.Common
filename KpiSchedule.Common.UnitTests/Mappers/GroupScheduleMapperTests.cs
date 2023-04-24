@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using KpiSchedule.Common.Entities;
+using KpiSchedule.Common.Entities.Group;
 using KpiSchedule.Common.Mappers;
-using KpiSchedule.Common.Models.RozKpiApi;
+using KpiSchedule.Common.Models.RozKpiApi.Group;
 using System.Text.Json;
 
 namespace KpiSchedule.Common.UnitTests.Mappers

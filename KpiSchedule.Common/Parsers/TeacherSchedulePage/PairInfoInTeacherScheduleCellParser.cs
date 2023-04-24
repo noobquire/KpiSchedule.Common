@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 using KpiSchedule.Common.Models;
-using KpiSchedule.Common.Models.RozKpiApi;
+using KpiSchedule.Common.Models.RozKpiApi.Group;
 using Serilog;
 
 namespace KpiSchedule.Common.Parsers.GroupSchedulePage

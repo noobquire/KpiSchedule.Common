@@ -1,5 +1,7 @@
-﻿using KpiSchedule.Common.Models.ScheduleKpiApi.Responses;
-using KpiSchedule.Common.Exceptions;
+﻿using KpiSchedule.Common.Exceptions;
+using KpiSchedule.Common.Models.ScheduleKpiApi.Group;
+using KpiSchedule.Common.Models.ScheduleKpiApi.Teacher;
+using KpiSchedule.Common.Models.ScheduleKpiApi.Time;
 
 namespace KpiSchedule.Common.Clients.Interfaces
 {

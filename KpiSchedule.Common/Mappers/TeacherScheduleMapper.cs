@@ -1,5 +1,6 @@
-﻿using KpiSchedule.Common.Entities;
-using KpiSchedule.Common.Models.RozKpiApi;
+﻿using KpiSchedule.Common.Entities.Group;
+using KpiSchedule.Common.Entities.Teacher;
+using KpiSchedule.Common.Models.RozKpiApi.Teacher;
 using KpiSchedule.Common.Parsers;
 using KpiSchedule.Common.Utils;
 

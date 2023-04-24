@@ -4,11 +4,11 @@ using Moq;
 using System.Text.Json;
 using Serilog;
 using System.Net;
-using KpiSchedule.Common.Models.RozKpiApi;
-using KpiSchedule.Common.Models.ScheduleKpiApi;
 using FluentAssertions;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using KpiSchedule.Common.Models.RozKpiApi.Base;
+using KpiSchedule.Common.Models.ScheduleKpiApi.Group;
 
 namespace KpiSchedule.Common.UnitTests.Clients
 {

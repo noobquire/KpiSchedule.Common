@@ -1,7 +1,6 @@
 ﻿using Serilog;
 using System.Text.Json;
 using KpiSchedule.Common.Exceptions;
-using KpiSchedule.Common.Models.RozKpiApi;
 using System.Text;
 using HtmlAgilityPack;
 using static KpiSchedule.Common.Clients.RozKpiApiClientConstants;
@@ -9,6 +8,8 @@ using KpiSchedule.Common.Parsers.ScheduleGroupSelection;
 using System.Net;
 using KpiSchedule.Common.Parsers.GroupSchedulePage;
 using KpiSchedule.Common.Clients.Interfaces;
+using KpiSchedule.Common.Models.RozKpiApi.Group;
+using KpiSchedule.Common.Models.RozKpiApi.Base;
 
 namespace KpiSchedule.Common.Clients
 {
