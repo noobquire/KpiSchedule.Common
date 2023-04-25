@@ -1,4 +1,6 @@
-﻿namespace KpiSchedule.Common.Entities.Base
+﻿using KpiSchedule.Common.Models;
+
+namespace KpiSchedule.Common.Entities.Base
 {
     /// <summary>
     /// Base DB entity for schedules.
@@ -30,14 +32,14 @@
         {
             if (!new[] { 1, 2 }.Contains(pairId.WeekNumber))
             {
-                throw new ArgumentException(nameof(pairId.WeekNumber), "Week number must be either 1 or 2");
+                throw new ArgumentException("Week number must be either 1 or 2", nameof(pairId));
             }
 
             var week = pairId.WeekNumber == 1 ? FirstWeek : SecondWeek;
 
             if (!Enumerable.Range(1, week.Count).Contains(pairId.DayNumber))
             {
-                throw new ArgumentException(nameof(pairId.DayNumber), $"Day number must be between 1 and {week.Count}");
+                throw new ArgumentException($"Day number must be between 1 and {week.Count}", nameof(pairId));
             }
 
             var day = week[pairId.DayNumber - 1];
@@ -45,14 +47,14 @@
             var pairNumbersThisDay = day.Pairs.Select(p => p.PairNumber).Distinct();
             if (!pairNumbersThisDay.Contains(pairId.PairNumber))
             {
-                throw new ArgumentException(nameof(pairId.PairNumber), $"Pair number must be in [{string.Join(", ", pairNumbersThisDay)}]");
+                throw new ArgumentException($"Pair number must be in [{string.Join(", ", pairNumbersThisDay)}]", nameof(pairId));
             }
 
             var pairs = day.Pairs.Where(p => p.PairNumber == pairId.PairNumber);
             if (pairs.Count() < pairId.DuplicatePairNumber || !pairs.Any() || pairId.DuplicatePairNumber < 1)
             {
                 var minDuplicatePair = pairs.Any() ? 1 : 0;
-                throw new ArgumentException(nameof(pairId), $"Duplicate pair number must be between {minDuplicatePair} and {pairs.Count()}");
+                throw new ArgumentException($"Duplicate pair number must be between {minDuplicatePair} and {pairs.Count()}", nameof(pairId));
             }
         }
 
@@ -80,14 +82,14 @@
         {
             if (!new[] { 1, 2 }.Contains(pairId.WeekNumber))
             {
-                throw new ArgumentException(nameof(pairId.WeekNumber), "Week number must be either 1 or 2");
+                throw new ArgumentException("Week number must be either 1 or 2", nameof(pairId));
             }
 
             var week = pairId.WeekNumber == 1 ? FirstWeek : SecondWeek;
 
             if (!Enumerable.Range(1, week.Count).Contains(pairId.DayNumber))
             {
-                throw new ArgumentException(nameof(pairId.DayNumber), $"Day number must be between 1 and {week.Count}");
+                throw new ArgumentException($"Day number must be between 1 and {week.Count}", nameof(pairId));
             }
 
             var day = week[pairId.DayNumber - 1];
@@ -95,7 +97,7 @@
             // Check only if 0 < pair number < 7 in case we want to create a new pair.
             if (pairId.PairNumber > 6 || pairId.PairNumber < 1)
             {
-                throw new ArgumentException(nameof(pairId.PairNumber), $"Pair number must between 1 and 6");
+                throw new ArgumentException($"Pair number must between 1 and 6", nameof(pairId));
             }
 
             var existingPairs = day.Pairs.Where(p => p.PairNumber == pairId.PairNumber);
@@ -108,7 +110,7 @@
 
             if (pairId.DuplicatePairNumber < 1)
             {
-                throw new ArgumentException(nameof(pairId.DuplicatePairNumber), $"Duplicate pair number must be > 0");
+                throw new ArgumentException($"Duplicate pair number must be > 0", nameof(pairId));
             }
 
             if (existingPairs.Count() >= pairId.DuplicatePairNumber)

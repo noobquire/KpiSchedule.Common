@@ -1,5 +1,6 @@
 ﻿using KpiSchedule.Common.Entities.Base;
 using KpiSchedule.Common.Entities.Student;
+using KpiSchedule.Common.Models;
 
 namespace KpiSchedule.Common.Repositories.Interfaces
 {

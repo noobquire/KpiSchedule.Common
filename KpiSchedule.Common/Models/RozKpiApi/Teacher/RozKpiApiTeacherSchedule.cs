@@ -48,14 +48,14 @@
         {
             if (!new[] { 1, 2 }.Contains(weekNumber))
             {
-                throw new ArgumentException(nameof(weekNumber), "Week number must be either 1 or 2");
+                throw new ArgumentException("Week number must be either 1 or 2", nameof(weekNumber));
             }
 
             var week = weekNumber == 1 ? FirstWeek : SecondWeek;
 
             if (!Enumerable.Range(1, week.Count).Contains(dayNumber))
             {
-                throw new ArgumentException(nameof(dayNumber), $"Day number must be between 1 and {week.Count}");
+                throw new ArgumentException($"Day number must be between 1 and {week.Count}", nameof(dayNumber));
             }
 
             var day = week[dayNumber - 1];
@@ -63,7 +63,7 @@
             var pairNumbersThisDay = day.Pairs.Select(p => p.PairNumber).Distinct();
             if (!pairNumbersThisDay.Contains(pairNumber))
             {
-                throw new ArgumentException(nameof(pairNumber), $"Pair number must be in [{string.Join(", ", pairNumbersThisDay)}]");
+                throw new ArgumentException($"Pair number must be in [{string.Join(", ", pairNumbersThisDay)}]", nameof(pairNumber));
             }
 
             var pair = day.Pairs.First(p => p.PairNumber == pairNumber);

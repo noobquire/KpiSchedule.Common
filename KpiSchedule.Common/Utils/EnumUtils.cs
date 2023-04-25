@@ -8,7 +8,7 @@ namespace KpiSchedule.Common.Utils
         {
             var type = enumValue.GetType();
             if (!type.IsEnum)
-                throw new ArgumentException("ToEnumString<T>(): Must be of enum type", "T");
+                throw new ArgumentException("Type parameter must be of enum type", nameof(enumValue));
 
             // Tries to find an EnumMemberAttribute with overriden name.
             var memberInfo = type.GetMember(enumValue.ToString());

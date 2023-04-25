@@ -2,7 +2,7 @@
 
 namespace KpiSchedule.Common.Parsers
 {
-    internal interface IParser<TResult>
+    internal interface IParser<out TResult>
     {
         TResult Parse(HtmlNode node);
     }

@@ -52,7 +52,6 @@ namespace KpiSchedule.Common.Parsers.GroupSchedulePage
             // Прак on-line
             // Прак
             var pairInfoString = node.InnerText;
-            var infoSpaceIndex = pairInfoString.IndexOf(' ');
 
             var pairInfo = new RozKpiApiPairInfo()
             {

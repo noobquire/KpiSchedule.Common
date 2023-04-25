@@ -19,6 +19,7 @@ namespace KpiSchedule.Common.UnitTests.Models
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
             var result = JsonSerializer.Deserialize<ScheduleKpiApiPaging>(json, deserializationOptions);
+            Assert.IsNotNull(result);
         }
 
         [Test]
@@ -31,6 +32,7 @@ namespace KpiSchedule.Common.UnitTests.Models
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
             var result = JsonSerializer.Deserialize<ScheduleKpiApiGroup>(json, deserializationOptions);
+            Assert.IsNotNull(result);
         }
 
         [Test]
@@ -43,6 +45,7 @@ namespace KpiSchedule.Common.UnitTests.Models
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
             var result = JsonSerializer.Deserialize<ScheduleKpiApiGroupsResponse>(json, deserializationOptions);
+            Assert.IsNotNull(result);
         }
 
         [Test]
@@ -99,6 +102,7 @@ namespace KpiSchedule.Common.UnitTests.Models
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             };
             var result = JsonSerializer.Deserialize<ScheduleKpiApiTeachersResponse>(json, deserializationOptions);
+            Assert.IsNotNull(result);
         }
 
         [Test]
@@ -107,6 +111,7 @@ namespace KpiSchedule.Common.UnitTests.Models
             var json = "{\"endTime\":\"10:05:00\",\"isOnline\":true,\"pairNumber\":1,\"rooms\":[\"-18\"],\"startTime\":\"08:30:00\",\"subject\":{\"subjectFullName\":\"Групова динаміка та комунікації\",\"subjectName\":\"Групова динаміка та комунікації\"},\"teachers\":[{\"scheduleId\":\"8ec3f3d5-cd4c-4eaa-a834-ff56934b60b3\",\"fullName\":\"посада Ясенова Анна Вадимівна\",\"shortName\":\"пос. Ясенова А. В.\"}],\"type\":\"prac\"}";
 
             var result = JsonSerializer.Deserialize<GroupSchedulePairEntity>(json);
+            Assert.IsNotNull(result);
         }
     }
 }
