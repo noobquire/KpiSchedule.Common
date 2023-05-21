@@ -25,5 +25,10 @@ namespace KpiSchedule.Common.Entities.Student
         /// </summary>
         [DynamoDBHashKey]
         public override Guid ScheduleId { get; set; }
+
+        /// <summary>
+        /// Schedule name.
+        /// </summary>
+        public string ScheduleName { get; set; }
     }
 }

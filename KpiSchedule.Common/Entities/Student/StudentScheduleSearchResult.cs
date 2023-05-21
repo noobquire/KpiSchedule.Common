@@ -26,5 +26,10 @@ namespace KpiSchedule.Common.Entities.Student
         /// Boolean indicating if this schedule should be made public to other users.
         /// </summary>
         public bool IsPublic { get; set; }
+
+        /// <summary>
+        /// Schedule name.
+        /// </summary>
+        public string ScheduleName { get; set; }
     }
 }
