@@ -119,6 +119,7 @@ namespace KpiSchedule.Common.Entities.Base
                 var existingDuplicatePair = existingPairs.ElementAt(pairId.DuplicatePairNumber - 1);
                 day.Pairs.Remove(existingDuplicatePair);
                 day.Pairs.Add(pairData); // sorting of pairs must not rely on order in which they were added
+                return;
             }
 
             // Create new duplicate.
