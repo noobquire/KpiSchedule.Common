@@ -7,9 +7,12 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<DebugSymbols>true</DebugSymbols>
+		<EmbedAllSources>true</EmbedAllSources>
+		<DebugType>portable</DebugType>
 		<PackageId>KpiSchedule.Common</PackageId>
 		<PackageProjectUrl>https://github.com/noobquire/KpiSchedule.Common</PackageProjectUrl>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 		<Authors>Oleksii Lytvynov</Authors>
 		<Description>
 			This library contains a set of common tools to pull and parse academic schedules for Kyiv Polytechnic Institute. It supports group and teacher schedules with two main data sources: calling schedules.kpi.ua API and parsing schedule pages from roz.kpi.ua. See project page with more details and examples: https://github.com/noobquire/KpiSchedule.Common
